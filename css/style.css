@@ -535,53 +535,83 @@ section.active {
   width: fit-content;
 }
 
-.contact-item i {
-  font-size: 1.3rem;
-  width: 28px;
-  text-align: center;
-  transition: transform 0.3s ease;
+.contact-item .contact-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.contact-item .contact-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .contact-item span {
-  font-weight: 500;
+  font-weight: 600;
+  margin-left: 14px;
 }
 
 .contact-item:hover {
   transform: translateX(6px);
   border-color: #ddd;
   background: #ffffff;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
-.contact-item:hover i {
-  transform: scale(1.15);
+.contact-item:hover .contact-icon {
+  transform: scale(1.08) rotate(6deg);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
 }
 
 /* Contact item specific colors */
 .email-link {
-  border-left: 4px solid #ea4335;
+  border-left: 4px solid transparent;
+}
+
+.email-link .contact-icon {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 8px 20px rgba(234, 67, 53, 0.08);
 }
 
 .email-link:hover {
-  background: #fef6f5;
-  border-left-color: #ea4335;
-}
-
-.email-link i {
-  color: #ea4335;
+  background: linear-gradient(90deg, rgba(234,67,53,0.06), rgba(234,67,53,0.02));
+  border-left-color: rgba(234,67,53,0.6);
 }
 
 .github-link {
-  border-left: 4px solid #111111;
+  border-left: 4px solid transparent;
+}
+
+.github-link .contact-icon {
+  background: linear-gradient(135deg, #111827 0%, #374151 100%);
+  box-shadow: 0 8px 20px rgba(31, 41, 55, 0.25);
 }
 
 .github-link:hover {
-  background: #f5f5f5;
-  border-left-color: #111111;
+  background: linear-gradient(90deg, rgba(31,41,55,0.06), rgba(31,41,55,0.02));
+  border-left-color: rgba(31,41,55,0.6);
 }
 
-.github-link i {
-  color: #111111;
+.linkedin-link {
+  border-left: 4px solid transparent;
+}
+
+.linkedin-link .contact-icon {
+  background: linear-gradient(135deg, #0077b5 0%, #004182 100%);
+  box-shadow: 0 8px 20px rgba(0, 119, 181, 0.25);
+}
+
+.linkedin-link:hover {
+  background: linear-gradient(90deg, rgba(0,119,181,0.06), rgba(0,119,181,0.02));
+  border-left-color: rgba(0,119,181,0.6);
 }
 
 .linkedin-link {
