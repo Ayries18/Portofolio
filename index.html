@@ -3,11 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muhammad Almuwarisin | Portofolio</title>
-  <meta name="description" content="Portofolio Muhammad Almuwarisin - Mahasiswa Teknologi Informasi dengan fokus pengembangan web HTML, CSS, dan JavaScript.">
+  <title>Muhammad Almuwarisin | Web Developer</title>
+  <meta name="description" content="Portfolio Muhammad Almuwarisin - Web Developer Laravel dan PHP. Fokus pada pengembangan aplikasi web yang accessible.">
+  <link rel="canonical" href="https://ayries18.github.io/Portofolio/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ayries18.github.io/Portofolio/">
+  <meta property="og:title" content="Muhammad Almuwarisin | Web Developer">
+  <meta property="og:description" content="Portfolio Muhammad Almuwarisin - Web Developer Laravel dan PHP. Fokus pada pengembangan aplikasi web yang accessible.">
+  <meta property="og:image" content="https://ayries18.github.io/Portofolio/profile/profile.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Muhammad Almuwarisin | Web Developer">
+  <meta name="twitter:description" content="Portfolio Muhammad Almuwarisin - Web Developer Laravel dan PHP.">
+  <meta name="twitter:image" content="https://ayries18.github.io/Portofolio/profile/profile.jpg">
+
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVJkEZSMUkrQ6usKGiOW03that7oSSO5+PgPmXrKbIqLjSuDAMkcHZegIpCSmnfg6461YSf0fEHA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js" defer></script>
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
@@ -25,10 +52,26 @@
           <a href="#contact">Kontak</a>
         </div>
         <img src="profile/profile.jpg" alt="Profil Muhammad Almuwarisin" class="nav-avatar" width="40" height="40" loading="lazy">
-        <button class="nav-toggle" aria-label="Toggle navigation menu">
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
           <span class="hamburger"></span>
           <span class="hamburger"></span>
           <span class="hamburger"></span>
+        </button>
+        <button class="theme-toggle" aria-label="Toggle tema gelap/terang">
+          <svg id="theme-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: none;">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2" x2="12" y2="4"/>
+            <line x1="12" y1="20" x2="12" y2="22"/>
+            <line x1="4.93" y1="4.93" x2="6.34" y2="6.34"/>
+            <line x1="17.66" y1="17.66" x2="19.07" y2="19.07"/>
+            <line x1="2" y1="12" x2="4" y2="12"/>
+            <line x1="20" y1="12" x2="22" y2="12"/>
+            <line x1="4.93" y1="19.07" x2="6.34" y2="17.66"/>
+            <line x1="17.66" y1="6.34" x2="19.07" y2="4.93"/>
+          </svg>
+          <svg id="theme-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -40,34 +83,89 @@
     <section id="home" class="hero section">
       <div class="hero-text">
         <h1>Muhammad Almuwarisin</h1>
-        <h2>Web Developer</h2>
-        <p>
-          Saya adalah mahasiswa Teknologi Informasi yang tertarik
-          dalam pengembangan web dengan fokus pada desain yang rapi dan fungsional.
-        </p>
+        <h2>
+          <span id="typed" aria-hidden="true"></span>
+          <span class="visually-hidden">Web Developer dan Information Technology Student</span>
+        </h2>
+        <p class="hero-descriptor">Laravel · PHP · JavaScript · Web Accessibility</p>
+        <p>Mengembangkan aplikasi web yang accessible menggunakan Laravel dan teknologi web modern.</p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn-primary">Lihat Proyek</a>
+          <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+        </div>
       </div>
 
       <div class="hero-visual">
-        <img src="profile/download.gif" alt="Ilustrasi visual" loading="lazy">
+        <img src="profile/profile.jpg" alt="Foto Muhammad Almuwarisin">
       </div>
     </section>
 
     <!-- TENTANG -->
     <section id="about" class="section">
       <div class="about-grid">
-        <img src="profile/profile.jpg" alt="Foto Muhammad Almuwarisin" class="about-photo" width="200" height="200" loading="lazy">
+        <img src="profile/profile.jpg" alt="Foto Muhammad Almuwarisin" class="about-photo" loading="lazy">
 
         <div class="about-text">
           <h2>Tentang</h2>
-          <p>
-            Saya seorang mahasiswa Teknologi Informasi yang mempelajari
-            pengembangan web. Saya sering membuat proyek kecil untuk memperdalam
-            pemahaman HTML, CSS, PHP, JavaScript, dan Pyhton.
-          </p>
-          <p>
-            Saya selalu berusaha menulis kode yang bersih dan mudah dipahami,
-            serta menggunakan Git untuk mengelola versi proyek.
-          </p>
+          <h3>Muhammad Almuwarisin</h3>
+          <p class="about-status">Mahasiswa Teknologi Informasi di UIN Ar-Raniry Banda Aceh</p>
+          <p class="about-desc">Saya membangun aplikasi web menggunakan Laravel dan PHP dengan perhatian pada aksesibilitas dan pengalaman pengguna.</p>
+          <p class="about-desc">Beberapa proyek saya menerapkan dukungan screen reader, navigasi keyboard, dan antarmuka yang lebih mudah diakses.</p>
+
+          <div class="about-block">
+            <h4>Fokus Saya</h4>
+            <ul class="about-focus">
+              <li>Web Development</li>
+              <li>Laravel &amp; PHP</li>
+              <li>Web Accessibility</li>
+              <li>UI/UX</li>
+            </ul>
+          </div>
+
+          <div class="about-block">
+            <h4>Teknologi Utama</h4>
+            <ul class="about-chips">
+              <li class="tech-badge">Laravel</li>
+              <li class="tech-badge">PHP</li>
+              <li class="tech-badge">JavaScript</li>
+              <li class="tech-badge">HTML</li>
+              <li class="tech-badge">CSS</li>
+              <li class="tech-badge">Blade</li>
+              <li class="tech-badge">SQLite</li>
+            </ul>
+          </div>
+
+          <div class="about-block">
+            <h4>Proyek Relevan</h4>
+            <ul class="about-projects">
+              <li>
+                <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer">Read-Assist <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              </li>
+              <li>
+                <a href="https://github.com/Ayries18/LokaPreneur" target="_blank" rel="noopener noreferrer">LokaPreneur <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              </li>
+              <li>
+                <a href="https://github.com/Ayries18/Portofolio" target="_blank" rel="noopener noreferrer">Portofolio <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PENDIDIKAN -->
+    <section id="education" class="section">
+      <div class="education-grid">
+        <div class="education-card">
+          <div class="education-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <path fill="#1f2937" d="M2 2h44v6H2V2zm0 6h44v10H2V8zm0 10h44v10H2v-10zm0 10h44v6H2V26zm0 10h44v10H2v-10zm0 10h44v6H2v-6zM6 30l4-6h20l4 6H6zM26 42l6-4v8l-6 4H26zM 6,34 l 12,0 l 0,6 l 4,-2 l -4,-2 l 0,-6 Z M 26,42 l 6,-4 l 0,8 l -6,4 l 0,-8 Z"/>
+            </svg>
+          </div>
+          <div>
+            <h3>UIN Ar-Raniry Banda Aceh</h3>
+            <p>Program Studi Teknologi Informasi</p>
+          </div>
         </div>
       </div>
     </section>
@@ -76,17 +174,53 @@
     <section id="skills" class="section">
       <h2>Keterampilan</h2>
       <div class="skills-grid">
-        <div class="skill-card">
-          <strong>Pengembangan Web</strong>
-          <p>HTML, CSS, JavaScript dasar, dan PHP Dasar menggunakan Framework Laravel</p>
+        <div class="skill-card frontend">
+          <div class="skill-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h3>Frontend</h3>
+          <p class="skill-desc">Membangun antarmuka web yang responsif, terstruktur, dan interaktif.</p>
+          <div class="skill-tags">
+            <span class="tech-badge">HTML</span>
+            <span class="tech-badge">CSS</span>
+            <span class="tech-badge">JavaScript</span>
+          </div>
         </div>
-        <div class="skill-card">
-          <strong>Mobile</strong>
-          <p>Dasar alur dan antarmuka aplikasi</p>
+
+        <div class="skill-card backend">
+          <div class="skill-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <h3>Backend</h3>
+          <p class="skill-desc">Mengembangkan aplikasi web menggunakan PHP dan Laravel.</p>
+          <div class="skill-tags">
+            <span class="tech-badge">PHP</span>
+            <span class="tech-badge">Laravel</span>
+            <span class="tech-badge">Blade</span>
+          </div>
         </div>
-        <div class="skill-card">
-          <strong>Tools</strong>
-          <p>Git, GitHub, Figma</p>
+
+        <div class="skill-card tools">
+          <div class="skill-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <h3>Tools</h3>
+          <p class="skill-desc">Version control, pengelolaan repository, dan perancangan antarmuka.</p>
+          <div class="skill-tags">
+            <span class="tech-badge">Git</span>
+            <span class="tech-badge">GitHub</span>
+            <span class="tech-badge">Figma</span>
+          </div>
         </div>
       </div>
     </section>
@@ -97,24 +231,88 @@
 
       <div class="projects-grid">
 
-        <article class="project-card">
-          <h3>Portofolio Personal</h3>
-          <p>
-            Website portofolio untuk menampilkan profil dan proyek saya.
-            Dibangun dengan HTML yang terstruktur dengan baik dan
-            styling CSS yang konsisten.
-          </p>
-          <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer">Repository</a>
+        <!-- Read-Assist (Featured) -->
+        <article class="project-card featured">
+          <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="project-thumb" aria-label="Buka situs Read-Assist">
+            <img src="profile/read-assist-preview.webp" alt="Tampilan halaman utama situs Read-Assist" loading="lazy">
+          </a>
+          <div class="project-content">
+            <p class="project-eyebrow">Project Utama</p>
+            <h3>Read-Assist</h3>
+            <p class="project-desc">Platform aksesibilitas buku audio bagi penyandang disabilitas netra — pindai kode QR pada buku fisik untuk mendengarkan pembacaan teks otomatis langsung dari browser.</p>
+            <div class="tech-badges">
+              <span class="tech-badge">Laravel</span>
+              <span class="tech-badge">Blade</span>
+              <span class="tech-badge">PHP</span>
+              <span class="tech-badge">JavaScript</span>
+              <span class="tech-badge">Tailwind CSS</span>
+              <span class="tech-badge">SQLite</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="btn-primary">Live Demo</a>
+              <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+            </div>
+          </div>
         </article>
 
+        <!-- LokaPreneur -->
         <article class="project-card">
-          <h3>Aplikasi To Do List</h3>
-          <p>
-            Aplikasi To Do List sederhana yang dibuat dengan JavaScript.
-            Fitur utamanya adalah menambah, menghapus tugas, dan menyimpan
-            data di browser dengan Local Storage.
-          </p>
-          <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer">Repository</a>
+          <a href="https://github.com/Ayries18/LokaPreneur" target="_blank" rel="noopener noreferrer" class="project-thumb" aria-label="Buka repository LokaPreneur">
+            <img src="profile/lokapreneur-preview.png" alt="Tampilan dashboard aplikasi LokaPreneur" loading="lazy">
+          </a>
+          <div class="project-content">
+            <h3>LokaPreneur</h3>
+            <p class="project-desc">Aplikasi web berbasis Laravel untuk manajemen produk, transaksi, dan laporan pada usaha skala kecil dan lokal.</p>
+            <div class="tech-badges">
+              <span class="tech-badge">Laravel</span>
+              <span class="tech-badge">Blade</span>
+              <span class="tech-badge">PHP</span>
+              <span class="tech-badge">JavaScript</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/Ayries18/LokaPreneur" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Portofolio Personal -->
+        <article class="project-card">
+          <a href="https://ayries18.github.io/Portofolio/" target="_blank" rel="noopener noreferrer" class="project-thumb" aria-label="Buka situs Portofolio Personal">
+            <img src="profile/portofolio-preview.png" alt="Tampilan situs Portofolio Personal" loading="lazy">
+          </a>
+          <div class="project-content">
+            <h3>Portofolio Personal</h3>
+            <p class="project-desc">Website portofolio pribadi tanpa framework untuk menampilkan profil, keterampilan, dan proyek.</p>
+            <div class="tech-badges">
+              <span class="tech-badge">HTML</span>
+              <span class="tech-badge">CSS</span>
+              <span class="tech-badge">JavaScript</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://ayries18.github.io/Portofolio/" target="_blank" rel="noopener noreferrer" class="btn-primary">Live Demo</a>
+              <a href="https://github.com/Ayries18/Portofolio" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Portal Berita -->
+        <article class="project-card">
+          <a href="https://github.com/Ayries18/Portal-Berita" target="_blank" rel="noopener noreferrer" class="project-thumb" aria-label="Buka repository Portal Berita">
+            <img src="profile/portalberita-preview.png" alt="Tampilan halaman utama aplikasi Portal Berita" loading="lazy">
+          </a>
+          <div class="project-content">
+            <h3>Portal Berita</h3>
+            <p class="project-desc">Aplikasi web berbasis Laravel untuk menampilkan dan mengelola konten artikel secara terstruktur dengan arsitektur MVC.</p>
+            <div class="tech-badges">
+              <span class="tech-badge">Laravel</span>
+              <span class="tech-badge">Blade</span>
+              <span class="tech-badge">PHP</span>
+              <span class="tech-badge">JavaScript</span>
+            </div>
+            <div class="project-actions">
+              <a href="https://github.com/Ayries18/Portal-Berita" target="_blank" rel="noopener noreferrer" class="btn-secondary">GitHub</a>
+            </div>
+          </div>
         </article>
 
       </div>
@@ -123,31 +321,40 @@
     <!-- KONTAK -->
     <section id="contact" class="section">
       <h2>Kontak</h2>
-      <p class="contact-intro">Silakan hubungi saya melalui platform berikut:</p>
+      <p class="contact-intro">Terhubung dengan saya melalui:</p>
       <div class="contact-links">
-        <a href="mailto:muwarisin@gmail.com" class="contact-item email-link" title="Kirim Email ke Gmail">
-          <svg class="contact-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <rect width="48" height="48" rx="10" fill="none"/>
-            <path d="M6 12v24h36V12L24 27 6 12z" fill="#EA4335"/>
-            <path d="M6 12h12l6 6 6-6h12v24H6V12z" fill="#FBBC04" opacity="0"/>
-            <path d="M6 12h12l6 6 6-6h12v24H6V12z" fill="#34A853" opacity="0"/>
-            <path d="M6 12h12l6 6 6-6h12v24H6V12z" fill="#4285F4" opacity="0"/>
-            <path d="M6 12h36v24H6z" fill="none"/>
-            <path d="M6 12l12 9 6 4.5L36 21l6-9" fill="#ffffff" opacity="0.06"/>
-          </svg>
-          <span>muwarisin@gmail.com</span>
+        <a href="mailto:muwarisin@gmail.com" class="contact-item email-link" title="Kirim email">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <path fill="#ef4444" d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+            </svg>
+          </span>
+          <span class="contact-text">
+            <span class="contact-platform">Email</span>
+            <span class="contact-value">muwarisin@gmail.com</span>
+          </span>
         </a>
-        <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer" class="contact-item github-link" title="Lihat Profile GitHub">
-          <svg class="contact-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <path fill="white" d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.29 3.438 9.773 8.205 11.366.6.111.82-.261.82-.579 0-.286-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.758-1.333-1.758-1.089-.744.084-.729.084-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.762-1.605-2.665-.305-5.466-1.333-5.466-5.93 0-1.31.468-2.38 1.235-3.22-.124-.303-.535-1.526.117-3.176 0 0 1.008-.322 3.3 1.23.957-.266 1.98-.399 3-.405 1.02.006 2.043.139 3.003.405 2.29-1.552 3.297-1.23 3.297-1.23.655 1.65.244 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.625-5.48 5.92.43.37.823 1.096.823 2.21 0 1.595-.014 2.88-.014 3.273 0 .318.216.694.825.576C20.565 22.07 24 17.585 24 12.297 24 5.67 18.627.297 12 .297z"/>
-          </svg>
-          <span>github.com/Ayries18</span>
+        <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer" class="contact-item github-link" title="Lihat profil GitHub">
+          <span class="contact-icon">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <path fill="#334155" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </span>
+          <span class="contact-text">
+            <span class="contact-platform">GitHub</span>
+            <span class="contact-value">github.com/Ayries18</span>
+          </span>
         </a>
-        <a href="https://www.linkedin.com/in/muhammad-almuwarisin-934079376/" target="_blank" rel="noopener noreferrer" class="contact-item linkedin-link" title="Lihat Profile LinkedIn">
-          <svg class="contact-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-            <path fill="white" d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.036-1.85-3.036-1.851 0-2.134 1.445-2.134 2.939v5.666H9.354V9h3.414v1.561h.049c.476-.9 1.636-1.85 3.369-1.85 3.602 0 4.268 2.37 4.268 5.455v6.286zM5.337 7.433c-1.144 0-2.07-.927-2.07-2.07 0-1.146.926-2.073 2.07-2.073 1.147 0 2.073.927 2.073 2.073 0 1.143-.926 2.07-2.073 2.07zM6.814 20.452H3.86V9h2.954v11.452z"/>
-          </svg>
-          <span>linkedin.com/in/almuwarisin</span>
+        <a href="https://www.linkedin.com/in/muhammad-almuwarisin-934079376/" target="_blank" rel="noopener noreferrer" class="contact-item linkedin-link" title="Lihat profil LinkedIn">
+          <span class="contact-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <path fill="#0a66c2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.025-3.036-1.85-3.036-1.851 0-2.134 1.445-2.134 2.939v5.666H9.351V9h3.414v1.561h.049c.476-.9 1.636-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 110-4.128 2.064 2.064 0 010 4.128zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </span>
+          <span class="contact-text">
+            <span class="contact-platform">LinkedIn</span>
+            <span class="contact-value">linkedin.com/in/almuwarisin</span>
+          </span>
         </a>
       </div>
     </section>
@@ -155,7 +362,7 @@
   </main>
 
   <footer class="footer" role="contentinfo">
-    <p>© 2026 Muhammad Almuwarisin</p>
+    <p>&copy; 2026 Muhammad Almuwarisin</p>
   </footer>
 
   <script src="javascript/script.js" defer></script>
