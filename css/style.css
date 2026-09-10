@@ -338,6 +338,13 @@ section.active {
   padding-top: 40px;
 }
 
+/* Contact: closing-section spacing (overrides shared section spacing) */
+#contact.section {
+  margin-top: 40px;
+  margin-bottom: -40px;
+  padding-top: 0;
+}
+
 /* VISUALLY HIDDEN */
 .visually-hidden {
   position: absolute;
@@ -895,6 +902,14 @@ article.project-card:hover {
   max-width: 900px;
 }
 
+.contact-outro {
+  margin-top: 32px;
+  max-width: 620px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .contact-item {
   display: flex;
   align-items: center;
@@ -908,7 +923,7 @@ article.project-card:hover {
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.contact-item:hover {
+a.contact-item:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
@@ -987,7 +1002,7 @@ article.project-card:hover {
   text-align: center;
   font-size: 0.85rem;
   color: var(--text-muted);
-  margin-top: 80px;
+  margin-top: 56px;
   display: block;
 }
 
@@ -1195,6 +1210,10 @@ html[data-theme='dark'] {
 }
 
 [data-theme='dark'] .contact-intro {
+  color: #94a3b8;
+}
+
+[data-theme='dark'] .contact-outro {
   color: #94a3b8;
 }
 
