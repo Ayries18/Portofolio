@@ -52,6 +52,7 @@
   --nav-shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 10px 24px -16px rgba(124, 58, 237, 0.20);
   --nav-shadow-scrolled: 0 1px 2px rgba(24, 24, 27, 0.05), 0 16px 32px -18px rgba(124, 58, 237, 0.28);
   --logo-glow: 0 0 0 1px var(--accent-border), 0 0 18px -6px var(--accent-glow);
+  --chip-glow: 0 0 0 1px var(--accent-border), 0 0 14px -6px var(--accent-glow);
 
   /* focus */
   --focus-ring: #7C3AED;
@@ -78,6 +79,7 @@
 
   /* motion */
   --t-fast: 0.2s;
+  --t-quick: 0.22s;
   --t-base: 0.25s;
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -746,25 +748,27 @@ section.active {
 /* ABOUT */
 .about-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 48px;
-  align-items: start;
+  /* stretch, not start: the photo is a portrait, so letting the row size it
+     stops the square crop from throwing away a third of the picture. */
+  align-items: stretch;
 }
 
 .about-photo {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  height: 100%;
   object-fit: cover;
   object-position: var(--portrait-focus);
   display: block;
   border-radius: var(--radius-lg);
   border: 1px solid var(--primary-border);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-brand);
   transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) ease;
 }
 
 .about-photo:hover {
-  transform: translateY(-4px);
+  transform: scale(1.02);
   box-shadow: var(--shadow-brand-lg);
 }
 
@@ -773,34 +777,55 @@ section.active {
 }
 
 .about-text h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .about-text h3 {
-  margin: 0 0 6px;
+  margin: 0 0 8px;
   font-size: 1.35rem;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .about-status {
-  color: var(--primary);
-  font-size: 0.9rem;
+  color: var(--primary-ink);
+  font-size: 0.95rem;
+  line-height: 1.6;
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  max-width: 58ch;
 }
 
 .about-desc {
   color: var(--text-soft);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   line-height: 1.75;
   max-width: 62ch;
 }
 
 .about-block {
-  margin-top: 28px;
+  position: relative;
+  margin-top: 32px;
   padding-top: 24px;
-  border-top: 1px solid var(--border-card);
+}
+
+/* The divider is a gradient line rather than a flat border so it reads as a
+   faint purple glow that fades out at both ends. A border cannot glow. */
+.about-block::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-border) 16%,
+    var(--accent-border) 50%,
+    var(--primary-border) 84%,
+    transparent
+  );
 }
 
 .about-block h4 {
@@ -809,7 +834,7 @@ section.active {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .about-focus {
@@ -826,11 +851,35 @@ section.active {
   align-items: center;
   padding: 7px 14px;
   border-radius: var(--radius-pill);
-  background: var(--primary-soft);
-  border: 1px solid var(--primary-border);
-  color: var(--text-body);
+  /* Secondary focus badges stay quiet: a soft fill on the plain card. */
+  background: transparent;
+  border: 1px solid var(--border-card);
+  color: var(--text-soft);
   font-size: 0.82rem;
   font-weight: 500;
+  transition: transform var(--t-quick) var(--ease), box-shadow var(--t-quick) ease,
+    border-color var(--t-quick) ease, color var(--t-quick) ease,
+    background var(--t-quick) ease;
+}
+
+/* The primary focus badge carries the brand fill so a recruiter's eye lands on
+   the discipline first, then the supporting topics. */
+.about-focus li:first-child {
+  background: var(--primary-soft);
+  border-color: var(--primary-border);
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+.about-focus li:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-border);
+  color: var(--text-body);
+  box-shadow: var(--chip-glow);
+}
+
+.about-focus li:first-child:hover {
+  background: var(--accent-soft);
 }
 
 .about-chips {
@@ -846,34 +895,42 @@ section.active {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 16px;
   padding: 0;
   margin: 0;
+}
+
+.about-project-desc {
+  margin: 2px 0 0;
+  padding-left: 22px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 46ch;
 }
 
 .about-projects a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 0;
   color: var(--text-body);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.9rem;
-  transition: color var(--t-fast) ease;
+  transition: color var(--t-quick) ease;
 }
 
 .about-projects a:hover {
-  color: var(--primary);
+  color: var(--primary-ink);
 }
 
 .about-projects .about-arrow {
-  color: var(--primary);
-  transition: transform var(--t-fast) var(--ease);
+  color: var(--primary-ink);
+  transition: transform var(--t-quick) var(--ease);
 }
 
 .about-projects a:hover .about-arrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 /* EDUCATION */
@@ -1418,7 +1475,6 @@ a.contact-item:hover {
 }
 
 [data-theme='dark'] .hero h2,
-[data-theme='dark'] .about-status,
 [data-theme='dark'] .about-projects .about-arrow {
   color: var(--accent);
 }
@@ -1479,6 +1535,10 @@ a.contact-item:hover {
 
   .about-photo {
     max-width: 280px;
+    /* Single column: height:100% has no row to resolve against, so restore the
+       square frame or the image collapses to nothing. */
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 
     .contact-links {
