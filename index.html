@@ -122,56 +122,99 @@
 
     <!-- TENTANG -->
     <section id="about" class="section">
-      <div class="about-grid">
-        <img src="profile/profile.webp" alt="Foto Muhammad Almuwarisin" class="about-photo" width="800" height="1200" loading="lazy" decoding="async">
+      <div class="about">
+        <h2>Tentang</h2>
 
-        <div class="about-text">
-          <h2>Tentang</h2>
+        <div class="about-intro">
           <h3>Muhammad Almuwarisin</h3>
-          <p class="about-status">Mahasiswa Teknologi Informasi di UIN Ar-Raniry yang berfokus pada pengembangan aplikasi web menggunakan Laravel, PHP, dan JavaScript.</p>
+          <p class="about-status">Mahasiswa Teknologi Information di UIN Ar-Raniry yang berfokus pada pengembangan aplikasi web menggunakan Laravel, PHP, dan JavaScript.</p>
           <p class="about-desc">Saya membangun aplikasi web dengan perhatian pada aksesibilitas dan pengalaman pengguna.</p>
           <p class="about-desc">Beberapa proyek saya menerapkan dukungan screen reader, navigasi keyboard, serta antarmuka yang lebih mudah diakses.</p>
+        </div>
 
-          <div class="about-block">
-            <h4>Fokus Saya</h4>
-            <ul class="about-focus">
-              <li>Web Development</li>
-              <li>Laravel &amp; PHP</li>
-              <li>Web Accessibility</li>
-              <li>UI/UX</li>
-            </ul>
-          </div>
+        <div class="about-block about-stack">
+          <h4>Tech Stack</h4>
 
-          <div class="about-block">
-            <h4>Teknologi Utama</h4>
-            <ul class="about-chips">
-              <li class="tech-badge">Laravel</li>
-              <li class="tech-badge">PHP</li>
-              <li class="tech-badge">JavaScript</li>
-              <li class="tech-badge">HTML</li>
-              <li class="tech-badge">CSS</li>
-              <li class="tech-badge">Blade</li>
-              <li class="tech-badge">SQLite</li>
-            </ul>
-          </div>
+      <!-- Official brand marks (Simple Icons, CC0). Defined once and referenced
+           twice, so the 28s loop repeats without duplicating the path data. -->
+          <svg class="stack-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+            <symbol id="ic-laravel" viewBox="0 0 24 24"><path d="M23.642 5.43a.364.364 0 01.014.1v5.149c0 .135-.073.26-.189.326l-4.323 2.49v4.934a.378.378 0 01-.188.326L9.93 23.949a.316.316 0 01-.066.027c-.008.002-.016.008-.024.01a.348.348 0 01-.192 0c-.011-.002-.02-.008-.03-.012-.02-.008-.042-.014-.062-.025L.533 18.755a.376.376 0 01-.189-.326V2.974c0-.033.005-.066.014-.098.003-.012.01-.02.014-.032a.369.369 0 01.023-.058c.004-.013.015-.022.023-.033l.033-.045c.012-.01.025-.018.037-.027.014-.012.027-.024.041-.034H.53L5.043.05a.375.375 0 01.375 0L9.93 2.647h.002c.015.01.027.021.04.033l.038.027c.013.014.02.03.033.045.008.011.02.021.025.033.01.02.017.038.024.058.003.011.01.021.013.032.01.031.014.064.014.098v9.652l3.76-2.164V5.527c0-.033.004-.066.013-.098.003-.01.01-.02.013-.032a.487.487 0 01.024-.059c.007-.012.018-.02.025-.033.012-.015.021-.03.033-.043.012-.012.025-.02.037-.028.014-.01.026-.023.041-.032h.001l4.513-2.598a.375.375 0 01.375 0l4.513 2.598c.016.01.027.021.042.031.012.01.025.018.036.028.013.014.022.03.034.044.008.012.019.021.024.033.011.02.018.04.024.06.006.01.012.021.015.032zm-.74 5.032V6.179l-1.578.908-2.182 1.256v4.283zm-4.51 7.75v-4.287l-2.147 1.225-6.126 3.498v4.325zM1.093 3.624v14.588l8.273 4.761v-4.325l-4.322-2.445-.002-.003H5.04c-.014-.01-.025-.021-.04-.031-.011-.01-.024-.018-.035-.027l-.001-.002c-.013-.012-.021-.025-.031-.04-.01-.011-.021-.022-.028-.036h-.002c-.008-.014-.013-.031-.02-.047-.006-.016-.014-.027-.018-.043a.49.49 0 01-.008-.057c-.002-.014-.006-.027-.006-.041V5.789l-2.18-1.257zM5.23.81L1.47 2.974l3.76 2.164 3.758-2.164zm1.956 13.505l2.182-1.256V3.624l-1.58.91-2.182 1.255v9.435zm11.581-10.95l-3.76 2.163 3.76 2.163 3.759-2.164zm-.376 4.978L16.21 7.087 14.63 6.18v4.283l2.182 1.256 1.58.908zm-8.65 9.654l5.514-3.148 2.756-1.572-3.757-2.163-4.323 2.489-3.941 2.27z"/></symbol>
+            <symbol id="ic-php" viewBox="0 0 24 24"><path d="M7.01 10.207h-.944l-.515 2.648h.838c.556 0 .97-.105 1.242-.314.272-.21.455-.559.55-1.049.092-.47.05-.802-.124-.995-.175-.193-.523-.29-1.047-.29zM12 5.688C5.373 5.688 0 8.514 0 12s5.373 6.313 12 6.313S24 15.486 24 12c0-3.486-5.373-6.312-12-6.312zm-3.26 7.451c-.261.25-.575.438-.917.551-.336.108-.765.164-1.285.164H5.357l-.327 1.681H3.652l1.23-6.326h2.65c.797 0 1.378.209 1.744.628.366.418.476 1.002.33 1.752a2.836 2.836 0 0 1-.305.847c-.143.255-.33.49-.561.703zm4.024.715l.543-2.799c.063-.318.039-.536-.068-.651-.107-.116-.336-.174-.687-.174H11.46l-.704 3.625H9.388l1.23-6.327h1.367l-.327 1.682h1.218c.767 0 1.295.134 1.586.401s.378.7.263 1.299l-.572 2.944h-1.389zm7.597-2.265a2.782 2.782 0 0 1-.305.847c-.143.255-.33.49-.561.703a2.44 2.44 0 0 1-.917.551c-.336.108-.765.164-1.286.164h-1.18l-.327 1.682h-1.378l1.23-6.326h2.649c.797 0 1.378.209 1.744.628.366.417.477 1.001.331 1.751zM17.766 10.207h-.943l-.516 2.648h.838c.557 0 .971-.105 1.242-.314.272-.21.455-.559.551-1.049.092-.47.049-.802-.125-.995s-.524-.29-1.047-.29z"/></symbol>
+            <symbol id="ic-javascript" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></symbol>
+            <symbol id="ic-html5" viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></symbol>
+            <symbol id="ic-css3" viewBox="0 0 24 24"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.565-2.438L1.5 0zm17.09 4.413L5.41 4.41l.213 2.622 10.125.002-.255 2.716h-6.64l.24 2.573h6.182l-.366 3.523-2.91.804-2.956-.81-.188-2.11h-2.61l.29 3.855L12 19.288l5.373-1.53L18.59 4.414z"/></symbol>
+            <symbol id="ic-blade" viewBox="0 0 24 24"><path d="M3 4L10 12L3 20h3.2l7-8-7-8zM10.5 4L17.5 12L10.5 20h3.2l7-8-7-8z"/></symbol>
+            <symbol id="ic-tailwindcss" viewBox="0 0 24 24"><path d="M12.001,4.8c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 C13.666,10.618,15.027,12,18.001,12c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C16.337,6.182,14.976,4.8,12.001,4.8z M6.001,12c-3.2,0-5.2,1.6-6,4.8c1.2-1.6,2.6-2.2,4.2-1.8c0.913,0.228,1.565,0.89,2.288,1.624 c1.177,1.194,2.538,2.576,5.512,2.576c3.2,0,5.2-1.6,6-4.8c-1.2,1.6-2.6,2.2-4.2,1.8c-0.913-0.228-1.565-0.89-2.288-1.624 C10.337,13.382,8.976,12,6.001,12z"/></symbol>
+            <symbol id="ic-git" viewBox="0 0 24 24"><path d="M13.09 23.549a1.54 1.54 0 0 1-2.18 0L.451 13.089a1.54 1.54 0 0 1 0-2.179l7.191-7.19 2.733 2.733a1.85 1.85 0 0 0 .964 2.326v6.66a1.849 1.849 0 1 0 1.54 0V8.957l2.508 2.508a1.85 1.85 0 1 0 1.09-1.09l-2.634-2.634a1.85 1.85 0 0 0-2.378-2.377L8.73 2.63 10.91.451a1.54 1.54 0 0 1 2.179 0l10.459 10.46a1.54 1.54 0 0 1 0 2.179z"/></symbol>
+            <symbol id="ic-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+            <symbol id="ic-mysql" viewBox="0 0 24 24"><path d="M16.405 5.501c-.115 0-.193.014-.274.033v.013h.014c.054.104.146.18.214.273.054.107.1.214.154.32l.014-.015c.094-.066.14-.172.14-.333-.04-.047-.046-.094-.08-.14-.04-.067-.126-.1-.18-.153zM5.77 18.695h-.927a50.854 50.854 0 00-.27-4.41h-.008l-1.41 4.41H2.45l-1.4-4.41h-.01a72.892 72.892 0 00-.195 4.41H0c.055-1.966.192-3.81.41-5.53h1.15l1.335 4.064h.008l1.347-4.064h1.095c.242 2.015.384 3.86.428 5.53zm4.017-4.08c-.378 2.045-.876 3.533-1.492 4.46-.482.716-1.01 1.073-1.583 1.073-.153 0-.34-.046-.566-.138v-.494c.11.017.24.026.386.026.268 0 .483-.075.647-.222.197-.18.295-.382.295-.605 0-.155-.077-.47-.23-.944L6.23 14.615h.91l.727 2.36c.164.536.233.91.205 1.123.4-1.064.678-2.227.835-3.483zm12.325 4.08h-2.63v-5.53h.885v4.85h1.745zm-3.32.135l-1.016-.5c.09-.076.177-.158.255-.25.433-.506.648-1.258.648-2.253 0-1.83-.718-2.746-2.155-2.746-.704 0-1.254.232-1.65.697-.43.508-.646 1.256-.646 2.245 0 .972.19 1.686.574 2.14.35.41.877.615 1.583.615.264 0 .506-.033.725-.098l1.325.772.36-.622zM15.5 17.588c-.225-.36-.337-.94-.337-1.736 0-1.393.424-2.09 1.27-2.09.443 0 .77.167.977.5.224.362.336.936.336 1.723 0 1.404-.424 2.108-1.27 2.108-.445 0-.77-.167-.978-.5zm-1.658-.425c0 .47-.172.856-.516 1.156-.344.3-.803.45-1.384.45-.543 0-1.064-.172-1.573-.515l.237-.476c.438.22.833.328 1.19.328.332 0 .593-.073.783-.22a.754.754 0 00.3-.615c0-.33-.23-.61-.648-.845-.388-.213-1.163-.657-1.163-.657-.422-.307-.632-.636-.632-1.177 0-.45.157-.81.47-1.085.315-.278.72-.415 1.22-.415.512 0 .98.136 1.4.41l-.213.476a2.726 2.726 0 00-1.064-.23c-.283 0-.502.068-.654.206a.685.685 0 00-.248.524c0 .328.234.61.666.85.393.215 1.187.67 1.187.67.433.305.648.63.648 1.168zm9.382-5.852c-.535-.014-.95.04-1.297.188-.1.04-.26.04-.274.167.055.053.063.14.11.214.08.134.218.313.346.407.14.11.28.216.427.31.26.16.555.255.81.416.145.094.293.213.44.313.073.05.12.14.214.172v-.02c-.046-.06-.06-.147-.105-.214-.067-.067-.134-.127-.2-.193a3.223 3.223 0 00-.695-.675c-.214-.146-.682-.35-.77-.595l-.013-.014c.146-.013.32-.066.46-.106.227-.06.435-.047.67-.106.106-.027.213-.06.32-.094v-.06c-.12-.12-.21-.283-.334-.395a8.867 8.867 0 00-1.104-.823c-.21-.134-.476-.22-.697-.334-.08-.04-.214-.06-.26-.127-.12-.146-.19-.34-.275-.514a17.69 17.69 0 01-.547-1.163c-.12-.262-.193-.523-.34-.763-.69-1.137-1.437-1.826-2.586-2.5-.247-.14-.543-.2-.856-.274-.167-.008-.334-.02-.5-.027-.11-.047-.216-.174-.31-.235-.38-.24-1.364-.76-1.644-.072-.18.434.267.862.422 1.082.115.153.26.328.34.5.047.116.06.235.107.356.106.294.207.622.347.897.073.14.153.287.247.413.054.073.146.107.167.227-.094.136-.1.334-.154.5-.24.757-.146 1.693.194 2.25.107.166.362.534.703.393.3-.12.234-.5.32-.835.02-.08.007-.133.048-.187v.015c.094.188.188.367.274.555.206.328.566.668.867.895.16.12.287.328.487.402v-.02h-.015c-.043-.058-.1-.086-.154-.133a3.445 3.445 0 01-.35-.4 8.76 8.76 0 01-.747-1.218c-.11-.21-.202-.436-.29-.643-.04-.08-.04-.2-.107-.24-.1.146-.247.273-.32.453-.127.288-.14.642-.188 1.01-.027.007-.014 0-.027.014-.214-.052-.287-.274-.367-.46-.2-.475-.233-1.238-.06-1.785.047-.14.247-.582.167-.716-.042-.127-.174-.2-.247-.303a2.478 2.478 0 01-.24-.427c-.16-.374-.24-.788-.414-1.162-.08-.173-.22-.354-.334-.513-.127-.18-.267-.307-.368-.52-.033-.073-.08-.194-.027-.274.014-.054.042-.075.094-.09.088-.072.335.022.422.062.247.1.455.194.662.334.094.066.195.193.315.226h.14c.214.047.455.014.655.073.355.114.675.28.962.46a5.953 5.953 0 012.085 2.286c.08.154.115.295.188.455.14.33.313.663.455.982.14.315.275.636.476.897.1.14.502.213.682.286.133.06.34.115.46.188.23.14.454.3.67.454.11.076.443.243.463.378z"/></symbol>
+            <symbol id="ic-sqlite" viewBox="0 0 24 24"><path d="M21.678.521c-1.032-.92-2.28-.55-3.513.544a8.71 8.71 0 0 0-.547.535c-2.109 2.237-4.066 6.38-4.674 9.544.237.48.422 1.093.544 1.561a13.044 13.044 0 0 1 .164.703s-.019-.071-.096-.296l-.05-.146a1.689 1.689 0 0 0-.033-.08c-.138-.32-.518-.995-.686-1.289-.143.423-.27.818-.376 1.176.484.884.778 2.4.778 2.4s-.025-.099-.147-.442c-.107-.303-.644-1.244-.772-1.464-.217.804-.304 1.346-.226 1.478.152.256.296.698.422 1.186.286 1.1.485 2.44.485 2.44l.017.224a22.41 22.41 0 0 0 .056 2.748c.095 1.146.273 2.13.5 2.657l.155-.084c-.334-1.038-.47-2.399-.41-3.967.09-2.398.642-5.29 1.661-8.304 1.723-4.55 4.113-8.201 6.3-9.945-1.993 1.8-4.692 7.63-5.5 9.788-.904 2.416-1.545 4.684-1.931 6.857.666-2.037 2.821-2.912 2.821-2.912s1.057-1.304 2.292-3.166c-.74.169-1.955.458-2.362.629-.6.251-.762.337-.762.337s1.945-1.184 3.613-1.72C21.695 7.9 24.195 2.767 21.678.521m-18.573.543A1.842 1.842 0 0 0 1.27 2.9v16.608a1.84 1.84 0 0 0 1.835 1.834h9.418a22.953 22.953 0 0 1-.052-2.707c-.006-.062-.011-.141-.016-.2a27.01 27.01 0 0 0-.473-2.378c-.121-.47-.275-.898-.369-1.057-.116-.197-.098-.31-.097-.432 0-.12.015-.245.037-.386a9.98 9.98 0 0 1 .234-1.045l.217-.028c-.017-.035-.014-.065-.031-.097l-.041-.381a32.8 32.8 0 0 1 .382-1.194l.2-.019c-.008-.016-.01-.038-.018-.053l-.043-.316c.63-3.28 2.587-7.443 4.8-9.791.066-.069.133-.128.198-.194Z"/></symbol>
+            </defs>
+          </svg>
 
-          <div class="about-block">
-            <h4>Proyek Relevan</h4>
-            <ul class="about-projects">
-              <li>
-                <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer">Read-Assist <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
-                <p class="about-project-desc">Platform buku audio berbasis QR.</p>
-              </li>
-              <li>
-                <a href="https://github.com/Ayries18/LokaPreneur" target="_blank" rel="noopener noreferrer">LokaPreneur <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
-                <p class="about-project-desc">Platform UMKM berbasis Laravel.</p>
-              </li>
-              <li>
-                <a href="https://github.com/Ayries18/Portofolio" target="_blank" rel="noopener noreferrer">Portofolio <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
-                <p class="about-project-desc">Website personal dengan UI modern.</p>
-              </li>
-            </ul>
+          <div class="stack-marquee">
+            <div class="stack-track">
+              <ul class="stack-group">
+                <li data-stack="laravel"><span class="stack-chip"><svg class="stack-logo stack-logo--laravel" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-laravel"/></svg><span class="stack-name">Laravel</span></span></li>
+                <li data-stack="php"><span class="stack-chip"><svg class="stack-logo stack-logo--php" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-php"/></svg><span class="stack-name">PHP</span></span></li>
+                <li data-stack="javascript"><span class="stack-chip"><svg class="stack-logo stack-logo--javascript" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-javascript"/></svg><span class="stack-name">JavaScript</span></span></li>
+                <li data-stack="html5"><span class="stack-chip"><svg class="stack-logo stack-logo--html5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-html5"/></svg><span class="stack-name">HTML5</span></span></li>
+                <li data-stack="css3"><span class="stack-chip"><svg class="stack-logo stack-logo--css3" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-css3"/></svg><span class="stack-name">CSS3</span></span></li>
+                <li class="stack-sep" aria-hidden="true"></li>
+                <li data-stack="blade"><span class="stack-chip"><svg class="stack-logo stack-logo--blade" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-blade"/></svg><span class="stack-name">Blade</span></span></li>
+                <li data-stack="tailwindcss"><span class="stack-chip"><svg class="stack-logo stack-logo--tailwindcss" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-tailwindcss"/></svg><span class="stack-name">Tailwind CSS</span></span></li>
+                <li data-stack="git"><span class="stack-chip"><svg class="stack-logo stack-logo--git" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-git"/></svg><span class="stack-name">Git</span></span></li>
+                <li data-stack="github"><span class="stack-chip"><svg class="stack-logo stack-logo--github" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-github"/></svg><span class="stack-name">GitHub</span></span></li>
+                <li class="stack-sep" aria-hidden="true"></li>
+                <li data-stack="mysql"><span class="stack-chip"><svg class="stack-logo stack-logo--mysql" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-mysql"/></svg><span class="stack-name">MySQL</span></span></li>
+                <li data-stack="sqlite"><span class="stack-chip"><svg class="stack-logo stack-logo--sqlite" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-sqlite"/></svg><span class="stack-name">SQLite</span></span></li>
+              </ul>
+              <ul class="stack-group" aria-hidden="true">
+                <li data-stack="laravel"><span class="stack-chip"><svg class="stack-logo stack-logo--laravel" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-laravel"/></svg><span class="stack-name">Laravel</span></span></li>
+                <li data-stack="php"><span class="stack-chip"><svg class="stack-logo stack-logo--php" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-php"/></svg><span class="stack-name">PHP</span></span></li>
+                <li data-stack="javascript"><span class="stack-chip"><svg class="stack-logo stack-logo--javascript" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-javascript"/></svg><span class="stack-name">JavaScript</span></span></li>
+                <li data-stack="html5"><span class="stack-chip"><svg class="stack-logo stack-logo--html5" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-html5"/></svg><span class="stack-name">HTML5</span></span></li>
+                <li data-stack="css3"><span class="stack-chip"><svg class="stack-logo stack-logo--css3" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-css3"/></svg><span class="stack-name">CSS3</span></span></li>
+                <li class="stack-sep" aria-hidden="true"></li>
+                <li data-stack="blade"><span class="stack-chip"><svg class="stack-logo stack-logo--blade" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-blade"/></svg><span class="stack-name">Blade</span></span></li>
+                <li data-stack="tailwindcss"><span class="stack-chip"><svg class="stack-logo stack-logo--tailwindcss" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-tailwindcss"/></svg><span class="stack-name">Tailwind CSS</span></span></li>
+                <li data-stack="git"><span class="stack-chip"><svg class="stack-logo stack-logo--git" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-git"/></svg><span class="stack-name">Git</span></span></li>
+                <li data-stack="github"><span class="stack-chip"><svg class="stack-logo stack-logo--github" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-github"/></svg><span class="stack-name">GitHub</span></span></li>
+                <li class="stack-sep" aria-hidden="true"></li>
+                <li data-stack="mysql"><span class="stack-chip"><svg class="stack-logo stack-logo--mysql" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-mysql"/></svg><span class="stack-name">MySQL</span></span></li>
+                <li data-stack="sqlite"><span class="stack-chip"><svg class="stack-logo stack-logo--sqlite" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-sqlite"/></svg><span class="stack-name">SQLite</span></span></li>
+              </ul>
+            </div>
           </div>
+        </div>
+
+        <div class="about-block">
+          <h4>Fokus Saya</h4>
+          <ul class="about-focus">
+            <li>Web Development</li>
+            <li>Laravel &amp; PHP</li>
+            <li>Web Accessibility</li>
+            <li>UI/UX</li>
+          </ul>
+        </div>
+
+        <div class="about-block">
+          <h4>Proyek Relevan</h4>
+          <ul class="about-projects">
+            <li>
+              <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer">Read-Assist <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              <p class="about-project-desc">Platform buku audio berbasis QR.</p>
+            </li>
+            <li>
+              <a href="https://github.com/Ayries18/LokaPreneur" target="_blank" rel="noopener noreferrer">LokaPreneur <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              <p class="about-project-desc">Platform UMKM berbasis Laravel.</p>
+            </li>
+            <li>
+              <a href="https://github.com/Ayries18/Portofolio" target="_blank" rel="noopener noreferrer">Portofolio <span class="about-arrow" aria-hidden="true">&rarr;</span></a>
+              <p class="about-project-desc">Website personal dengan UI modern.</p>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
