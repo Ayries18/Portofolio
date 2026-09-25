@@ -575,6 +575,9 @@ section.active {
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.035em;
+  /* The name wraps to two lines on narrow phones; balance keeps the two lines
+     even instead of letting the second one carry a single short word. */
+  text-wrap: balance;
   background: linear-gradient(135deg, var(--text-body) 30%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -582,17 +585,20 @@ section.active {
 }
 
 .hero h2 {
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   font-size: clamp(1.1rem, 2.4vw, 1.4rem);
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -0.01em;
   color: var(--primary);
+  text-wrap: balance;
+  /* Reserves the tallest string the typewriter will ever hold, so the paragraph
+     below never shifts while the text is being typed. */
   min-height: 1.4em;
 }
 
 .hero-descriptor {
-  margin: 10px 0 0;
+  margin: 16px 0 0;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -601,11 +607,12 @@ section.active {
 }
 
 .hero p:not(.hero-descriptor) {
-  margin: 18px 0 0;
+  margin: 24px 0 0;
   max-width: 46ch;
   color: var(--text-soft);
   font-size: 1rem;
   line-height: 1.75;
+  text-wrap: pretty;
 }
 
 .hero-buttons {
@@ -715,8 +722,8 @@ section.active {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-md);
   background: var(--icon-tile);
   border: 1px solid var(--border-card);
@@ -886,20 +893,21 @@ section.active {
     box-shadow var(--t-base) ease;
 }
 
-.education-card:hover {
+/* Same .reveal specificity trap as the skill cards - see the note there. */
+.education-grid .education-card:hover {
   transform: translateY(-4px);
   border-color: var(--primary-border);
   box-shadow: var(--shadow-brand);
 }
 
 .education-icon {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: grid;
   place-items: center;
   border-radius: var(--radius-md);
   background: var(--primary-soft);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .education-icon svg path {
@@ -967,11 +975,17 @@ section.active {
   background: linear-gradient(135deg, var(--accent) 0%, var(--primary-hover) 100%);
 }
 
-.skill-card:hover {
+/* Qualified with .skills-grid on purpose. Skill cards carry .reveal from the
+   scroll animation, and .reveal.active also sets a transform at specificity
+   (0,2,0) - the same as a bare ".skill-card:hover" - while sitting later in this
+   file, so it won and the hover lift never rendered. Qualifying pushes the
+   hover rule to (0,3,0) and the card actually lifts. Project and contact cards
+   only worked because their rules are element-qualified (article./a.). */
+.skills-grid .skill-card:hover {
   background: var(--surface-hover);
   border-color: var(--primary-border);
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-brand);
 }
 
 .skill-card:hover::before {
@@ -1253,7 +1267,7 @@ article.project-card:hover {
 a.contact-item:hover {
   border-color: var(--primary);
   background: var(--surface-hover);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1404,7 +1418,8 @@ a.contact-item:hover {
 }
 
 [data-theme='dark'] .hero h2,
-[data-theme='dark'] .about-status {
+[data-theme='dark'] .about-status,
+[data-theme='dark'] .about-projects .about-arrow {
   color: var(--accent);
 }
 

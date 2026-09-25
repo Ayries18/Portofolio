@@ -220,17 +220,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ========== TYPING EFFECT IN HERO ========== */
   const typedElement = document.getElementById('typed');
-  if (typedElement && typeof Typed !== 'undefined') {
-    new Typed('#typed', {
-      strings: ['Web Developer', 'Information Technology Student'],
-      typeSpeed: 70,
-      backSpeed: 40,
-      backDelay: 2000,
-      loop: true,
-      showCursor: true,
-      cursorChar: '|',
-      smartBackspace: true
-    });
+  const typedRole = 'Web Developer';
+  if (typedElement) {
+    // The typewriter runs on timers, not CSS, so the prefers-reduced-motion block
+    // in the stylesheet never reaches it. Honour the preference here instead of
+    // letting reduced-motion visitors sit through a looping animation.
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || typeof Typed === 'undefined') {
+      typedElement.textContent = typedRole;
+    } else {
+      new Typed('#typed', {
+        strings: [typedRole],
+        typeSpeed: 70,
+        // Type once and hold. The old loop cycled two strings, which meant the
+        // headline spent most of its life mid-backspace - "Web Developer"
+        // deleted one character at a time and read as the truncated "Web Develop".
+        loop: false,
+        showCursor: true,
+        cursorChar: '|',
+        onComplete: () => {
+          // Stop the blink once the word is whole. A frozen dimmed caret reads as
+          // "finished typing"; a blinking one implies it is still going.
+          // The cursor is resolved from the h2 rather than the callback argument
+          // so this does not depend on where Typed.js decides to insert it.
+          const cursor = typedElement.parentElement.querySelector('.typed-cursor');
+          if (cursor) {
+            cursor.style.animation = 'none';
+            cursor.style.opacity = '0.5';
+          }
+        }
+      });
+    }
   }
 
   /* ========== IN-PAGE ANCHOR LINKS (CTA buttons, skip link) ========== */
