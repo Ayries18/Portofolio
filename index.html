@@ -29,6 +29,15 @@
   <meta name="twitter:image:alt" content="Logo Portofolio Muhammad Almuwarisin">
 
   <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+
+  <!-- Fonts: preconnect so the TCP/TLS handshake overlaps with CSS parsing.
+       Previously an @import inside style.css, which serialised the chain as
+       HTML -> CSS -> discover @import -> font CSS -> font files. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js" defer></script>
