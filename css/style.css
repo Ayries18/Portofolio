@@ -210,6 +210,33 @@ img {
   gap: 20px;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 34px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--primary-border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
+    box-shadow var(--t-base) ease;
+}
+
+/* Decorative brand mark: the name sits right beside it, so no hover-only
+   affordance is implied and it stays out of the tab order. */
+.brand:hover .brand-logo {
+  transform: translateY(-1px) scale(1.05);
+  border-color: var(--accent-border);
+  box-shadow: var(--shadow-brand);
+}
+
 .nav-name {
   font-size: 1rem;
   font-weight: 700;
