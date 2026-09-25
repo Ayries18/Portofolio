@@ -200,21 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========== FOOTER: YEAR + LAST UPDATED ========== */
+  /* ========== FOOTER: YEAR ========== */
   const footerYear = document.getElementById('footer-year');
   if (footerYear) footerYear.textContent = new Date().getFullYear();
-
-  const lastUpdated = document.getElementById('last-updated');
-  if (lastUpdated) {
-    const stamp = document.lastModified ? new Date(document.lastModified) : new Date();
-    if (!isNaN(stamp.getTime())) {
-      lastUpdated.textContent = stamp.toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    }
-  }
 
   /* ========== SCROLL REVEAL ANIMATIONS ========== */
   const revealElements = document.querySelectorAll('.skill-card, .project-card, .education-card, .contact-item');

@@ -7,7 +7,7 @@ Deployed to GitHub Pages from `main` branch root → https://ayries18.github.io/
 
 - `index.html` — all page content (single page architecture, all sections in one file)
 - `css/style.css` — all styles, design tokens, and theme rules
-- `javascript/script.js` — navigation tabs, mobile menu, theme toggle, and footer timestamps
+- `javascript/script.js` — navigation tabs, mobile menu, theme toggle, and the footer year
 - `favicon.ico` — site icon (previously misnamed `fahicon.ico`, which 404'd)
 - `logo.png` — used for Open Graph / Twitter Card `og:image`
 - `profile/profile.jpg` — profile image asset (nav avatar, hero, about)

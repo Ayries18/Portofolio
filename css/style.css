@@ -1375,9 +1375,6 @@ a.contact-item:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* em, not px: the two lines stay the same distance apart optically even though
-     font-size drops to 0.8rem below 480px. A fixed 8px drifted with the type. */
-  gap: 0.5em;
 }
 
 .footer p {
@@ -1387,16 +1384,6 @@ a.contact-item:hover {
 .footer-name {
   color: var(--text-body);
   font-weight: 600;
-}
-
-.footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 6px 12px;
-  font-size: 0.78rem;
-  color: var(--text-muted);
 }
 
 /* ACCESSIBILITY - Focus States */
@@ -1668,11 +1655,6 @@ a.contact-item:hover {
     padding: 22px 14px 26px;
     font-size: 0.8rem;
     margin-top: 44px;
-  }
-
-  .footer-meta {
-    gap: 5px 10px;
-    font-size: 0.72rem;
   }
 }
 
