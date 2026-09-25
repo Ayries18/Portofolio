@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelector('.nav-links');
   const navItems = document.querySelectorAll('.nav-links a');
   const sections = document.querySelectorAll('section');
-  const footer = document.querySelector('.footer');
 
   const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
@@ -137,18 +136,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: true });
 
-  /* Theme toggle with localStorage */
+  /* ========== THEME TOGGLE WITH localStorage ========== */
   const themeToggle = document.querySelector('.theme-toggle');
   const themeSun = document.getElementById('theme-sun');
   const themeMoon = document.getElementById('theme-moon');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
   function applyTheme(theme) {
     if (theme === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
       document.body.setAttribute('data-theme', 'dark');
+      if (themeColorMeta) themeColorMeta.setAttribute('content', '#0B0B0F');
     } else {
       document.documentElement.removeAttribute('data-theme');
       document.body.removeAttribute('data-theme');
+      if (themeColorMeta) themeColorMeta.setAttribute('content', '#ffffff');
     }
   }
 
@@ -196,6 +198,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
+  }
+
+  /* ========== FOOTER: YEAR + LAST UPDATED ========== */
+  const footerYear = document.getElementById('footer-year');
+  if (footerYear) footerYear.textContent = new Date().getFullYear();
+
+  const lastUpdated = document.getElementById('last-updated');
+  if (lastUpdated) {
+    const stamp = document.lastModified ? new Date(document.lastModified) : new Date();
+    if (!isNaN(stamp.getTime())) {
+      lastUpdated.textContent = stamp.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    }
   }
 
   /* ========== SCROLL REVEAL ANIMATIONS ========== */
