@@ -46,9 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
   /* Hide/Show sections on navbar click - tab-like behavior */
   navItems.forEach(item => {
     item.addEventListener('click', (e) => {
+      const href = item.getAttribute('href');
+
+      /* Only in-page anchors are tabs. The case-study page reuses this nav but
+         points at "index.html#projects", and preventing default there would
+         swallow the navigation and leave the links dead. */
+      if (!href || !href.startsWith('#')) return;
+
       e.preventDefault();
 
-      switchSection(item.getAttribute('href'), isMobile());
+      switchSection(href, isMobile());
 
       /* Close menu and restore scroll on mobile */
       navLinks.classList.remove('open');

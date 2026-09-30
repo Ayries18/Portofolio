@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read-Assist Case Study | Muhammad Almuwarisin</title>
+  <meta name="description" content="Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.">
+  <meta name="author" content="Muhammad Almuwarisin">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://ayries18.github.io/Portofolio/case-study-read-assist.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ayries18.github.io/Portofolio/case-study-read-assist.html">
+  <meta property="og:title" content="Read-Assist Case Study | Muhammad Almuwarisin">
+  <meta property="og:description" content="Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.">
+  <meta property="og:site_name" content="Portofolio Muhammad Almuwarisin">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:image" content="https://ayries18.github.io/Portofolio/logo.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Logo Portofolio Muhammad Almuwarisin">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Read-Assist Case Study | Muhammad Almuwarisin">
+  <meta name="twitter:description" content="Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.">
+  <meta name="twitter:image" content="https://ayries18.github.io/Portofolio/logo.png">
+  <meta name="twitter:image:alt" content="Logo Portofolio Muhammad Almuwarisin">
+
+  <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+
+  <nav class="nav" role="navigation" aria-label="Navigasi utama">
+    <div class="nav-container">
+      <div class="brand">
+        <img src="logo.webp" alt="" class="brand-logo" width="160" height="167" loading="eager" decoding="async">
+        <span class="nav-name"><span class="nav-first">Muhammad</span> <span class="nav-last">Almuwarisin</span></span>
+      </div>
+
+      <div class="nav-right">
+        <!-- Cross-page links. script.js only hijacks anchors whose href starts
+             with "#", so these fall through to normal navigation. -->
+        <div class="nav-links">
+          <a href="index.html#home">Beranda</a>
+          <a href="index.html#about">Tentang</a>
+          <a href="index.html#skills">Keterampilan</a>
+          <a href="index.html#projects">Proyek</a>
+          <a href="index.html#contact">Kontak</a>
+        </div>
+        <img src="profile/profile.webp" alt="Profil Muhammad Almuwarisin" class="nav-avatar" width="40" height="40" loading="lazy" decoding="async">
+        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger"></span>
+          <span class="hamburger"></span>
+          <span class="hamburger"></span>
+        </button>
+        <button class="theme-toggle" aria-label="Toggle tema gelap/terang">
+          <svg id="theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"></path>
+          </svg>
+          <svg id="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:none">
+            <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" class="container">
+    <a class="cs-back" href="index.html#projects">&larr; Kembali ke Proyek</a>
+
+    <article>
+      <!-- ---------- HEADER ----------
+           Blocks use <div>, not <section>. The index page hides every section
+           with `section { display: none }` and script.js strips .active from
+           all of them, so <section> here would render as nothing at all. -->
+      <header class="cs-header">
+        <p class="cs-eyebrow">Case Study</p>
+        <h1>Read-Assist</h1>
+        <p class="cs-lede">Aplikasi audiobook untuk penyandang disabilitas netra. Buku diunggah ke sistem, teksnya diubah menjadi suara secara otomatis, lalu didengarkan lewat pemindai QR Code yang ditempel pada buku fisik, tanpa perlu memasang aplikasi khusus di ponsel.</p>
+        <ul class="cs-meta">
+          <li>
+            <span class="cs-meta-label">Peran</span>
+            <span class="cs-meta-value">Solo project, dirancang, ditulis, dan diuji sendiri</span>
+          </li>
+          <li>
+            <span class="cs-meta-label">Stack</span>
+            <span class="cs-meta-value">Laravel, Blade, PHP, JavaScript, Tailwind CSS, SQLite</span>
+          </li>
+          <li>
+            <span class="cs-meta-label">Status</span>
+            <span class="cs-meta-value">Aktif dan dapat diakses publik</span>
+          </li>
+        </ul>
+        <div class="cs-nav">
+          <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="btn-primary">Live Demo</a>
+          <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn-secondary">Repository</a>
+        </div>
+      </header>
+
+      <!-- ---------- MASALAH ---------- -->
+      <div class="cs-block">
+        <h2>Masalah yang ingin diselesaikan</h2>
+        <p>Buku cetak yang tersedia di tangan, buku sekolah, novel, atau dokumen, praktis tidak bisa diakses oleh penyandang disabilitas netra. Membaca halaman demi halaman dengan buku cetak atau screen reader bawaan adalah proses yang lambat, melelahkan, dan bergantung pada orang lain.</p>
+        <p>Sebagian besar solusi audiobook yang tersedia bekerja dengan cara yang sama: pengguna harus mencari dan mengunduh berkas MP3. Untuk buku yang dicetak sendiri, atau buku yang hanya ada dalam bentuk cetak, tidak ada berkas apa pun untuk diunduh. Aplikasi pasar seperti itu juga sering mewajibkan registrasi berbulan-bulan sebelum satu buku bisa diakses.</p>
+        <p>Read-Assist berangkat dari sebaliknya: <strong>kita mulai dari buku fisik yang sudah ada</strong>, lalu sistemnya yang membuat versi suara dari buku itu.</p>
+      </div>
+
+      <!-- ---------- SOLUSI ---------- -->
+      <div class="cs-block">
+        <h2>Bagaimana cara kerjanya</h2>
+        <p>Alurnya sengaja dibuat sesedikit mungkin: peminjam memindai satu QR Code, lalu halaman audiobook langsung terbuka. Semua proses berat, dari ekstraksi teks sampai pembuatan audio, terjadi di belakang layar sebelum kode itu dicetak.</p>
+        <ol class="cs-flow">
+          <li>
+            <h3>Unggah buku</h3>
+            <p>Pengguna mengunggah berkas PDF atau EPUB, lalu mengisi judul dan informasi sampul.</p>
+          </li>
+          <li>
+            <h3>Ekstraksi teks</h3>
+            <p>Sistem menarik teks dari dokumen, membersihkannya dari header, footer, dan nomor halaman, lalu memecahnya per kalimat.</p>
+          </li>
+          <li>
+            <h3>Generasi audio</h3>
+            <p>Kalimat dikirim ke antrean dan diproses di latar belakang. Potongan yang gagal dicoba ulang, lalu seluruh bagian digabung menjadi satu MP3.</p>
+          </li>
+          <li>
+            <h3>QR Code siap cetak</h3>
+            <p>Setelah selesai, sistem membuat QR Code yang menautkan UUID buku ke halaman pemutar, sehingga bisa ditempel di sampul.</p>
+          </li>
+          <li>
+            <h3>Pemutar di browser</h3>
+            <p>Pembaca memindai QR Code dan mendengarkan langsung dari peramban, lengkap dengan kontrol suara Bahasa Indonesia.</p>
+          </li>
+        </ol>
+      </div>
+
+      <!-- ---------- TEKNOLOGI ---------- -->
+      <div class="cs-block">
+        <h2>Pilihan teknis</h2>
+        <div class="cs-split">
+          <div>
+            <h3>Antrean, bukan permintaan langsung</h3>
+            <p>Membuat audio untuk satu buku bisa memakan waktu lama. Menaruhnya di antrean membuat halaman unggahan selesai cepat, dan pengguna melihat status progres alih-alih menunggu halaman yang membeku.</p>
+          </div>
+          <div>
+            <h3>Satu kalimat gagal tidak menggagalkan buku</h3>
+            <p>Karena teks dipecah per kalimat, satu kalimat yang gagal diproses bisa dicoba ulang sendiri tanpa mengulang seluruh buku.</p>
+          </div>
+          <div>
+            <h3>Dua jalur pemutaran</h3>
+            <p>MP3 hasil generasi adalah jalur utama. Web Speech API menjadi cadangan bila berkas audio belum tersedia, sehingga halaman tidak pernah kosong.</p>
+          </div>
+          <div>
+            <h3>SQLite</h3>
+            <p>Database bawaan Laravel, tanpa server database terpisah. Cukup untuk satu instance aplikasi ini.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- AKSESIBILITAS ---------- -->
+      <div class="cs-block">
+        <h2>Fitur aksesibilitas</h2>
+        <p>Aplikasi ini ditujukan untuk kelompok pengguna yang justru paling sering tersinggung oleh setelan bawaan peramban, jadi beberapa opsi dibuat dapat dinyalakan sendiri oleh pengguna.</p>
+        <ul class="cs-list">
+          <li><strong>Mode kontras tinggi</strong> untuk tampilan di luar setelan bawaan peramban.</li>
+          <li><strong>Ukuran teks A, A+, dan A++</strong> agar pembaca dapat memperbesar teks tanpa harus memperbesar seluruh halaman.</li>
+          <li><strong>Pengenalan suara Bahasa Indonesia</strong> untuk memasukkan teks lewat dikte pada peramban yang mendukungnya.</li>
+          <li><strong>Navigasi keyboard</strong> pada pemutar dan pengaturannya, tanpa harus memakai mouse.</li>
+          <li><strong>Pengaturan tersimpan</strong> untuk kontras, ukuran teks, dan kecepatan baca, yang disimpan di server lalu dipulihkan di perangkat lain.</li>
+          <li><strong>Dapat dipasang sebagai aplikasi</strong> melalui manifest PWA dan service worker, sehingga bisa dijalankan dari layar utama ponsel.</li>
+        </ul>
+      </div>
+
+      <!-- ---------- KEAMANAN ---------- -->
+      <div class="cs-block">
+        <h2>Keamanan</h2>
+        <p>Karena aplikasi menyimpan berkas buku dan membatasi siapa yang boleh acceder, beberapa hal ini diperhatikan sejak awal:</p>
+        <ul class="cs-list">
+          <li>Autentikasi berbasis session dengan pemisahan peran.</li>
+          <li>Setiap buku dicek kepemilikannya, sehingga satu pengguna tidak dapat membuka buku milik pengguna lain hanya dengan menebak tautan.</li>
+          <li>Batas jumlah permintaan pada endpoint yang dipakai untuk generasi audio, supaya satu pengguna tidak dapat membuat antrean menumpuk.</li>
+          <li>Token reset password diberi masa berlaku, sehingga tautan yang tertinggal tidak berlaku selamanya.</li>
+        </ul>
+      </div>
+
+      <!-- ---------- PENGUJIAN ---------- -->
+      <div class="cs-block">
+        <h2>Pengujian</h2>
+        <p>Aplikasi ini punya feature test otomatis yang menyalin alur penggunaan utama, dari unggah dokumen sampai pemutarannya. Berkas <code>tests/Feature/AudioBukuTest.php</code> berisi <strong>27 feature test method</strong> yang menutup alur utama, kegagalan ekstraksi, pemeriksaan kepemilikan, dan autentikasi. Satu test lagi di <code>ExampleTest.php</code> hanya bawaan bawaan Laravel dan tidak dihitung di sini.</p>
+        <p>Angka itu dihitung dari isi berkas test di repository. Saya tidak mengklaim aplikasi ini sudah lolos audit WCAG atau pernah diuji bersama pengguna disabilitas netra, karena pengujian seperti itu memang belum saya lakukan.</p>
+      </div>
+
+      <!-- ---------- BATAS KLAIM ---------- -->
+      <div class="cs-note">
+        <h3>Yang tidak saya klaim</h3>
+        <ul class="cs-list">
+          <li>Tidak ada angka pengguna, jumlah buku, atau dampak bisnis yang saya laporkan, karena saya tidak punya data pengukuran seperti itu.</li>
+          <li>Aplikasi ini belum pernah diuji bersama penyandang disabilitas netra. Fitur aksesibilitasnya mengikuti prinsip praktik web yang baik, bukan hasil riset pengguna.</li>
+          <li>Aplikasi ini belum dinyatakan sesuai WCAG oleh lembaga audit mana pun.</li>
+          <li>Read-Assist adalah proyek pribadi. Semua kode pada repository ditulis dan diuji oleh saya sendiri.</li>
+        </ul>
+      </div>
+
+      <div class="cs-nav">
+        <a href="index.html#projects" class="btn-secondary">&larr; Kembali ke Proyek</a>
+        <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn-secondary">Repository Read-Assist</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <p>&copy; <span id="footer-year">2026</span> <span class="footer-name">Muhammad Almuwarisin</span></p>
+  </footer>
+
+  <script src="javascript/script.js" defer></script>
+</body>
+</html>

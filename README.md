@@ -1,103 +1,124 @@
 <div align="center">
 
-<img src="profile/profile.jpg" width="140" style="border-radius:50%" />
+<img src="profile/profile.jpg" width="140" style="border-radius:50%" alt="Foto Muhammad Almuwarisin" />
 
-<h1 style="color:#e5e7eb;">👨‍💻 Muhammad Almuwarisin</h1>
+<h1>Muhammad Almuwarisin</h1>
 
-<p style="color:#9ca3af;">
-🌙 Web Developer · 🎓 Mahasiswa Teknologi Informasi  
-Front End Focus
+<p>
+Web Developer &middot; Mahasiswa Teknologi Informasi, UIN Ar-Raniry Banda Aceh
 </p>
 
 <p>
-<a href="https://ayries18.github.io/Portofolio/">🚀 Live Website</a> ·
-<a href="https://github.com/Ayries18">💻 GitHub</a> ·
-<a href="https://www.linkedin.com/in/muhammad-almuwarisin-934079376/">🔗 LinkedIn</a>
+<a href="https://ayries18.github.io/Portofolio/">Live Website</a> &middot;
+<a href="https://github.com/Ayries18">GitHub</a> &middot;
+<a href="https://www.linkedin.com/in/muhammad-almuwarisin-934079376/">LinkedIn</a>
 </p>
 
 </div>
 
 ---
 
-## 🧠 Overview
+## Tentang
 
-Portofolio ini menampilkan kemampuan pengembangan web dengan pendekatan sederhana dan terstruktur.  
-Fokus pada keterbacaan kode, konsistensi desain, dan pengalaman pengguna.
+Portofolio pribadi berbasis HTML, CSS, dan JavaScript murni, tanpa framework dan
+tanpa dependensi runtime. Dibangun untuk menunjukkan penguasaan fundamental
+web: navigasi berbasis tab, dark mode, dan aksesibilitas keyboard.
 
-Website dibuat tanpa framework berat untuk menunjukkan penguasaan fundamental.
+Selain developing web, saya mengerjakan **Read-Assist**, aplikasi audiobook untuk
+penyandang disabilitas netra, yang dibangun sendiri dari nol.
 
 ---
 
-## 🧩 Skill Badges
+## Teknologi
 
 <p align="center">
-  <img src="https://img.shields.io/badge/HTML5-111111?style=for-the-badge&logo=html5&logoColor=E34F26" />
-  <img src="https://img.shields.io/badge/CSS3-111111?style=for-the-badge&logo=css3&logoColor=1572B6" />
-  <img src="https://img.shields.io/badge/JavaScript-111111?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
-  <img src="https://img.shields.io/badge/Git-111111?style=for-the-badge&logo=git&logoColor=F05032" />
-  <img src="https://img.shields.io/badge/GitHub-111111?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/HTML5-111111?style=for-the-badge&logo=html5&logoColor=E34F26" alt="HTML5" />
+  <img src="https://img.shields.io/badge/CSS3-111111?style=for-the-badge&logo=css3&logoColor=1572B6" alt="CSS3" />
+  <img src="https://img.shields.io/badge/JavaScript-111111?style=for-the-badge&logo=javascript&logoColor=F7DF1E" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Laravel-111111?style=for-the-badge&logo=laravel&logoColor=FF2D20" alt="Laravel" />
+  <img src="https://img.shields.io/badge/PHP-111111?style=for-the-badge&logo=php&logoColor=777BB4" alt="PHP" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-111111?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/SQLite-111111?style=for-the-badge&logo=sqlite&logoColor=4FB6D6" alt="SQLite" />
+  <img src="https://img.shields.io/badge/Git-111111?style=for-the-badge&logo=git&logoColor=F05032" alt="Git" />
 </p>
 
 ---
 
-## ⭐ Highlight Features
+## Proyek
 
-- 🌙 Dark friendly design
-- 📱 Responsive layout
-- 🧭 Simple navigation
-- 🧼 Clean code structure
-- 🚀 Ready for GitHub Pages
+### Milik saya sendiri
 
----
+| Proyek | Deskripsi | Kode |
+| --- | --- | --- |
+| [Read-Assist](https://github.com/Ayries18/Read-Assist) | Aplikasi audiobook untuk penyandang disabilitas netra. Teks dari PDF/EPUB diekstrak, diubah menjadi audio di latar belakang, lalu diakses lewat pemindai QR Code pada buku fisik. | [Live Demo](https://readassist.web-id.id/) · [Case Study](case-study-read-assist.html) |
+| [Portofolio Personal](https://github.com/Ayries18/Portofolio) | Website ini. Tanpa framework, dengan dark mode, marquee logo, dan focus ring global. | [Live Demo](https://ayries18.github.io/Portofolio/) |
 
-## 🗂️ Project Structure
+### Repository tugas mata kuliah
 
-<div align="center">
+Keduanya adalah repository perkuliahan. **Kode aplikasinya ditulis oleh rekan
+tim, bukan oleh saya.** Kontribusi saya pada kedua repository ini terbatas pada
+dokumentasi (`README.md`) dan aset gambar. Saya mencantumkannya di sini
+karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
 
-
-</div>
-
----
-
-## 👀 Preview
-
-<p align="center">
-  <img src="profile/download.gif" width="520" alt="Dark Theme Preview">
-</p>
+| Proyek | Deskripsi | Kode |
+| --- | --- | --- |
+| [LokaPreneur](https://github.com/Ayries18/LokaPreneur) | Platform UMKM berbasis Laravel. Repository sudah memiliki model dan migration, tetapi belum ada fitur aplikasi yang utuh. | [Repository](https://github.com/Ayries18/LokaPreneur) |
+| [Portal Berita](https://github.com/Ayries18/Portal-Berita) | Aplikasi berita berbasis Laravel dengan arsitektur MVC. Repository sudah memiliki model `Article` dan tabelnya, tetapi belum ada controller, route, maupun tampilan artikel. | [Repository](https://github.com/Ayries18/Portal-Berita) |
 
 ---
 
-## 🌐 Live Demo
+## Fitur Website
 
-🔗 https://ayries18.github.io/Portofolio/
-
----
-
-## 🧪 Run Locally
-
-1. Clone repository
-2. Open index.html in browser
-3. No additional setup required
+- Dark mode yang mengikuti setelan sistem, dengan pilihan tersimpan di `localStorage`
+- Navigasi berbasis tab tanpa reload halaman
+- Layout responsif dengan titik henti sekitar 768px
+- Skip link, `focus-visible` global, dan dukungan `prefers-reduced-motion`
+- Ikon SVG inline, tanpa library ikon eksternal
+- Struktur satu halaman: `index.html`, `css/style.css`, `javascript/script.js`
 
 ---
 
-## 🙋 About Me
+## Menjalankan Secara Lokal
 
-Mahasiswa Teknologi Informasi dengan minat kuat pada pengembangan web.  
-Berfokus pada fondasi teknis sebelum teknologi lanjutan.
+Tidak ada build step dan tidak ada dependensi.
+
+```bash
+git clone https://github.com/Ayries18/Portofolio.git
+cd Portofolio
+python -m http.server
+```
+
+Buka `http://localhost:8000`. Membuka `index.html` langsung di browser juga
+berfungsi.
 
 ---
 
-## 📬 Contact
+## Struktur Proyek
 
-📧 muwarisin@gmail.com  
-💻 https://github.com/Ayries18  
-🔗 https://www.linkedin.com/in/muhammad-almuwarisin-934079376/
+```text
+.
+├── index.html                      # seluruh konten halaman (arsitektur satu halaman)
+├── case-study-read-assist.html     # studi kasus Read-Assist
+├── css/style.css                   # seluruh style, token desain, dan aturan tema
+├── javascript/script.js            # navigasi tab, menu mobile, theme toggle, footer year
+├── favicon.ico                     # ikon situs
+├── logo.png                        # sumber logo resolusi penuh (Open Graph / Twitter Card)
+├── logo.webp                       # logo navbar yang dirender di halaman
+└── profile/                        # foto profil dan thumbnail proyek
+```
 
 ---
 
-<div align="center">
+## Kontak
 
-🌑 Built with focus, structure, and clarity
+- Email: [muwarisin@gmail.com](mailto:muwarisin@gmail.com)
+- GitHub: [github.com/Ayries18](https://github.com/Ayries18)
+- LinkedIn: [linkedin.com/in/muhammad-almuwarisin-934079376](https://www.linkedin.com/in/muhammad-almuwarisin-934079376/)
 
-</div>
+---
+
+## Catatan
+
+Halaman ini tidak mengklaim jumlah pengguna, dampak bisnis, atau hasil audit
+aksesibilitas resmi. Fitur aksesibilitas pada Read-Assist disusun mengikuti
+praktik web yang baik, belum diuji bersama pengguna disabilitas netra.

@@ -986,23 +986,18 @@ section.active {
 .stack-logo--github {
   --brand: #181717;
 }
-.stack-logo--mysql {
-  --brand: #4479a1;
-}
 .stack-logo--sqlite {
   --brand: #003b57;
 }
 
-/* Four of the eleven official colours are too dark to read once desaturated
-   against the dark surface, so those four get a lifted dark-theme value. */
+/* PHP, GitHub, and SQLite official colours are too dark to read once
+   desaturated against the dark surface, so those three get a lifted
+   dark-theme value. */
 [data-theme='dark'] .stack-logo--php {
   --brand: #a9adda;
 }
 [data-theme='dark'] .stack-logo--github {
   --brand: #f2f2f4;
-}
-[data-theme='dark'] .stack-logo--mysql {
-  --brand: #74abd3;
 }
 [data-theme='dark'] .stack-logo--sqlite {
   --brand: #4fb6d6;
@@ -1065,6 +1060,22 @@ section.active {
   line-height: 1.55;
   color: var(--text-muted);
   max-width: 46ch;
+}
+
+/* Role label inside a project description - keeps "solo" vs "academic" claims
+   visible at a glance instead of hiding them in prose. */
+.about-role {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 8px;
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-pill);
+  background: var(--primary-soft);
+  color: var(--tint-ink);
+  font-size: 0.72rem;
+  font-weight: 500;
+  white-space: nowrap;
+  vertical-align: baseline;
 }
 
 .about-projects a {
@@ -1144,6 +1155,167 @@ section.active {
   font-size: 0.9rem;
   color: var(--text-muted);
   margin: 0;
+}
+
+/* ---------- PROYEK AKADEMIK ----------
+   Repos that live in the academic tab rather than the projects tab, because
+   the code was written by a team and this repo only carries documentation. */
+.education-projects {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-card);
+}
+
+.education-projects > h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+
+.education-note {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 62ch;
+  margin: 0 0 24px;
+}
+
+.academic-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+.academic-list > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: start;
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  transition: border-color var(--t-base) ease;
+}
+
+.academic-list > li:hover {
+  border-color: var(--primary-border);
+}
+
+.academic-main h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.academic-desc {
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 58ch;
+}
+
+/* Code identifiers are content, not prose - keep them on the plain surface
+   background so --tint-ink stays at its AA contrast. Only Inter is loaded
+   from Google Fonts, so this is a pure system-mono stack. */
+.academic-desc code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-hover);
+  border: 1px solid var(--border-card);
+  color: var(--text-body);
+}
+
+.academic-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.academic-side .tech-badges {
+  justify-content: flex-end;
+  max-width: 260px;
+}
+
+/* ---------- CATATAN PROYEK ---------- */
+.projects-note {
+  margin: 28px 0 0;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.projects-note a {
+  color: var(--primary-ink);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid var(--primary-border);
+  transition: color var(--t-quick) ease, border-color var(--t-quick) ease;
+}
+
+.projects-note a:hover {
+  color: var(--tint-ink);
+  border-bottom-color: var(--accent-border);
+}
+
+/* ---------- KAPABILITAS PROYEK ---------- */
+.project-capabilities {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0;
+  margin: 0 0 18px;
+}
+
+.project-capabilities li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  max-width: 56ch;
+}
+
+/* Inline SVG check so the list needs no image files and inherits currentColor. */
+.project-capabilities li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+[data-theme='dark'] .project-capabilities li::before {
+  background: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .academic-list > li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .academic-side {
+    align-items: flex-start;
+  }
+
+  .academic-side .tech-badges {
+    justify-content: flex-start;
+    max-width: none;
+  }
 }
 
 /* SKILLS */
@@ -1962,6 +2134,259 @@ a.contact-item:hover {
 @keyframes typed-blink {
   from, to { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* =====================================================
+   CASE STUDY (standalone page, not the tabbed index)
+   ---------------------------------------------------------
+   These blocks are scoped .cs-* and deliberately use <div>
+   rather than <section>. The index page hides every
+   section with `section { display: none }` and script.js
+   strips .active from all of them on load, so <section>
+   elements on a second page would collapse to nothing.
+   ===================================================== */
+
+/* ---------- CASE STUDY: LAYOUT ---------- */
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--t-quick) ease;
+}
+
+.cs-back:hover {
+  color: var(--primary-ink);
+}
+
+.cs-header {
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.cs-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-ink);
+  margin: 0 0 12px;
+}
+
+.cs-header h1 {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0 0 16px;
+}
+
+.cs-lede {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-body);
+  max-width: 66ch;
+  margin: 0 0 20px;
+}
+
+.cs-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 32px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-meta > li {
+  min-width: 0;
+}
+
+.cs-meta-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.cs-meta-value {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+/* ---------- CASE STUDY: BLOCKS ---------- */
+.cs-block {
+  padding-top: 40px;
+}
+
+.cs-block h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+
+.cs-block h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+
+.cs-block > p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 70ch;
+  margin: 0 0 14px;
+}
+
+.cs-block > p strong {
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+/* ---------- CASE STUDY: PIPELINE ---------- */
+.cs-flow {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  padding: 0;
+  margin: 20px 0 0;
+  counter-reset: cs-step;
+}
+
+.cs-flow li {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 18px 18px 18px 46px;
+  counter-increment: cs-step;
+}
+
+/* Step number on the same surface, so plain body ink stays at AA contrast. */
+.cs-flow li::before {
+  content: counter(cs-step);
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-border);
+  color: var(--tint-ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.cs-flow p {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ---------- CASE STUDY: PLAIN LISTS ---------- */
+.cs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.cs-list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 68ch;
+}
+
+.cs-list li::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+[data-theme='dark'] .cs-list li::before {
+  background: var(--accent);
+}
+
+.cs-list strong {
+  color: var(--text-body);
+  font-weight: 600;
+}
+
+/* ---------- CASE STUDY: TWO COLUMN ---------- */
+.cs-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.cs-split > div {
+  background: var(--surface);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+/* ---------- CASE STUDY: SCOPE / HONESTY NOTE ---------- */
+.cs-note {
+  background: var(--surface);
+  border: 1px solid var(--accent-border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  margin-top: 20px;
+}
+
+.cs-note h3 {
+  margin-bottom: 10px;
+}
+
+.cs-note .cs-list li::before {
+  background: var(--accent);
+}
+
+/* ---------- CASE STUDY: FOOTER NAV ---------- */
+.cs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .cs-header {
+    padding-bottom: 24px;
+  }
+
+  .cs-block {
+    padding-top: 32px;
+  }
 }
 
 /* PREFERS REDUCED MOTION */
