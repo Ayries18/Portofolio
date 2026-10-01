@@ -902,6 +902,68 @@ section.active {
   );
 }
 
+/* Header row for the Tech Stack block: label on the left, pause control on the
+   right. Flex only, no new spacing tokens. */
+.about-block-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* The h4 carried its own bottom margin as a direct child of .about-block; inside
+   the flex row the row owns the spacing instead. Written as .about-block
+   .about-block-head h4 so it outranks the mobile `.about-block h4` override,
+   which sits later in source order at equal specificity. */
+.about-block .about-block-head h4 {
+  margin: 0;
+}
+
+/* Same token set and hover behaviour as .theme-toggle, sized down so it reads as
+   a control for the marquee and not as a peer of the navbar buttons. */
+.stack-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: var(--icon-tile);
+  border: 1px solid var(--border-card);
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: background var(--t-base) ease, border-color var(--t-base) ease,
+    color var(--t-base) ease;
+}
+
+.stack-toggle:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary-border);
+  color: var(--primary-ink);
+}
+
+/* The icon follows aria-pressed, so the state is legible without a second
+   attribute to keep in sync in JS. */
+.stack-toggle-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.stack-toggle-icon--play {
+  display: none;
+}
+
+.stack-toggle[aria-pressed='true'] .stack-toggle-icon--pause {
+  display: none;
+}
+
+.stack-toggle[aria-pressed='true'] .stack-toggle-icon--play {
+  display: block;
+}
+
 .stack-track {
   display: flex;
   width: max-content;
@@ -1031,6 +1093,12 @@ section.active {
 /* Pause on hover, and on keyboard focus for anyone tabbing near the track. */
 .stack-marquee:hover .stack-track,
 .stack-marquee:focus-within .stack-track {
+  animation-play-state: paused;
+}
+
+/* Explicit pause from the .stack-toggle control, which outranks the incidental
+   :hover pause above because it comes later in source order. */
+.stack-track.is-paused {
   animation-play-state: paused;
 }
 
@@ -1286,6 +1354,15 @@ section.active {
   max-width: 56ch;
 }
 
+/* Caption explaining how the screenshot above is framed. Same muted footnote
+   treatment as .projects-note, so it reads as editorial rather than as chrome. */
+.project-note {
+  margin: -6px 0 18px;
+  font-size: 0.87rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
 /* Inline SVG check so the list needs no image files and inherits currentColor. */
 .project-capabilities li::before {
   content: '';
@@ -1436,9 +1513,14 @@ section.active {
 /* =====================
    PROJECTS
    ===================== */
+/* Single column, deliberately. There are two projects: one featured and one
+   standard. With repeat(2, 1fr) plus a featured card that spans both columns,
+   the standard card sat alone in the left cell and the right cell was empty for
+   its full height. One column gives the featured card the whole measure and
+   strands nothing, and it stays correct as projects are added. */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
 }
 
@@ -1459,8 +1541,11 @@ article.project-card:hover {
   transform: translateY(-6px);
 }
 
+/* span 1, not span 2: the grid above is a single column, and a span 2 item
+   would force an implicit second track to be created. The featured distinction
+   is now the internal split and the eyebrow, not the column span. */
 .project-card.featured {
-  grid-column: span 2;
+  grid-column: span 1;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
 }
@@ -1615,12 +1700,6 @@ article.project-card:hover {
 }
 
 /* CONTACT */
-.contact-intro {
-  margin-bottom: 24px;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
 .contact-links {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2002,6 +2081,12 @@ a.contact-item:hover {
     margin-bottom: 12px;
   }
 
+  /* Same tightening for the Tech Stack header row, so the label and the pause
+     control do not add 16px on top of the 12px the h4 would have used. */
+  .about-block-head {
+    margin-bottom: 12px;
+  }
+
   /* Narrower fade and tighter chips, so a 320px track still shows two whole
      technologies instead of one and a sliver. */
   .stack-marquee {
@@ -2116,12 +2201,12 @@ a.contact-item:hover {
   transform: translateY(0);
 }
 
-/* Stagger delay - kept short so the last card settles at 0.4s, not 0.74s */
+/* Stagger delay - kept short so the last card settles at 0.4s, not 0.74s.
+   The project stagger stops at :nth-child(2): the grid holds two cards, so
+   :nth-child(3) and :nth-child(4) could never match. */
 .skill-card:nth-child(2),
 .project-card:nth-child(2) { transition-delay: 0.05s; }
-.skill-card:nth-child(3),
-.project-card:nth-child(3) { transition-delay: 0.1s; }
-.project-card:nth-child(4) { transition-delay: 0.15s; }
+.skill-card:nth-child(3) { transition-delay: 0.1s; }
 
 /* TYPING EFFECT - Typed.js */
 .typed-cursor {

@@ -8,6 +8,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
+  /* Single source of truth for "which section is showing". The active class was
+     previously the only signal, so assistive technology had no way to tell which
+     tab was open; aria-current carries the same state. Every place that used to
+     toggle the class by hand now goes through here. Education has no nav link,
+     so a hash with no matching item correctly clears every link rather than
+     leaving a stale one marked. */
+  function setActiveNav(href) {
+    navItems.forEach(link => {
+      const isCurrent = link.getAttribute('href') === href;
+      link.classList.toggle('active', isCurrent);
+      if (isCurrent) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  }
+
   if (navToggle) {
     navToggle.addEventListener('click', () => {
       const open = navLinks.classList.toggle('open');
@@ -34,9 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
     history.pushState(null, '', href);
 
     /* Update active link */
-    navItems.forEach(link => link.classList.remove('active'));
-    const match = Array.from(navItems).find(a => a.getAttribute('href') === href);
-    if (match) match.classList.add('active');
+    setActiveNav(href);
 
     if (scrollToTop !== false) {
       targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -115,16 +131,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (initial) {
         sections.forEach(s => s.classList.remove('active'));
         initial.classList.add('active');
-        navItems.forEach(link => link.classList.remove('active'));
-        const match = Array.from(navItems).find(a => a.getAttribute('href') === hash);
-        if (match) match.classList.add('active');
+        /* #education has no nav item, so this clears every link instead of
+           leaving a stale aria-current behind. */
+        setActiveNav(hash);
       } else {
         sections[0].classList.add('active');
-        if (navItems.length > 0) navItems[0].classList.add('active');
+        setActiveNav('#' + sections[0].id);
       }
     } else {
       sections[0].classList.add('active');
-      if (navItems.length > 0) navItems[0].classList.add('active');
+      setActiveNav('#' + sections[0].id);
     }
   }
 
@@ -258,6 +274,25 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
+  }
+
+  /* ========== TECH STACK MARQUEE: PAUSE / RESUME ========== */
+  const stackToggle = document.querySelector('.stack-toggle');
+  const stackTrack = document.querySelector('.stack-track');
+  if (stackToggle && stackTrack) {
+    /* The existing :hover pause is unreachable by keyboard, and the chips are
+       non-interactive spans so :focus-within never fires either. Auto-starting
+       moving content needs a real control to satisfy WCAG 2.2.2, which is what
+       this is. aria-pressed is the single source of truth for the state and the
+       icon is swapped from CSS off that attribute, so there is nothing else to
+       keep in sync. The class only ever pauses; resuming removes it and hands
+       control back to :hover and to the reduced-motion block, so neither is
+       broken by pausing. */
+    stackToggle.addEventListener('click', () => {
+      const isPaused = stackToggle.getAttribute('aria-pressed') === 'true';
+      stackToggle.setAttribute('aria-pressed', isPaused ? 'false' : 'true');
+      stackTrack.classList.toggle('is-paused', !isPaused);
+    });
   }
 
   /* ========== IN-PAGE ANCHOR LINKS (CTA buttons, skip link) ========== */
