@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="profile/profile.jpg" width="140" style="border-radius:50%" alt="Foto Muhammad Almuwarisin" />
+<img src="profile/profile.webp" width="140" style="border-radius:50%" alt="Foto Muhammad Almuwarisin" />
 
 <h1>Muhammad Almuwarisin</h1>
 
@@ -27,6 +27,8 @@ web: navigasi berbasis tab, dark mode, dan aksesibilitas keyboard.
 Selain developing web, saya mengerjakan **Read-Assist**, aplikasi audiobook untuk
 penyandang disabilitas netra, yang dibangun sendiri dari nol.
 
+Saat ini saya **terbuka untuk magang dan internship**.
+
 ---
 
 ## Teknologi
@@ -51,7 +53,7 @@ penyandang disabilitas netra, yang dibangun sendiri dari nol.
 | Proyek | Deskripsi | Kode |
 | --- | --- | --- |
 | [Read-Assist](https://github.com/Ayries18/Read-Assist) | Aplikasi audiobook untuk penyandang disabilitas netra. Teks dari PDF/EPUB diekstrak, diubah menjadi audio di latar belakang, lalu diakses lewat pemindai QR Code pada buku fisik. | [Live Demo](https://readassist.web-id.id/) · [Case Study](case-study-read-assist.html) |
-| [Portofolio Personal](https://github.com/Ayries18/Portofolio) | Website ini. Tanpa framework, dengan dark mode, marquee logo, dan focus ring global. | [Live Demo](https://ayries18.github.io/Portofolio/) |
+| [Portofolio Personal](https://github.com/Ayries18/Portofolio) | Website ini. Tanpa framework, dengan dark mode, tipografi editorial, dan focus ring global. | [Live Demo](https://ayries18.github.io/Portofolio/) |
 
 ### Repository tugas mata kuliah
 
@@ -71,10 +73,37 @@ karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
 
 - Dark mode yang mengikuti setelan sistem, dengan pilihan tersimpan di `localStorage`
 - Navigasi berbasis tab tanpa reload halaman
-- Layout responsif dengan titik henti sekitar 768px
+- Tetap terbaca tanpa JavaScript: semua section ditampilkan berurutan
+- Layout responsif dengan titik henti di 1024px, 900px, 768px, dan 560px
 - Skip link, `focus-visible` global, dan dukungan `prefers-reduced-motion`
 - Ikon SVG inline, tanpa library ikon eksternal
-- Struktur satu halaman: `index.html`, `css/style.css`, `javascript/script.js`
+- `robots.txt`, `sitemap.xml`, dan data terstruktur JSON-LD (`schema.org/Person`)
+- Kartu pratinjau sosial `og-image.png` berukuran 1200×630
+- Hanya satu dependensi eksternal: Google Fonts (Inter)
+
+## Sistem Desain
+
+Semua token warna, tipografi, dan spasi berada di `css/style.css`:
+
+- **Warna** — palet hitam dan ungu. Ungu dipakai hemat: nama di navbar, underline
+  tab aktif, satu tombol aksi, link inline, nomor project, dan satu garis aksen
+  per judul section.
+- **Tipografi** — Inter (`400`/`500`/`600`) untuk teks, system monospace untuk
+  metadata dan label. Satu skala dengan sembilan ukuran, semuanya bernama token.
+- **Spasi** — kelipatan 4px (`--s-1` sampai `--s-7`), dari `4px` sampai `96px`.
+- **Bentuk** — satu radius (`4px`) dan garis rambut 1px. Tanpa gradien, glow,
+  bayangan, atau efek kaca.
+
+## Struktur Halaman
+
+- `index.html` — satu halaman, enam section sebagai tab: Beranda, Tentang,
+  Pendidikan, Keterampilan, Proyek, dan Kontak. Pendidikan tidak punya link
+  navbar; ia bisa dicapai dari catatan di tab Proyek.
+- `case-study-read-assist.html` — studi kasus Read-Assist, halaman terpisah.
+
+Halaman ini tetap terbaca tanpa JavaScript: seluruh section ditampilkan
+berurutan dan link navbar bekerja sebagai anchor biasa. Yang berubah tanpa JS
+hanya navigasi tab, drawer mobile, dan toggle tema.
 
 ---
 
@@ -99,13 +128,25 @@ berfungsi.
 .
 ├── index.html                      # seluruh konten halaman (arsitektur satu halaman)
 ├── case-study-read-assist.html     # studi kasus Read-Assist
-├── css/style.css                   # seluruh style, token desain, dan aturan tema
+├── css/style.css                   # token desain, komponen, dan aturan tema
 ├── javascript/script.js            # navigasi tab, menu mobile, theme toggle, footer year
-├── favicon.ico                     # ikon situs
-├── logo.png                        # sumber logo resolusi penuh (Open Graph / Twitter Card)
+├── favicon.ico                     # ikon situs (ICO asli, 7 ukuran)
+├── favicon-16x16.png               # ikon raster eksplisit
+├── favicon-32x32.png               # ikon raster eksplisit
+├── apple-touch-icon.png            # ikon iOS 180x180
+├── og-image.png                    # kartu pratinjau sosial 1200x630
+├── robots.txt                      # allow all + pointer ke sitemap
+├── sitemap.xml                     # dua halaman: index dan case study
 ├── logo.webp                       # logo navbar yang dirender di halaman
-└── profile/                        # foto profil dan thumbnail proyek
+└── profile/                        # foto profil + screenshot 2 proyek solo
+    ├── profile.webp                # potret 800x1200 (dipakai hero & README)
+    ├── read-assist-preview.webp    # screenshot Read-Assist 1440x810
+    └── portofolio-preview.webp     # screenshot Portofolio 1200x590
 ```
+
+Tidak ada aset lain di repository ini: setiap gambar yang dilacak dipakai
+minimal satu halaman. Aset yang tidak lagi dirender dihapus, bukan disimpan
+sebagai cadangan.
 
 ---
 

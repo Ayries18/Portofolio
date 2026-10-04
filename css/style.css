@@ -1,2290 +1,1290 @@
-/* RESET */
-* {
+/* ============================================================
+   MUHAMMAD ALMUWARISIN — PORTFOLIO
+   Editorial minimalism: one accent, one radius, hairline rules.
+   ------------------------------------------------------------
+   Every colour lives here. Never hardcode one in a component.
+   Brand purple is rationed to six places (see AGENTS.md):
+     1. surname in the navbar
+     2. active nav link underline
+     3. ONE solid CTA (hero only)
+     4. inline links + focus ring
+     5. project index (01 / 02)
+     6. one 16x2 accent rule per section head
+   ============================================================ */
+
+/* ---------- RESET ----------
+   The subset of normalize.css this site actually used. Loading the
+   CDN version cost a render-blocking request for ~8 rules. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-/* =====================
-   DESIGN TOKENS
-   ===================== */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+strong {
+  font-weight: 600;
+}
+
+[hidden] {
+  display: none;
+}
+
+/* ---------- TOKENS ---------- */
 :root {
-  /* brand - purple */
-  --primary: #7C3AED;
-  --primary-hover: #6D28D9;
-  --accent: #A855F7;
-  --violet: #8B5CF6;
+  /* brand */
+  --brand: #7c3aed;          /* solid CTA fill; white text = 5.70:1 */
+  --brand-hover: #6d28d9;
+  --brand-ink: #6d28d9;      /* brand as TEXT on --bg (7.10:1) */
 
   /* surfaces */
-  --background: #ffffff;
-  --surface: #fafafa;
-  --surface-2: #f4f4f5;
-  --icon-tile: #f4f4f5;
-  /* legacy alias, kept so older rules keep resolving */
-  --surface-hover: var(--surface-2);
+  --bg: #ffffff;
+  --bg-sunken: #fafafa;      /* only: screenshot letterbox, hover wash */
 
-  /* text */
-  --text-body: #18181b;
-  --text-muted: #64748b;
-  --text-soft: #52525b;
-  --text-inverse: #ffffff;
+  /* ink */
+  --ink: #18181b;            /* 17.72:1 */
+  --ink-2: #52525b;          /*  7.73:1 */
+  --ink-3: #71717a;          /*  4.82:1 */
 
-  /* lines */
-  --border-card: #e4e4e7;
-  --border-strong: #d4d4d8;
+  /* rules */
+  --rule: #e4e4e7;           /* hairline */
+  --rule-2: #d4d4d8;         /* hairline, hover / stronger */
 
-  /* brand tints */
-  --primary-soft: rgba(124, 58, 237, 0.08);
-  --primary-border: rgba(124, 58, 237, 0.16);
-  --primary-glow: rgba(124, 58, 237, 0.24);
-  --accent-soft: rgba(168, 85, 247, 0.10);
-  --accent-border: rgba(168, 85, 247, 0.28);
-  --accent-glow: rgba(168, 85, 247, 0.28);
-  /* readable text sitting on top of a brand tint */
-  --tint-ink: #6D28D9;
-  /* --primary as an ink colour on the plain page background */
-  --primary-ink: #7C3AED;
+  /* type */
+  --font: Inter, system-ui, -apple-system, sans-serif;
+  /* System mono for metadata. Zero network requests. */
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-  /* navbar glass */
-  --nav-bg: rgba(255, 255, 255, 0.88);
-  --nav-bg-scrolled: rgba(255, 255, 255, 0.97);
-  --nav-border: rgba(124, 58, 237, 0.10);
-  --nav-shadow: 0 1px 2px rgba(24, 24, 27, 0.04), 0 10px 24px -16px rgba(124, 58, 237, 0.20);
-  --nav-shadow-scrolled: 0 1px 2px rgba(24, 24, 27, 0.05), 0 16px 32px -18px rgba(124, 58, 237, 0.28);
-  --logo-glow: 0 0 0 1px var(--accent-border), 0 0 18px -6px var(--accent-glow);
-  --chip-glow: 0 0 0 1px var(--accent-border), 0 0 14px -6px var(--accent-glow);
+  --t-display: clamp(2.125rem, 5.4vw, 3.25rem);
+  --t-lede: clamp(1.0625rem, 1.5vw, 1.1875rem);
+--t-h2: 1.375rem;
+--t-h3: 1.0625rem;
+/* Project titles are their own step: 20px standard, 24px for the featured
+   entry only. Named so the two-step hierarchy is on the scale rather than
+   two stray rem values inside the component. */
+--t-project: 1.25rem;
+--t-project-lg: 1.5rem;
+--t-body: 1.0625rem;
+  --t-sm: 0.9375rem;
+  --t-meta: 0.8125rem;
+  --t-mono: 0.75rem;
 
-  /* focus */
-  --focus-ring: #7C3AED;
+  /* space */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 16px;
+  --s-4: 24px;
+  --s-5: 40px;
+  --s-6: 64px;
+  --s-7: 96px;
 
-  /* Portrait framing. The source photo is upright 800x1200 and the face sits at
-     ~0.53 of the height, so plain centre framing lands on it. The previous
-     50% 34% was a top-bias that only made sense while the file was sideways. */
+  /* measure */
+  --measure: 1040px;         /* outer container */
+  --col: 62ch;               /* prose measure */
+
+  /* ONE radius: buttons, tags, media only. Cards and rows are square. */
+  --radius: 4px;
+
+  --t: 180ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* Portrait framing. profile/profile.webp is upright 800x1200 with no EXIF
+     Orientation tag, so no browser corrects it and no CSS rotate() can fix it
+     either. Plain centring lands on the face. */
   --portrait-focus: 50% 50%;
-
-  /* radii */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-pill: 999px;
-
-  /* elevation */
-  --shadow-xs: 0 1px 2px rgba(24, 24, 27, 0.05);
-  --shadow-sm: 0 2px 6px rgba(24, 24, 27, 0.05), 0 1px 2px rgba(24, 24, 27, 0.04);
-  --shadow-md: 0 12px 28px -16px rgba(24, 24, 27, 0.22);
-  --shadow-lg: 0 28px 56px -28px rgba(24, 24, 27, 0.30);
-  --shadow-brand: 0 16px 36px -20px var(--primary-glow);
-  --shadow-brand-lg: 0 24px 48px -24px var(--accent-glow);
-
-  /* motion */
-  --t-fast: 0.2s;
-  --t-quick: 0.22s;
-  --t-base: 0.25s;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* status */
-  --success: #059669;
-  --warning: #d97706;
-  --error: #dc2626;
-
-  /* backwards-compatible aliases */
-  --bg-body: var(--background);
-  --bg-card: var(--surface);
 }
 
 [data-theme='dark'] {
-  --primary: #7C3AED;
-  --primary-hover: #6D28D9;
-  --accent: #A855F7;
-  --violet: #8B5CF6;
+  --brand-ink: #c084fc;      /* 7.44:1 on #0B0B0F */
 
-  --background: #0B0B0F;
-  --surface: #15151C;
-  --surface-2: #1D1D27;
-  --icon-tile: #1F1F29;
-  --surface-hover: var(--surface-2);
-
-  --text-body: #f4f4f5;
-  --text-muted: #a1a1aa;
-  --text-soft: #c4c4cc;
-  --text-inverse: #ffffff;
-
-  --border-card: #27272f;
-  --border-strong: #3a3a45;
-
-  --primary-soft: rgba(124, 58, 237, 0.16);
-  --primary-border: rgba(168, 85, 247, 0.34);
-  --primary-glow: rgba(124, 58, 237, 0.42);
-  --accent-soft: rgba(168, 85, 247, 0.16);
-  --accent-border: rgba(168, 85, 247, 0.38);
-  --accent-glow: rgba(168, 85, 247, 0.34);
-  --tint-ink: #C084FC;
-  --primary-ink: #A855F7;
-
-  --nav-bg: rgba(11, 11, 15, 0.86);
-  --nav-bg-scrolled: rgba(11, 11, 15, 0.96);
-  --nav-border: rgba(168, 85, 247, 0.16);
-  --nav-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 12px 26px -18px rgba(168, 85, 247, 0.24);
-  --nav-shadow-scrolled: 0 1px 2px rgba(0, 0, 0, 0.55), 0 18px 34px -20px rgba(168, 85, 247, 0.32);
-
-  --focus-ring: #A855F7;
-
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.45);
-  --shadow-md: 0 14px 30px -16px rgba(0, 0, 0, 0.75);
-  --shadow-lg: 0 28px 56px -28px rgba(0, 0, 0, 0.85);
-  --shadow-brand: 0 16px 36px -20px var(--primary-glow);
-  --shadow-brand-lg: 0 24px 48px -24px var(--accent-glow);
-
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #f87171;
+  --bg: #0b0b0f;
+  --bg-sunken: #15151c;
+  --ink: #f4f4f5;            /* 17.87:1 */
+  --ink-2: #a1a1aa;          /*  7.67:1 */
+  --ink-3: #8a8a93;          /*  5.74:1 */
+  --rule: #212129;
+  --rule-2: #2f2f3a;
 }
 
-/* BASE */
+/* ---------- BASE ---------- */
 body {
-  font-family: Inter, sans-serif;
-  background: var(--background);
-  color: var(--text-body);
-  line-height: 1.7;
+  font-family: var(--font);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  background: var(--bg);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background var(--t-base) ease, color var(--t-base) ease;
+  transition: background 200ms ease, color 200ms ease;
 }
 
 html[data-theme='dark'] {
   color-scheme: dark;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
+/* Metadata runs in the system mono stack. Inter only is still true — this
+   costs no font request and gives the page a second, quieter voice. */
+.mono,
+.eyebrow,
+.hero-stack,
+.fact-label,
+.stack-group-name,
+.project-index,
+.project-meta dt,
+.edu-meta,
+.skill-inline li,
+.tech-inline li,
+.contact-label,
+.contact-value,
+.footer-links,
+.hero-figure figcaption {
+  font-family: var(--mono);
 }
 
-/* SKIP LINK */
+.eyebrow {
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  line-height: 1.6;
+}
+
+/* ---------- FOCUS ----------
+   One global rule supplies the ring for every interactive element. Verify a
+   new control by tabbing to it: .focus() from JS does not match
+   :focus-visible. */
+:focus-visible {
+  outline: 2px solid var(--brand-ink);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+/* Sections get tabindex="-1" as a focus target after a tab switch. That ring
+   would be meaningless noise, so suppress it — the rule is element-qualified
+   and therefore outranks :focus-visible above. */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+/* ---------- SKIP LINK ---------- */
 .skip-link {
   position: absolute;
-  left: -999px;
-  top: auto;
+  left: -9999px;
+  top: 0;
   width: 1px;
   height: 1px;
   overflow: hidden;
 }
 
-.skip-link:focus,
-.skip-link:active {
-  position: static;
+.skip-link:focus {
+  position: fixed;
+  left: var(--s-4);
+  top: var(--s-3);
   width: auto;
   height: auto;
-  padding: 10px 16px;
-  background: var(--background);
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: var(--radius-sm);
-  z-index: 1000;
+  padding: var(--s-2) var(--s-3);
+  background: var(--bg);
+  color: var(--brand-ink);
+  border: 1px solid var(--brand-ink);
+  border-radius: var(--radius);
+  z-index: 100;
 }
 
-/* NAVBAR */
+/* ---------- LAYOUT ---------- */
+.container {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+}
+
+/* Tabbed sections: hidden by default, one at a time.
+   The hiding is scoped to `.js`, which the inline <head> script sets the moment
+   it parses. Without that scope a blocked or failed script.js would leave
+   `section { display: none }` with no `.active` to reveal it: an empty page.
+   Under `.no-js` nothing is hidden, every section stacks, and the nav degrades
+   into ordinary in-page anchors that the browser handles on its own.
+
+   The hero opts out of both rules with `:not(.hero)` and is handled by its own
+   pair further down. It has to: `.js section.active` weighs 0-2-1 and would
+   outrank a plain `.hero.active` at 0-2-0, silently flattening the two-column
+   hero to a single block the first time a tab switch ran. */
+.js section:not(.hero) {
+  display: none;
+}
+
+.js section:not(.hero).active {
+  display: block;
+}
+
+.section {
+  padding-block: var(--s-6);
+  scroll-margin-top: 76px;
+}
+
+/* ---------- SECTION HEAD ----------
+   One shared header row so the six tabs share a rhythm by construction rather
+   than by six hand-matched rules. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-5);
+  padding-bottom: var(--s-3);
+  margin-bottom: var(--s-6);
+  border-bottom: 1px solid var(--rule);
+}
+
+.section-title {
+  position: relative;
+  font-size: var(--t-h2);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+/* The single accent mark per section: a 16x2 rule, not the 4px gradient bar
+   that used to sit beside all five h2s. */
+.section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -0.85em;
+  width: 16px;
+  height: 2px;
+  background: var(--brand-ink);
+}
+
+.section-note {
+  font-size: var(--t-meta);
+  line-height: 1.6;
+  color: var(--ink-3);
+  max-width: 36ch;
+  text-align: right;
+}
+
+/* ---------- NAVBAR ----------
+   Flat sticky bar: no blur, no radius, no shadow, no scrolled state. It shares
+   --measure with the content so the brand lines up with the first column. */
 .nav {
   position: sticky;
-  top: 12px;
-  z-index: 10;
-  background: var(--nav-bg);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
-  backdrop-filter: blur(14px) saturate(180%);
-  border: 1px solid var(--nav-border);
-  border-radius: var(--radius-xl);
-  margin: 0 20px;
-  box-shadow: var(--nav-shadow);
-  transition: background var(--t-base) ease, border-color var(--t-base) ease,
-    box-shadow var(--t-base) ease;
-}
-
-.nav.scrolled {
-  box-shadow: var(--nav-shadow-scrolled);
-  border-color: var(--primary-border);
-  background: var(--nav-bg-scrolled);
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
 }
 
 .nav-container {
-  max-width: 1000px;
+  max-width: var(--measure);
   margin: 0 auto;
-  padding: 13px 28px;
+  padding: 6px var(--s-4);
+  min-height: 57px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
+  gap: var(--s-4);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--s-2);
   min-width: 0;
+  text-decoration: none;
+  color: var(--ink);
 }
 
 .brand-logo {
-  width: 42px;
+  width: 26px;
   height: auto;
-  flex-shrink: 0;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--primary-border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    box-shadow var(--t-base) ease;
+  flex: none;
+  border-radius: var(--radius);
 }
 
-/* Decorative brand mark: the name sits right beside it, so no hover-only
-   affordance is implied and it stays out of the tab order. The glow is a tight
-   halo, not a drop shadow - a light chip reads better lit than cast. */
-.brand:hover .brand-logo {
-  transform: translateY(-1px) scale(1.04);
-  border-color: var(--accent-border);
-  box-shadow: var(--logo-glow);
-}
-
+/* Two spans, not one gradient. The literal space between them is deliberate:
+   it is what makes the accessible name read "Muhammad Almuwarisin" instead of
+   "MuhammadAlmuwarisin". */
 .nav-name {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
   white-space: nowrap;
-  flex-shrink: 0;
-  letter-spacing: -0.3px;
 }
 
-/* First name stays in body ink for contrast; the surname carries the brand.
-   Both gradient stops are the *ink* tokens - the raw --accent (#A855F7) is only
-   3.0:1 on white and would fail AA for 16px bold text. */
 .nav-first {
-  color: var(--text-body);
+  color: var(--ink);
 }
 
 .nav-last {
-  background: linear-gradient(135deg, var(--primary-ink) 0%, var(--tint-ink) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--brand-ink);
 }
 
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: var(--s-1);
 }
 
 .nav-links {
   display: flex;
-  gap: 30px;
   align-items: center;
+  gap: var(--s-4);
+  margin-right: var(--s-2);
 }
 
 .nav-links a {
-  position: relative;
-  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: var(--t-meta);
   font-weight: 500;
-  color: var(--text-soft);
-  text-decoration: none;
-  padding: 6px 2px;
-  transition: color var(--t-base) var(--ease);
-}
-
-/* scaleX from a centred origin, so the underline grows out of the middle
-   instead of sweeping in from the left edge. */
-.nav-links a::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-  border-radius: var(--radius-pill);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform var(--t-base) var(--ease);
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    text-decoration-color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
 .nav-links a:hover {
-  color: var(--text-body);
+  color: var(--ink);
+  text-decoration-color: var(--brand-ink);
 }
 
-.nav-links a:hover::before {
-  transform: scaleX(1);
-}
-
-.nav-links a.active {
-  color: var(--primary-ink);
+.nav-links a[aria-current='page'] {
+  color: var(--ink);
   font-weight: 600;
+  text-decoration-color: var(--brand-ink);
 }
 
-.nav-links a.active::before {
-  transform: scaleX(1);
+/* Icon buttons: 44px hit area, no border and no fill so they read as part of
+   the bar rather than as stickers on it. */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1),
+    color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.nav-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  object-fit: cover;
-  object-position: var(--portrait-focus);
-  flex-shrink: 0;
+.icon-btn:hover {
+  background: var(--bg-sunken);
+  color: var(--ink);
+}
+
+.icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Icon swap is pure CSS on the theme attribute, so script.js never has to
+   touch the two SVGs. Light is the absence of [data-theme]. */
+.theme-toggle .icon-sun {
   display: none;
-  border: 1px solid var(--primary-border);
-  transition: border-color var(--t-base) ease, box-shadow var(--t-base) ease,
-    transform var(--t-base) ease;
 }
 
-.nav-avatar:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow-brand);
-  transform: translateY(-1px);
+[data-theme='dark'] .theme-toggle .icon-sun {
+  display: block;
 }
 
-/* Hamburger menu */
+[data-theme='dark'] .theme-toggle .icon-moon {
+  display: none;
+}
+
+/* Both icon buttons are inert without script.js, so neither is shown in the
+   no-JS state — a control that looks live and does nothing is worse than an
+   honest, quieter navbar. */
+.no-js .theme-toggle,
+.no-js .nav-toggle {
+  display: none;
+}
+
+/* Two bars, not three, and no gradient. aria-expanded is the single source of
+   truth for the open state. */
 .nav-toggle {
   display: none;
   flex-direction: column;
   gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 9px;
+}
+
+.nav-toggle .bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.nav-toggle[aria-expanded='true'] .bar:first-child {
+  transform: translateY(3.25px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] .bar:last-child {
+  transform: translateY(-3.25px) rotate(-45deg);
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
-  transition: background var(--t-fast) ease;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1),
+    color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.nav-toggle:hover {
-  background: var(--primary-soft);
+.btn--solid {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #ffffff;
 }
 
-.hamburger {
-  width: 20px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-  border-radius: var(--radius-pill);
-  transition: transform var(--t-base) var(--ease), opacity var(--t-fast) ease,
-    background var(--t-base) ease;
+.btn--solid:hover {
+  background: var(--brand-hover);
+  border-color: var(--brand-hover);
 }
 
-.nav-toggle.active .hamburger:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-  background: var(--primary);
+.btn--outline {
+  background: transparent;
+  border-color: var(--rule-2);
+  color: var(--ink);
 }
 
-.nav-toggle.active .hamburger:nth-child(2) {
-  opacity: 0;
-  transform: translateX(-10px);
+.btn--outline:hover {
+  background: var(--bg-sunken);
+  border-color: var(--ink-3);
 }
 
-.nav-toggle.active .hamburger:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-  background: var(--primary);
-}
-
-/* Mobile responsive navbar */
-@media (max-width: 768px) {
-  .nav {
-    top: 8px;
-    margin: 0 12px;
-    border-radius: var(--radius-lg);
-  }
-
-  .nav-container {
-    padding: 11px 18px;
-  }
-
-  .nav-links {
-    position: absolute;
-    top: 62px;
-    left: 12px;
-    right: 12px;
-    background: var(--nav-bg-scrolled);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    backdrop-filter: blur(14px) saturate(180%);
-    flex-direction: column;
-    gap: 0;
-    padding: 10px 0;
-    border: 1px solid var(--nav-border);
-    border-radius: var(--radius-lg);
-    display: none;
-    box-shadow: var(--shadow-md);
-    z-index: 20;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .nav-links a {
-    padding: 13px 24px;
-    border-left: 3px solid transparent;
-    transition: color var(--t-fast) ease, background var(--t-fast) ease,
-      border-color var(--t-fast) ease;
-    color: var(--text-soft);
-  }
-
-  .nav-links a::before {
-    display: none;
-  }
-
-  .nav-links a.active {
-    background: linear-gradient(90deg, var(--primary-soft) 0%, transparent 100%);
-    border-left-color: var(--primary);
-    color: var(--primary-ink);
-  }
-
-  .nav-links a:hover {
-    background: var(--primary-soft);
-    color: var(--primary-ink);
-  }
-
-  .nav-avatar {
-    display: block;
-  }
-
-  .nav-toggle {
-    display: flex;
-  }
-
-  .nav-name {
-    font-size: 0.9rem;
-  }
-
-  .nav-right {
-    gap: 14px;
-  }
-}
-
-@media (max-width: 420px) {
-  .nav-avatar {
-    display: none;
-  }
-}
-
-/* LAYOUT */
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 72px 20px 40px;
-}
-
-/* Section visibility */
-section {
-  display: none;
-}
-
-section.active {
-  display: block;
-  animation: fadeIn var(--t-base) ease-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* SECTION SPACING - only one section is visible at a time, so every tab
-   gets the same top rhythm instead of a large first-section gap */
-.section {
-  margin-top: 0;
-  scroll-margin-top: 96px;
-}
-
-.section h2 {
-  margin-bottom: 28px;
-  font-size: 1.75rem;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  position: relative;
-  padding-left: 16px;
-}
-
-.section h2::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.18em;
-  bottom: 0.18em;
-  width: 4px;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(180deg, var(--primary) 0%, var(--accent) 100%);
-}
-
-/* VISUALLY HIDDEN */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+/* Text link styled as a button. It keeps the 44px row height of its siblings so
+   the whole action group shares one target size; border:0 must come before
+   border-bottom. */
+.btn--link {
+  min-height: 44px;
   padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
   border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: none;
+  color: var(--brand-ink);
 }
 
-/* HERO */
+.btn--link:hover {
+  color: var(--ink);
+}
+
+/* Inline link inside prose. */
+.link {
+  color: var(--brand-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-2);
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.link:hover {
+  border-bottom-color: var(--brand-ink);
+}
+
+/* ---------- HERO ---------- */
 .hero {
-  min-height: 76vh;
-  display: none;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 56px;
-  align-items: center;
-  position: relative;
-  padding: 8px 0 24px;
-  overflow: hidden;
-}
-
-.hero.active {
   display: grid;
-  animation: fadeIn var(--t-base) ease-out;
+  grid-template-columns: 1.6fr 1fr;
+  gap: var(--s-6);
+  /* `start`, not `end`: the portrait is ~35px TALLER than the text column, so
+     bottom-aligning pushed the photo's top edge ABOVE the eyebrow and hung the
+     name below it — two competing entry points, and the headline stopped being
+     the first thing the eye lands on. Top-aligning gives both columns one
+     shared line, and the image's bottom edge then lands within a few px of the
+     CTA row, so the portrait reads as balanced rather than dominant. */
+  align-items: start;
+  /* 64/64, matching .section's own desktop step. It was 96/64, which put the
+     first line of copy 131px below the navbar (96 of padding plus the 35 the
+     old alignment added) for no editorial reason — the hero already has the
+     full fold to itself. */
+  padding-block: var(--s-6);
+  /* The hero carries its own padding but still needs the scroll offset, or a
+     deep link to #home parks it under the sticky navbar. It deliberately does
+     not also carry .section. */
+  scroll-margin-top: 76px;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 38%;
-  background: linear-gradient(to bottom, var(--primary-glow), transparent);
+/* Same `.js` scoping as the tab rule above: hidden only when script.js is there
+   to reveal it again. `.hero.active` is declared after this on purpose so the
+   active state wins over the hidden state at equal specificity. */
+.js .hero {
+  display: none;
 }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  top: -40%;
-  right: -18%;
-  width: 520px;
-  height: 520px;
-  background: radial-gradient(circle, var(--primary-soft) 0%, transparent 70%);
-  pointer-events: none;
+.js .hero.active {
+  display: grid;
 }
 
 .hero h1 {
-  font-size: clamp(2.1rem, 5.2vw, 3.1rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.035em;
-  /* The name wraps to two lines on narrow phones; balance keeps the two lines
-     even instead of letting the second one carry a single short word. */
-  text-wrap: balance;
-  background: linear-gradient(135deg, var(--text-body) 30%, var(--primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero h2 {
-  margin: 16px 0 0;
-  font-size: clamp(1.1rem, 2.4vw, 1.4rem);
+  margin-top: var(--s-3);
+  font-size: var(--t-display);
   font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: -0.01em;
-  color: var(--primary);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: 16ch;
   text-wrap: balance;
-  /* Reserves the tallest string the typewriter will ever hold, so the paragraph
-     below never shifts while the text is being typed. */
-  min-height: 1.4em;
 }
 
-.hero-descriptor {
-  margin: 16px 0 0;
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.hero p:not(.hero-descriptor) {
-  margin: 24px 0 0;
+.hero-lede {
+  margin-top: var(--s-4);
   max-width: 46ch;
-  color: var(--text-soft);
-  font-size: 1rem;
-  line-height: 1.75;
+  font-size: var(--t-lede);
+  line-height: 1.6;
+  color: var(--ink-2);
   text-wrap: pretty;
 }
 
-.hero-buttons {
+.hero-stack {
+  margin-top: var(--s-3);
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+/* Availability, stated once and in words. Deliberately colourless: it is a
+   seventh place purple could go, and the six-place budget is spent. A hairline
+   chip carries it instead. */
+.hero-status {
+  margin-top: var(--s-4);
+  padding: var(--s-1) var(--s-3);
+  border: 1px solid var(--rule-2);
+  border-radius: var(--radius);
+  width: fit-content;
+  font-size: var(--t-sm);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.hero-actions {
   display: flex;
-  gap: 14px;
   flex-wrap: wrap;
-  margin-top: 32px;
+  /* 16px, not 8px. Two 44px-tall buttons separated by 8px sat closer together
+     than any other pair of elements on the page and read as one control. 16px
+     is the smallest step already in the scale, so the pair now matches the
+     rhythm of the block above it instead of undercutting it. */
+  gap: var(--s-3);
+  margin-top: var(--s-5);
 }
 
-.hero-visual {
-  order: 2;
-  position: relative;
+.hero-figure {
+  margin: 0;
 }
 
-.hero-visual::before {
-  content: "";
-  position: absolute;
-  inset: -14px;
-  border-radius: calc(var(--radius-xl) + 14px);
-  background: linear-gradient(150deg, var(--primary-soft) 0%, var(--accent-soft) 100%);
-  z-index: -1;
-}
-
-.hero-visual img {
+.hero-figure img {
   width: 100%;
-  max-width: 420px;
-  height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: var(--portrait-focus);
-  display: block;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--primary-border);
-  box-shadow: var(--shadow-lg);
-  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) ease;
+  border-radius: var(--radius);
 }
 
-.hero-visual img:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-brand-lg);
+.hero-figure figcaption {
+  margin-top: var(--s-2);
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
 }
 
-.hero-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+/* ---------- ABOUT ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--s-6);
+  align-items: start;
 }
 
-/* BUTTONS */
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 22px;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.2;
-  cursor: pointer;
-  transition: background var(--t-base) ease, color var(--t-base) ease,
-    border-color var(--t-base) ease, box-shadow var(--t-base) ease,
-    transform var(--t-base) var(--ease);
+.about-prose {
+  max-width: var(--col);
 }
 
-.btn-primary {
-  background: var(--primary);
-  color: var(--text-inverse);
-  border: 1px solid var(--primary);
-  box-shadow: var(--shadow-brand);
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-brand-lg);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary-border);
-}
-
-.btn-secondary:hover {
-  background: var(--primary-soft);
-  border-color: var(--primary);
-  color: var(--primary-hover);
-  transform: translateY(-2px);
-}
-
-[data-theme='dark'] .btn-secondary {
-  color: var(--accent);
-  border-color: var(--primary-border);
-}
-
-[data-theme='dark'] .btn-secondary:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* THEME TOGGLE */
-.theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background: var(--icon-tile);
-  border: 1px solid var(--border-card);
-  cursor: pointer;
-  color: var(--text-soft);
-  flex-shrink: 0;
-  transition: background var(--t-base) ease, border-color var(--t-base) ease,
-    color var(--t-base) ease, box-shadow var(--t-base) ease;
-}
-
-/* Clearer than a plain tint, but no lift: the 44px box stays put so the
-   control reads as a utility rather than a call to action. */
-.theme-toggle:hover {
-  background: var(--primary-soft);
-  border-color: var(--primary-border);
-  color: var(--primary-ink);
-  box-shadow: var(--logo-glow);
-}
-
-/* ABOUT */
-.about {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-/* Balance only About's own headings. The shared `.section h2` rule must keep
-   serving the other tabs untouched, so this is scoped rather than global. */
-.about h2,
-.about h3,
-.about h4 {
-  text-wrap: balance;
-}
-
-.about-intro {
-  max-width: 64ch;
-}
-
-.about h3 {
-  margin: 0 0 8px;
-  font-size: 1.45rem;
-  line-height: 1.25;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.about-status {
-  color: var(--primary-ink);
-  font-size: 1rem;
-  line-height: 1.65;
-  font-weight: 500;
-  margin: 0 0 16px;
-  max-width: 58ch;
+.about-lead {
+  font-size: var(--t-lede);
+  line-height: 1.6;
+  color: var(--ink);
 }
 
 .about-desc {
-  color: var(--text-soft);
-  margin: 0 0 16px;
-  line-height: 1.8;
-  max-width: 62ch;
+  margin-top: var(--s-3);
+  color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-.about-desc:last-child {
-  margin-bottom: 0;
+.about-facts > * + * {
+  margin-top: var(--s-5);
 }
 
-.about-block {
-  position: relative;
-  padding-top: 32px;
-}
-
-/* The divider is a gradient line rather than a flat border so it reads as a
-   faint purple glow that fades out at both ends. A border cannot glow. */
-.about-block::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--primary-border) 16%,
-    var(--accent-border) 50%,
-    var(--primary-border) 84%,
-    transparent
-  );
-}
-
-.about-block h4 {
-  font-size: 0.75rem;
-  font-weight: 600;
-  line-height: 1.3;
+.fact-label {
+  font-size: var(--t-mono);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  margin: 0 0 16px;
+  color: var(--ink-3);
+  margin-bottom: var(--s-3);
 }
 
-.about-focus {
-  list-style: none;
+.meta-line {
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* Tech stack: static and grouped. The 10 official marks are still here (and
+   still verifiable against the repos); what is gone is the marquee, the 20
+   duplicated chips, and the pause control they required. */
+.stack-list > li {
+  display: grid;
+  grid-template-columns: 9ch minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: baseline;
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+.stack-list > li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.stack-group-name {
+  font-size: var(--t-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.stack-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 0;
-  margin: 0;
+  gap: var(--s-1) var(--s-3);
 }
 
-.about-focus li {
+.stack-items > li {
   display: inline-flex;
   align-items: center;
-  padding: 7px 14px;
-  border-radius: var(--radius-pill);
-  /* Secondary focus badges stay quiet: a soft fill on the plain card. */
-  background: transparent;
-  border: 1px solid var(--border-card);
-  color: var(--text-soft);
-  font-size: 0.82rem;
-  font-weight: 500;
-  transition: transform var(--t-quick) var(--ease), box-shadow var(--t-quick) ease,
-    border-color var(--t-quick) ease, color var(--t-quick) ease,
-    background var(--t-quick) ease;
-}
-
-/* The primary focus badge carries the brand fill so a recruiter's eye lands on
-   the discipline first, then the supporting topics. */
-.about-focus li:first-child {
-  background: var(--primary-soft);
-  border-color: var(--primary-border);
-  color: var(--text-body);
-  font-weight: 600;
-}
-
-.about-focus li:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-border);
-  color: var(--text-body);
-  box-shadow: var(--chip-glow);
-}
-
-.about-focus li:first-child:hover {
-  background: var(--accent-soft);
-}
-
-/* ---------- TECH STACK MARQUEE ---------- */
-/* The sprite only has to exist once; every chip references it with <use>, so
-   the duplicated loop does not double the ~11KB of brand path data. */
-.stack-sprite {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.stack-marquee {
-  position: relative;
-  overflow: hidden;
-  /* Pixel stops rather than percentages so the fade keeps the same visual width
-     on a 960px desktop track and a 320px phone track. */
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 64px,
-    #000 calc(100% - 64px),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0,
-    #000 64px,
-    #000 calc(100% - 64px),
-    transparent 100%
-  );
-}
-
-/* Header row for the Tech Stack block: label on the left, pause control on the
-   right. Flex only, no new spacing tokens. */
-.about-block-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-/* The h4 carried its own bottom margin as a direct child of .about-block; inside
-   the flex row the row owns the spacing instead. Written as .about-block
-   .about-block-head h4 so it outranks the mobile `.about-block h4` override,
-   which sits later in source order at equal specificity. */
-.about-block .about-block-head h4 {
-  margin: 0;
-}
-
-/* Same token set and hover behaviour as .theme-toggle, sized down so it reads as
-   a control for the marquee and not as a peer of the navbar buttons. */
-.stack-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
-  background: var(--icon-tile);
-  border: 1px solid var(--border-card);
-  color: var(--text-soft);
-  cursor: pointer;
-  transition: background var(--t-base) ease, border-color var(--t-base) ease,
-    color var(--t-base) ease;
-}
-
-.stack-toggle:hover {
-  background: var(--primary-soft);
-  border-color: var(--primary-border);
-  color: var(--primary-ink);
-}
-
-/* The icon follows aria-pressed, so the state is legible without a second
-   attribute to keep in sync in JS. */
-.stack-toggle-icon {
-  width: 14px;
-  height: 14px;
-  display: block;
-}
-
-.stack-toggle-icon--play {
-  display: none;
-}
-
-.stack-toggle[aria-pressed='true'] .stack-toggle-icon--pause {
-  display: none;
-}
-
-.stack-toggle[aria-pressed='true'] .stack-toggle-icon--play {
-  display: block;
-}
-
-.stack-track {
-  display: flex;
-  width: max-content;
-  animation: stack-scroll 28s linear infinite;
-}
-
-/* Each group carries its own trailing padding instead of the track using a
-   gap, so one group is exactly half the track and translateX(-50%) lands the
-   copy precisely where the first one started. */
-.stack-group {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-right: 12px;
-  margin: 0;
-  list-style: none;
-}
-
-.stack-group li {
-  flex: none;
-}
-
-.stack-sep {
-  width: 1px;
-  height: 30px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    var(--primary-border) 50%,
-    transparent
-  );
-}
-
-.stack-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 18px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-card);
-  background: var(--surface);
-  white-space: nowrap;
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    box-shadow var(--t-base) ease;
-}
-
-/* The chip lifts; the 1.08 scale belongs to the mark itself, so putting it on
-   both would compound to roughly 1.17 on the logo. */
-.stack-chip:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent-border);
-  box-shadow: 0 0 24px -10px var(--accent-glow);
-}
-
-/* Official brand colours. These are third-party identity colours, not theme
-   tokens, so they are deliberately literal. Blade has no official mark, so it
-   borrows the site accent instead of inventing a Laravel-ish red. */
-.stack-logo--laravel {
-  --brand: #ff2d20;
-}
-.stack-logo--php {
-  --brand: #777bb4;
-}
-.stack-logo--javascript {
-  --brand: #f7df1e;
-}
-.stack-logo--html5 {
-  --brand: #e34f26;
-}
-.stack-logo--css3 {
-  --brand: #1572b6;
-}
-.stack-logo--blade {
-  --brand: var(--accent);
-}
-.stack-logo--tailwindcss {
-  --brand: #06b6d4;
-}
-.stack-logo--git {
-  --brand: #f05032;
-}
-.stack-logo--github {
-  --brand: #181717;
-}
-.stack-logo--sqlite {
-  --brand: #003b57;
-}
-
-/* PHP, GitHub, and SQLite official colours are too dark to read once
-   desaturated against the dark surface, so those three get a lifted
-   dark-theme value. */
-[data-theme='dark'] .stack-logo--php {
-  --brand: #a9adda;
-}
-[data-theme='dark'] .stack-logo--github {
-  --brand: #f2f2f4;
-}
-[data-theme='dark'] .stack-logo--sqlite {
-  --brand: #4fb6d6;
+  gap: var(--s-1);
+  font-size: var(--t-sm);
+  line-height: 1.5;
+  color: var(--ink-2);
 }
 
 .stack-logo {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   flex: none;
-  display: block;
-  color: var(--brand);
   fill: currentColor;
-  /* Always the real brand colour, held greyed back until hover. Keeping the
-     colour underneath means the hover only has to drop the filter. */
-  filter: grayscale(1) opacity(0.5);
-  transition: filter var(--t-base) ease, transform var(--t-base) var(--ease);
+  color: var(--mark);
 }
 
-.stack-chip:hover .stack-logo {
-  filter: grayscale(0) opacity(1);
-  transform: scale(1.08);
+/* Official brand colours. Third-party identity colours, so they are literal.
+   Three official values sit under 3:1 on white and two more under 3:1 on the
+   dark background; those five get a lifted or darkened value, the same
+   exception the dark theme already made for PHP, GitHub, and SQLite. */
+.stack-logo--laravel { --mark: #ff2d20; }
+.stack-logo--php { --mark: #777bb4; }
+.stack-logo--javascript { --mark: #8a6d00; }      /* official accessible yellow */
+.stack-logo--html5 { --mark: #e34f26; }
+.stack-logo--css3 { --mark: #1572b6; }
+.stack-logo--blade { --mark: var(--brand-ink); }   /* no official Blade mark exists */
+.stack-logo--tailwindcss { --mark: #0e7490; }      /* tailwind cyan-700 */
+.stack-logo--git { --mark: #f05032; }
+.stack-logo--github { --mark: #181717; }
+.stack-logo--sqlite { --mark: #003b57; }
+
+[data-theme='dark'] .stack-logo--javascript { --mark: #f7df1e; }
+[data-theme='dark'] .stack-logo--tailwindcss { --mark: #06b6d4; }
+[data-theme='dark'] .stack-logo--php { --mark: #a9adda; }
+[data-theme='dark'] .stack-logo--github { --mark: #f2f2f4; }
+[data-theme='dark'] .stack-logo--sqlite { --mark: #4fb6d6; }
+
+/* ---------- ABOUT: RELEVANT PROJECTS ---------- */
+.fact-rows > li {
+  display: grid;
+  grid-template-columns: 18ch minmax(0, 1fr);
+  gap: 2px var(--s-3);
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--rule);
 }
 
-.stack-name {
-  font-size: 0.85rem;
-  line-height: 1;
-  font-weight: 500;
-  color: var(--text-body);
+.fact-rows > li:last-child {
+  border-bottom: 1px solid var(--rule);
 }
 
-/* Pause on hover, and on keyboard focus for anyone tabbing near the track. */
-.stack-marquee:hover .stack-track,
-.stack-marquee:focus-within .stack-track {
-  animation-play-state: paused;
-}
-
-/* Explicit pause from the .stack-toggle control, which outranks the incidental
-   :hover pause above because it comes later in source order. */
-.stack-track.is-paused {
-  animation-play-state: paused;
-}
-
-@keyframes stack-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* ---------- PROYEK RELEVAN ---------- */
-.about-projects {
-  list-style: none;
+.fact-row-head {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 0;
-  margin: 0;
+  gap: 2px;
 }
 
-.about-project-desc {
-  margin: 2px 0 0;
-  padding-left: 22px;
-  font-size: 0.82rem;
-  line-height: 1.55;
-  color: var(--text-muted);
-  max-width: 46ch;
-}
-
-/* Role label inside a project description - keeps "solo" vs "academic" claims
-   visible at a glance instead of hiding them in prose. */
-.about-role {
-  display: inline-block;
-  margin-left: 4px;
-  padding: 1px 8px;
-  border: 1px solid var(--primary-border);
-  border-radius: var(--radius-pill);
-  background: var(--primary-soft);
-  color: var(--tint-ink);
-  font-size: 0.72rem;
-  font-weight: 500;
-  white-space: nowrap;
-  vertical-align: baseline;
-}
-
-.about-projects a {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-body);
+.fact-row-title {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: color var(--t-quick) ease;
 }
 
-.about-projects a:hover {
-  color: var(--primary-ink);
+a.fact-row-title:hover {
+  color: var(--brand-ink);
 }
 
-.about-projects .about-arrow {
-  color: var(--primary-ink);
-  transition: transform var(--t-quick) var(--ease);
+.fact-row-role {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
 
-.about-projects a:hover .about-arrow {
-  transform: translateX(4px);
+.fact-row-desc {
+  font-size: var(--t-meta);
+  line-height: 1.55;
+  color: var(--ink-3);
 }
 
-/* EDUCATION */
-.education-grid {
+/* ---------- SKILLS ----------
+   A definition list, not three identical cards. */
+.skill-row {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 40px;
-  align-items: center;
+  grid-template-columns: 14ch minmax(0, 1fr) auto;
+  gap: var(--s-2) var(--s-5);
+  align-items: baseline;
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
 }
 
-.education-card {
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 30px;
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    box-shadow var(--t-base) ease;
+.skill-row:last-child {
+  border-bottom: 1px solid var(--rule);
 }
 
-/* Same .reveal specificity trap as the skill cards - see the note there. */
-.education-grid .education-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--primary-border);
-  box-shadow: var(--shadow-brand);
+.skill-row h3 {
+  font-size: var(--t-h3);
+  font-weight: 600;
 }
 
-.education-icon {
-  width: 52px;
-  height: 52px;
+.skill-row p {
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 52ch;
+}
+
+.skill-inline,
+.tech-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1) var(--s-2);
+}
+
+.skill-inline {
+  justify-content: flex-end;
+}
+
+.skill-inline li,
+.tech-inline li {
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+.skill-inline li + li::before,
+.tech-inline li + li::before {
+  content: "\00b7";
+  margin-right: var(--s-2);
+  color: var(--rule-2);
+}
+
+/* ---------- PROJECTS ----------
+   Editorial, not a dashboard. Read-Assist gets the wide internal split and the
+   larger title; the second project is a compact row. */
+.project {
   display: grid;
-  place-items: center;
-  border-radius: var(--radius-md);
-  background: var(--primary-soft);
-  margin-bottom: 20px;
+  grid-template-columns: 4ch minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: var(--s-3) var(--s-5);
+  align-items: start;
+  padding-block: var(--s-5);
+  border-top: 1px solid var(--rule);
 }
 
-.education-icon svg path {
-  fill: var(--primary);
+.project + .project {
+  margin-top: var(--s-6);
 }
 
-[data-theme='dark'] .education-icon svg path {
-  fill: var(--accent);
+.project--compact {
+  grid-template-columns: 4ch minmax(0, 1fr) 240px;
 }
 
-.education-card h3 {
-  margin-bottom: 8px;
-  font-size: 1.15rem;
+.project-index {
+  font-size: var(--t-mono);
+  letter-spacing: 0.06em;
+  color: var(--brand-ink);
+  line-height: 1;
+  padding-top: 8px;
+}
+
+.project-title {
+  font-size: var(--t-project);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
 }
 
-.education-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin: 0;
+.project--featured .project-title {
+  font-size: var(--t-project-lg);
 }
 
-/* ---------- PROYEK AKADEMIK ----------
-   Repos that live in the academic tab rather than the projects tab, because
-   the code was written by a team and this repo only carries documentation. */
-.education-projects {
-  margin-top: 40px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border-card);
+.project-lede {
+  margin-top: var(--s-2);
+  max-width: 54ch;
+  font-size: var(--t-sm);
+  line-height: 1.7;
+  color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-.education-projects > h3 {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  margin: 0 0 8px;
-}
-
-.education-note {
-  font-size: 0.86rem;
+.project-note {
+  margin-top: var(--s-3);
+  max-width: 54ch;
+  font-size: var(--t-meta);
   line-height: 1.6;
-  color: var(--text-muted);
-  max-width: 62ch;
-  margin: 0 0 24px;
+  color: var(--ink-3);
+}
+
+.project-capabilities {
+  margin-top: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.project-capabilities li {
+  position: relative;
+  padding-left: var(--s-3);
+  max-width: 58ch;
+  font-size: var(--t-meta);
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+/* Em dash instead of the old purple dot: same left alignment, one less accent. */
+.project-capabilities li::before {
+  content: "\2014";
+  position: absolute;
+  left: 0;
+  color: var(--rule-2);
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-4);
+}
+
+.project-meta dt {
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 2px;
+}
+
+.project-meta dd {
+  margin: 0;
+  font-size: var(--t-meta);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* "Solo project" carries the claim in ink weight, not in brand colour, so the
+   six-place purple budget stays intact. */
+.project-meta dd.claim {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+/* A fixed 16:9 frame with contain, so a wider screenshot is letterboxed rather
+   than cropped. Nothing here is animated: the screenshot IS the affordance. */
+.project-figure {
+  display: block;
+  grid-column: 3;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  transition: border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.project-figure:hover {
+  border-color: var(--rule-2);
+}
+
+.project-figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.projects-note {
+  margin-top: var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+  max-width: 68ch;
+  font-size: var(--t-meta);
+  line-height: 1.65;
+  color: var(--ink-3);
+}
+
+/* ---------- EDUCATION ---------- */
+.edu-row {
+  display: grid;
+  grid-template-columns: 22ch minmax(0, 1fr) auto;
+  gap: var(--s-2) var(--s-4);
+  align-items: baseline;
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.edu-row h3 {
+  font-size: var(--t-h3);
+  font-weight: 600;
+}
+
+.edu-row p {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.edu-meta {
+  font-size: var(--t-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.edu-projects {
+  margin-top: var(--s-6);
+}
+
+.edu-note {
+  max-width: 66ch;
+  margin-top: var(--s-3);
+  font-size: var(--t-meta);
+  line-height: 1.65;
+  color: var(--ink-3);
 }
 
 .academic-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0;
-  margin: 0;
+  margin-top: var(--s-5);
 }
 
 .academic-list > li {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px;
-  align-items: start;
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 22px 24px;
-  transition: border-color var(--t-base) ease;
+  grid-template-columns: 20ch minmax(0, 1fr) 16ch;
+  gap: var(--s-2) var(--s-4);
+  align-items: baseline;
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
 }
 
-.academic-list > li:hover {
-  border-color: var(--primary-border);
+.academic-list > li:last-child {
+  border-bottom: 1px solid var(--rule);
 }
 
-.academic-main h4 {
-  font-size: 1rem;
+.academic-list h4 {
+  font-size: var(--t-h3);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
 }
 
 .academic-desc {
-  font-size: 0.87rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-  margin: 0;
   max-width: 58ch;
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-2);
+  text-wrap: pretty;
 }
 
-/* Code identifiers are content, not prose - keep them on the plain surface
-   background so --tint-ink stays at its AA contrast. Only Inter is loaded
-   from Google Fonts, so this is a pure system-mono stack. */
+/* Identifiers are content, not prose. No box: a tinted background would drag
+   --brand-ink below AA, and mono + ink already sets them apart. */
 .academic-desc code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.85em;
-  padding: 1px 5px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-hover);
-  border: 1px solid var(--border-card);
-  color: var(--text-body);
+  font-family: var(--mono);
+  /* Scale step, not 0.9em: inside 15px text that resolved to an off-scale
+     13.5px. */
+  font-size: var(--t-meta);
+  color: var(--ink);
 }
 
 .academic-side {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: var(--s-2);
+  text-align: right;
 }
 
-.academic-side .tech-badges {
-  justify-content: flex-end;
-  max-width: 260px;
-}
-
-/* ---------- CATATAN PROYEK ---------- */
-.projects-note {
-  margin: 28px 0 0;
-  font-size: 0.87rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-.projects-note a {
-  color: var(--primary-ink);
-  font-weight: 500;
+.academic-link {
+  font-size: var(--t-meta);
+  color: var(--ink-2);
   text-decoration: none;
-  border-bottom: 1px solid var(--primary-border);
-  transition: color var(--t-quick) ease, border-color var(--t-quick) ease;
+  border-bottom: 1px solid var(--rule-2);
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.projects-note a:hover {
-  color: var(--tint-ink);
-  border-bottom-color: var(--accent-border);
+.academic-link:hover {
+  color: var(--brand-ink);
+  border-bottom-color: var(--brand-ink);
 }
 
-/* ---------- KAPABILITAS PROYEK ---------- */
-.project-capabilities {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 0;
-  margin: 0 0 18px;
-}
-
-.project-capabilities li {
+/* ---------- CONTACT ---------- */
+.contact-row {
   position: relative;
-  padding-left: 22px;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  color: var(--text-muted);
-  max-width: 56ch;
-}
-
-/* Caption explaining how the screenshot above is framed. Same muted footnote
-   treatment as .projects-note, so it reads as editorial rather than as chrome. */
-.project-note {
-  margin: -6px 0 18px;
-  font-size: 0.87rem;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-
-/* Inline SVG check so the list needs no image files and inherits currentColor. */
-.project-capabilities li::before {
-  content: '';
-  position: absolute;
-  left: 4px;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primary);
-}
-
-[data-theme='dark'] .project-capabilities li::before {
-  background: var(--accent);
-}
-
-@media (max-width: 768px) {
-  .academic-list > li {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 16px;
-  }
-
-  .academic-side {
-    align-items: flex-start;
-  }
-
-  .academic-side .tech-badges {
-    justify-content: flex-start;
-    max-width: none;
-  }
-}
-
-/* SKILLS */
-.skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: 20ch minmax(0, 1fr) 2ch;
+  gap: var(--s-3);
+  align-items: center;
+  padding: var(--s-3) 0 var(--s-3) var(--s-3);
+  border-top: 1px solid var(--rule);
+  text-decoration: none;
 }
 
-.skill-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  padding: 26px;
-  background: var(--surface);
-  position: relative;
-  overflow: hidden;
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    background var(--t-base) ease, box-shadow var(--t-base) ease;
+.contact-list > li:last-child .contact-row {
+  border-bottom: 1px solid var(--rule);
 }
 
-.skill-card::before {
+/* The one hover accent on the row: a 2px rule that scales in from the centre
+   inside the row's own left gutter, so it can never cause overflow. */
+.contact-row::before {
   content: "";
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  height: 3px;
-  opacity: 0.75;
-  transition: opacity var(--t-base) ease;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--brand-ink);
+  transform: scaleY(0);
+  transform-origin: center;
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.skill-card.frontend::before {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--violet) 100%);
+.contact-row:hover::before {
+  transform: scaleY(1);
 }
 
-.skill-card.backend::before {
-  background: linear-gradient(135deg, var(--violet) 0%, var(--accent) 100%);
+.contact-row:hover .contact-value {
+  color: var(--brand-ink);
 }
 
-.skill-card.tools::before {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--primary-hover) 100%);
-}
-
-/* Qualified with .skills-grid on purpose. Skill cards carry .reveal from the
-   scroll animation, and .reveal.active also sets a transform at specificity
-   (0,2,0) - the same as a bare ".skill-card:hover" - while sitting later in this
-   file, so it won and the hover lift never rendered. Qualifying pushes the
-   hover rule to (0,3,0) and the card actually lifts. Project and contact cards
-   only worked because their rules are element-qualified (article./a.). */
-.skills-grid .skill-card:hover {
-  background: var(--surface-hover);
-  border-color: var(--primary-border);
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-brand);
-}
-
-.skill-card:hover::before {
-  opacity: 1;
-}
-
-.skill-icon {
+.contact-label {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background: var(--primary-soft);
-  border: 1px solid var(--primary-border);
-  color: var(--primary);
-  margin-bottom: 2px;
-  transition: background var(--t-base) ease, color var(--t-base) ease,
-    transform var(--t-base) var(--ease);
-}
-
-.skill-card:hover .skill-icon {
-  background: var(--primary);
-  color: var(--text-inverse);
-  transform: scale(1.04);
-}
-
-[data-theme='dark'] .skill-icon {
-  color: var(--accent);
-}
-
-.skill-icon svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-}
-
-.skill-card h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  color: var(--text-body);
-  margin: 0;
-}
-
-.skill-desc {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.65;
-  margin: 0;
-  flex-grow: 1;
-}
-
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-/* =====================
-   PROJECTS
-   ===================== */
-/* Single column, deliberately. There are two projects: one featured and one
-   standard. With repeat(2, 1fr) plus a featured card that spans both columns,
-   the standard card sat alone in the left cell and the right cell was empty for
-   its full height. One column gives the featured card the whole measure and
-   strands nothing, and it stays correct as projects are added. */
-.projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-article.project-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    box-shadow var(--t-base) ease;
-}
-
-article.project-card:hover {
-  border-color: var(--accent-border);
-  box-shadow: var(--shadow-brand-lg);
-  transform: translateY(-6px);
-}
-
-/* span 1, not span 2: the grid above is a single column, and a span 2 item
-   would force an implicit second track to be created. The featured distinction
-   is now the internal split and the eyebrow, not the column span. */
-.project-card.featured {
-  grid-column: span 1;
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-}
-
-.project-thumb {
-  display: block;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--surface-hover);
-  border-bottom: 1px solid var(--border-card);
-}
-
-.project-thumb img,
-.project-thumb svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-  transition: transform var(--t-base) var(--ease);
-}
-
-.project-card:hover .project-thumb img,
-.project-card:hover .project-thumb svg {
-  transform: scale(1.03);
-}
-
-.project-content {
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex-grow: 1;
-}
-
-.project-eyebrow {
-  font-size: 0.68rem;
-  font-weight: 700;
+  gap: var(--s-2);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--tint-ink);
-  margin: 0;
-  align-self: flex-start;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-border);
+  color: var(--ink-3);
 }
 
-.project-card h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--text-body);
-  margin: 0;
+.contact-label svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  fill: currentColor;
 }
 
-.project-card .project-desc {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.7;
-  margin: 0;
-  flex-grow: 1;
-}
-
-.tech-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 2px;
-}
-
-.tech-badge {
-  padding: 4px 11px;
-  border-radius: var(--radius-pill);
-  font-size: 0.73rem;
-  font-weight: 600;
+/* Full URL, never an ellipsis: a visitor should be able to read and retype it.
+   Long values wrap instead of overflowing. */
+.contact-value {
+  font-size: var(--t-mono);
   letter-spacing: 0.01em;
-  color: var(--tint-ink);
-  background: var(--primary-soft);
-  border: 1px solid var(--primary-border);
-  transition: background var(--t-fast) ease, border-color var(--t-fast) ease,
-    color var(--t-fast) ease;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.tech-badge:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--text-inverse);
+.contact-arrow {
+  grid-column: 3;
+  justify-self: end;
+  /* On the scale rather than 0.9em, which resolved to 15.3px. */
+  font-size: var(--t-sm);
+  line-height: 1;
+  color: var(--ink-3);
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1),
+    color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-[data-theme='dark'] .tech-badge:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0B0B0F;
-}
-
-.project-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 6px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border-card);
-}
-
-.project-actions a {
-  padding: 9px 18px;
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background var(--t-base) ease, color var(--t-base) ease,
-    border-color var(--t-base) ease, box-shadow var(--t-base) ease,
-    transform var(--t-base) var(--ease);
-}
-
-.project-actions .btn-primary {
-  background: var(--primary);
-  color: var(--text-inverse);
-  border: 1px solid var(--primary);
-}
-
-.project-actions .btn-primary:hover {
-  background: var(--primary-hover);
-  border-color: var(--primary-hover);
-  box-shadow: var(--shadow-brand);
-  transform: translateY(-2px);
-}
-
-.project-actions .btn-secondary {
-  background: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary-border);
-}
-
-.project-actions .btn-secondary:hover {
-  background: var(--primary-soft);
-  border-color: var(--primary);
-  color: var(--primary-hover);
-  transform: translateY(-2px);
-}
-
-[data-theme='dark'] .project-actions .btn-secondary {
-  color: var(--accent);
-  border-color: var(--primary-border);
-}
-
-[data-theme='dark'] .project-actions .btn-secondary:hover {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* CONTACT */
-.contact-links {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  max-width: 900px;
+.contact-row:hover .contact-arrow {
+  color: var(--ink);
+  transform: translate(2px, -2px);
 }
 
 .contact-outro {
-  margin-top: 32px;
-  max-width: 62ch;
-  color: var(--text-muted);
-  font-size: 0.9rem;
+  margin-top: var(--s-5);
+  max-width: 54ch;
+  font-size: var(--t-sm);
   line-height: 1.7;
+  color: var(--ink-2);
 }
 
-.contact-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 18px 20px;
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-left: 3px solid var(--primary);
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  color: var(--text-body);
-  transition: transform var(--t-base) var(--ease), border-color var(--t-base) ease,
-    background var(--t-base) ease, box-shadow var(--t-base) ease;
-}
-
-a.contact-item:hover {
-  border-color: var(--primary);
-  background: var(--surface-hover);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.contact-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-sm);
-  padding: 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background var(--t-base) ease, transform var(--t-base) var(--ease);
-}
-
-.contact-item:hover .contact-icon {
-  transform: scale(1.06);
-}
-
-.contact-icon svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.contact-item .contact-text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.contact-item .contact-platform {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
-
-.contact-item .contact-value {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-body);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: 1.4;
-}
-
-/* Contact item accents - brand palette */
-.email-link {
-  border-left-color: var(--error);
-}
-
-.email-link .contact-icon {
-  background: rgba(239, 68, 68, 0.10);
-}
-
-.github-link {
-  border-left-color: var(--primary);
-}
-
-.github-link .contact-icon {
-  background: var(--primary-soft);
-}
-
-.linkedin-link {
-  border-left-color: #0a66c2;
-}
-
-.linkedin-link .contact-icon {
-  background: rgba(10, 102, 194, 0.10);
-}
-
-.contact-icon svg path {
-  fill: var(--text-soft);
-}
-
-.email-link .contact-icon svg path {
-  fill: var(--error);
-}
-
-.github-link .contact-icon svg path {
-  fill: var(--primary);
-}
-
-.linkedin-link .contact-icon svg path {
-  fill: #0a66c2;
-}
-
-[data-theme='dark'] .github-link .contact-icon svg path {
-  fill: var(--accent);
-}
-
-[data-theme='dark'] .contact-icon svg path {
-  fill: var(--text-soft);
-}
-
-[data-theme='dark'] .email-link .contact-icon svg path {
-  fill: var(--error);
-}
-
-[data-theme='dark'] .linkedin-link .contact-icon svg path {
-  fill: #7aa7e0;
-}
-
-/* FOOTER */
+/* ---------- FOOTER ---------- */
 .footer {
-  border-top: 1px solid var(--border-card);
-  padding: 26px 20px 30px;
-  text-align: center;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--text-muted);
-  margin-top: 72px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  margin-top: var(--s-6);
+  padding-block: var(--s-4) var(--s-5);
+  border-top: 1px solid var(--rule);
 }
 
-.footer p {
-  margin: 0;
+.footer-inner {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 var(--s-4);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  font-size: var(--t-meta);
+  color: var(--ink-3);
 }
 
 .footer-name {
-  color: var(--text-body);
-  font-weight: 600;
+  color: var(--ink-2);
+  font-weight: 500;
 }
 
-/* ACCESSIBILITY - Focus States */
-:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 3px;
-  border-radius: var(--radius-sm);
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
 }
 
-/* =====================
-   DARK MODE OVERRIDES
-   ===================== */
-[data-theme='dark'] .hero h1 {
-  background: linear-gradient(135deg, #f4f4f5 30%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* padding-block, not margin: the underline has to sit under the text while the
+   target stays 28px tall, so the footer link clears the 24px minimum without
+   opening up a gap between the links. */
+.footer-links a {
+  display: inline-block;
+  padding-block: 6px;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-2);
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-[data-theme='dark'] .hero h2,
-[data-theme='dark'] .about-projects .about-arrow {
-  color: var(--accent);
+.footer-links a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink-3);
 }
 
-[data-theme='dark'] .typed-cursor {
-  color: var(--accent);
-}
-
-/* =====================
-   RESPONSIVE
-   ===================== */
-
-@media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    min-height: unset;
-    padding: 8px 0 16px;
-  }
-
-  .hero-text {
-    text-align: center;
-    align-items: center;
-  }
-
-  .hero p:not(.hero-descriptor) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-visual {
-    margin: 0 auto;
-  }
-
-  .hero-visual img {
-    max-width: 340px;
-  }
-
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .project-card.featured {
-    grid-column: span 1;
-    grid-template-columns: 1fr;
-  }
-
-  .about {
-    gap: 32px;
-  }
-
-  .stack-chip {
-    padding: 9px 16px;
-  }
-
-    .contact-links {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding: 56px 18px 32px;
-  }
-
-  .section h2 {
-    font-size: 1.45rem;
-    margin-bottom: 24px;
-  }
-
-  .hero {
-    gap: 32px;
-  }
-
-  .hero-descriptor {
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-  }
-
-  .hero p:not(.hero-descriptor) {
-    font-size: 0.95rem;
-  }
-
-  .skills-grid,
-  .projects-grid {
-    gap: 18px;
-  }
-
-  .skill-card {
-    padding: 22px;
-  }
-
-  .project-content {
-    padding: 22px;
-  }
-
-  .about-block {
-    padding-top: 24px;
-  }
-
-    .contact-links {
-      grid-template-columns: minmax(0, 1fr);
-    gap: 12px;
-  }
-
-  .contact-item {
-    padding: 15px 16px;
-  }
-
-  .footer {
-    margin-top: 56px;
-  }
-}
-
-@media (max-width: 480px) {
-  .container {
-    padding: 44px 14px 28px;
-  }
-
-  .nav-container {
-    padding: 11px 14px;
-    gap: 12px;
-  }
-
-  .nav-name {
-    font-size: 0.85rem;
-  }
-
-  .hero {
-    gap: 24px;
-  }
-
-  .hero-descriptor {
-    font-size: 0.72rem;
-  }
-
-  .hero p:not(.hero-descriptor) {
-    font-size: 0.9rem;
-    max-width: 100%;
-  }
-
-  .hero-visual img {
-    max-width: 280px;
-  }
-
-  .hero-buttons {
-    gap: 10px;
-    margin-top: 26px;
-    width: 100%;
-  }
-
-  .hero-buttons a {
-    flex: 1 1 auto;
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    padding: 11px 18px;
-    font-size: 0.85rem;
-  }
-
-  .section h2 {
-    margin-bottom: 20px;
-    font-size: 1.25rem;
-  }
-
-  .about {
-    gap: 24px;
-  }
-
-  .about h3 {
-    font-size: 1.2rem;
-  }
-
-  .about-status {
-    font-size: 0.95rem;
-  }
-
-  .about-desc {
-    font-size: 0.92rem;
-    line-height: 1.75;
-  }
-
-  .about-block {
-    padding-top: 20px;
-  }
-
-  .about-block h4 {
-    margin-bottom: 12px;
-  }
-
-  /* Same tightening for the Tech Stack header row, so the label and the pause
-     control do not add 16px on top of the 12px the h4 would have used. */
-  .about-block-head {
-    margin-bottom: 12px;
-  }
-
-  /* Narrower fade and tighter chips, so a 320px track still shows two whole
-     technologies instead of one and a sliver. */
-  .stack-marquee {
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent 0,
-      #000 28px,
-      #000 calc(100% - 28px),
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      90deg,
-      transparent 0,
-      #000 28px,
-      #000 calc(100% - 28px),
-      transparent 100%
-    );
-  }
-
-  .stack-group {
-    gap: 8px;
-    padding-right: 8px;
-  }
-
-  .stack-chip {
-    padding: 8px 12px;
-    gap: 8px;
-  }
-
-  .stack-logo {
-    width: 18px;
-    height: 18px;
-  }
-
-  .stack-name {
-    font-size: 0.8rem;
-  }
-
-  .stack-sep {
-    height: 24px;
-  }
-
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .skill-card {
-    padding: 22px;
-  }
-
-  .skill-card h3 {
-    font-size: 1rem;
-  }
-
-  .projects-grid {
-    gap: 18px;
-  }
-
-  .project-content {
-    padding: 20px;
-  }
-
-  .project-card h3 {
-    font-size: 1.05rem;
-  }
-
-  .project-card .project-desc {
-    font-size: 0.87rem;
-  }
-
-  .project-actions a {
-    padding: 9px 16px;
-    font-size: 0.82rem;
-  }
-
-  .contact-item {
-    padding: 14px;
-    gap: 12px;
-  }
-
-  .contact-item .contact-icon {
-    width: 34px;
-    height: 34px;
-    padding: 7px;
-  }
-
-  .contact-platform {
-    font-size: 0.68rem;
-  }
-
-  .contact-value {
-    font-size: 0.8rem;
-  }
-
-  .footer {
-    padding: 22px 14px 26px;
-    font-size: 0.8rem;
-    margin-top: 44px;
-  }
-}
-
-/* SCROLL REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity var(--t-base) ease-out, transform var(--t-base) ease-out;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Stagger delay - kept short so the last card settles at 0.4s, not 0.74s.
-   The project stagger stops at :nth-child(2): the grid holds two cards, so
-   :nth-child(3) and :nth-child(4) could never match. */
-.skill-card:nth-child(2),
-.project-card:nth-child(2) { transition-delay: 0.05s; }
-.skill-card:nth-child(3) { transition-delay: 0.1s; }
-
-/* TYPING EFFECT - Typed.js */
-.typed-cursor {
-  font-size: inherit;
-  font-weight: 300;
-  color: var(--primary);
-  animation: typed-blink 1s step-end infinite;
-}
-
-@keyframes typed-blink {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* =====================================================
+/* ============================================================
    CASE STUDY (standalone page, not the tabbed index)
-   ---------------------------------------------------------
-   These blocks are scoped .cs-* and deliberately use <div>
-   rather than <section>. The index page hides every
-   section with `section { display: none }` and script.js
-   strips .active from all of them on load, so <section>
-   elements on a second page would collapse to nothing.
-   ===================================================== */
-
-/* ---------- CASE STUDY: LAYOUT ---------- */
+   ------------------------------------------------------------
+   Scoped .cs-* and deliberately built from <div>, never <section>:
+   the index hides every section with `.js section:not(.hero) { display: none }`
+   and script.js strips .active from them on load, so <section> on a
+   second page would collapse to nothing.
+   ============================================================ */
 .cs-back {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 28px;
-  font-size: 0.88rem;
+  gap: var(--s-2);
+  /* 12px of padding carries this standalone link over the 24px minimum
+     without turning it into a pill. */
+  padding-block: 12px;
+  margin-block: var(--s-5) var(--s-4);
+  font-size: var(--t-meta);
   font-weight: 500;
-  color: var(--text-muted);
+  color: var(--ink-2);
   text-decoration: none;
-  transition: color var(--t-quick) ease;
 }
 
 .cs-back:hover {
-  color: var(--primary-ink);
+  color: var(--brand-ink);
 }
 
 .cs-header {
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border-card);
-}
-
-.cs-eyebrow {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--primary-ink);
-  margin: 0 0 12px;
+  padding-bottom: var(--s-5);
+  border-bottom: 1px solid var(--rule);
 }
 
 .cs-header h1 {
-  font-size: clamp(1.9rem, 5vw, 2.6rem);
-  font-weight: 700;
+  font-size: var(--t-display);
+  font-weight: 600;
   letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin: 0 0 16px;
+  line-height: 1.1;
+  margin-top: var(--s-3);
 }
 
 .cs-lede {
-  font-size: 1.05rem;
-  line-height: 1.65;
-  color: var(--text-body);
-  max-width: 66ch;
-  margin: 0 0 20px;
+  margin-top: var(--s-4);
+  max-width: var(--col);
+  font-size: var(--t-lede);
+  line-height: 1.6;
+  color: var(--ink-2);
 }
 
 .cs-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 32px;
-  margin: 0 0 24px;
-  padding: 0;
-  list-style: none;
+  gap: var(--s-3) var(--s-5);
+  margin-top: var(--s-5);
 }
 
 .cs-meta > li {
@@ -2293,188 +1293,475 @@ a.contact-item:hover {
 
 .cs-meta-label {
   display: block;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 3px;
+  color: var(--ink-3);
+  margin-bottom: 2px;
 }
 
 .cs-meta-value {
   display: block;
-  font-size: 0.9rem;
-  color: var(--text-body);
+  font-size: var(--t-sm);
+  color: var(--ink);
 }
 
-/* ---------- CASE STUDY: BLOCKS ---------- */
+.cs-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-top: var(--s-5);
+}
+
 .cs-block {
-  padding-top: 40px;
+  padding-top: var(--s-6);
 }
 
 .cs-block h2 {
-  font-size: 1.4rem;
+  position: relative;
+  font-size: var(--t-h2);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0 0 14px;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin-bottom: var(--s-3);
+}
+
+.cs-block h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -0.85em;
+  width: 16px;
+  height: 2px;
+  background: var(--brand-ink);
 }
 
 .cs-block h3 {
-  font-size: 1rem;
+  font-size: var(--t-h3);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
+  margin-bottom: var(--s-1);
 }
 
 .cs-block > p {
-  font-size: 0.95rem;
+  max-width: 68ch;
+  font-size: var(--t-sm);
   line-height: 1.7;
-  color: var(--text-muted);
-  max-width: 70ch;
-  margin: 0 0 14px;
+  color: var(--ink-2);
 }
 
-.cs-block > p strong {
-  color: var(--text-body);
-  font-weight: 600;
+.cs-block > p + p,
+.cs-block > p + .cs-list,
+.cs-block > p + .cs-flow,
+.cs-block > p + .cs-split,
+.cs-block > p + .cs-note {
+  margin-top: var(--s-3);
 }
 
-/* ---------- CASE STUDY: PIPELINE ---------- */
+.cs-block code {
+  font-family: var(--mono);
+  font-size: var(--t-meta);
+  color: var(--ink);
+}
+
+/* Pipeline steps: numbered rows, not five boxes. */
 .cs-flow {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 14px;
-  padding: 0;
-  margin: 20px 0 0;
+  margin-top: var(--s-5);
   counter-reset: cs-step;
 }
 
-.cs-flow li {
-  position: relative;
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 18px 18px 18px 46px;
+.cs-flow > li {
+  display: grid;
+  grid-template-columns: 3ch minmax(0, 1fr);
+  gap: var(--s-3);
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
   counter-increment: cs-step;
 }
 
-/* Step number on the same surface, so plain body ink stays at AA contrast. */
-.cs-flow li::before {
-  content: counter(cs-step);
-  position: absolute;
-  left: 16px;
-  top: 18px;
-  width: 22px;
-  height: 22px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--primary-soft);
-  border: 1px solid var(--primary-border);
-  color: var(--tint-ink);
-  font-size: 0.75rem;
-  font-weight: 600;
+.cs-flow > li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.cs-flow > li::before {
+  content: counter(cs-step, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.06em;
+  color: var(--brand-ink);
+  line-height: 1.8;
+}
+
+.cs-flow > li > h3 {
+  margin-bottom: 2px;
 }
 
 .cs-flow p {
-  margin: 0;
-  font-size: 0.86rem;
-  line-height: 1.55;
-  color: var(--text-muted);
+  max-width: 64ch;
+  font-size: var(--t-sm);
+  line-height: 1.6;
+  color: var(--ink-2);
 }
 
-/* ---------- CASE STUDY: PLAIN LISTS ---------- */
+/* Technical choices: two-column definition rows. */
+.cs-split {
+  margin-top: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0 var(--s-6);
+}
+
+.cs-split > div {
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.cs-split p {
+  max-width: 44ch;
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-2);
+}
+
 .cs-list {
-  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0;
-  margin: 0;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
 }
 
 .cs-list li {
   position: relative;
-  padding-left: 22px;
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--text-muted);
+  padding-left: var(--s-3);
   max-width: 68ch;
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink-2);
 }
 
 .cs-list li::before {
-  content: '';
+  content: "\2014";
   position: absolute;
-  left: 4px;
-  top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--primary);
-}
-
-[data-theme='dark'] .cs-list li::before {
-  background: var(--accent);
+  left: 0;
+  color: var(--rule-2);
 }
 
 .cs-list strong {
-  color: var(--text-body);
-  font-weight: 600;
+  color: var(--ink);
 }
 
-/* ---------- CASE STUDY: TWO COLUMN ---------- */
-.cs-split {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.cs-split > div {
-  background: var(--surface);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  padding: 20px;
-}
-
-/* ---------- CASE STUDY: SCOPE / HONESTY NOTE ---------- */
+/* "Yang tidak saya klaim" — the only boxed element on this page, because it
+   genuinely is the one thing that must not be skimmed past. */
 .cs-note {
-  background: var(--surface);
-  border: 1px solid var(--accent-border);
-  border-left: 3px solid var(--primary);
-  border-radius: var(--radius-md);
-  padding: 22px 24px;
-  margin-top: 20px;
+  margin-top: var(--s-6);
+  padding: var(--s-4) var(--s-4) var(--s-4) var(--s-5);
+  border-left: 2px solid var(--brand-ink);
+  background: var(--bg-sunken);
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .cs-note h3 {
-  margin-bottom: 10px;
+  /* `.cs-note` is a SIBLING of `.cs-block`, not a child, so `.cs-block h3`
+     never matched this heading and it inherited the UA default h3 size —
+     1.17em of the 17px body step, i.e. an off-scale 19.89px. Only one heading
+     on the site was doing this; the others sit inside `.cs-block`. */
+  font-size: var(--t-h3);
+  margin-bottom: var(--s-2);
 }
 
-.cs-note .cs-list li::before {
-  background: var(--accent);
+.cs-note .cs-list {
+  margin-top: 0;
 }
 
-/* ---------- CASE STUDY: FOOTER NAV ---------- */
-.cs-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 20px;
+.cs-next {
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+}
+
+/* ---------- RESPONSIVE ----------
+   Re-derived from the content, not scaled down from the desktop grid. */
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+
+  .hero-figure {
+    max-width: 300px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--s-5);
+  }
+}
+
+@media (max-width: 900px) {
+  .project,
+  .project--compact {
+    grid-template-columns: 4ch minmax(0, 1fr);
+  }
+
+  .project-figure {
+    grid-column: 2;
+    margin-top: var(--s-2);
+  }
+
+  /* The compact project keeps a smaller screenshot when it drops below the
+     three-column layout, otherwise it becomes as tall as the featured one. */
+  .project--compact .project-figure {
+    max-width: 320px;
+  }
+
+  .skill-row {
+    grid-template-columns: 12ch minmax(0, 1fr);
+  }
+
+  .skill-inline {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+
+  .edu-row {
+    grid-template-columns: 20ch minmax(0, 1fr);
+  }
+
+  .edu-meta {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .academic-list > li {
+    grid-template-columns: 18ch minmax(0, 1fr);
+  }
+
+  .academic-side {
+    grid-column: 2;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    text-align: left;
+  }
 }
 
 @media (max-width: 768px) {
-  .cs-header {
-    padding-bottom: 24px;
+.container {
+    padding: 0 var(--s-3);
+  }
+
+  /* The footer carries its own gutter rather than inheriting .container, so it
+     needs the same mobile step. Without this the footer sits 8px right of
+     every section between 561px and 768px. */
+  .footer-inner {
+    padding-inline: var(--s-3);
+  }
+
+  .section {
+    padding-block: var(--s-5);
+  }
+
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+
+  .section-note {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  /* Drawer is a static row inside the bar, not an absolutely positioned panel
+     pinned to a hardcoded `top: 62px`. */
+  .nav-container {
+    flex-wrap: wrap;
+    padding-inline: var(--s-3);
+    row-gap: 0;
+  }
+
+  .nav-right {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nav-links {
+    order: -1;
+    flex: 0 0 100%;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  /* Without JS there is no toggle to open the drawer, so it must not be
+     `display: none` — the links stay reachable as a stacked block, and the
+     hamburger (below) is hidden because clicking it would do nothing. */
+  .no-js .nav-links {
+    display: flex;
+  }
+
+  .nav-links a {
+    min-height: 44px;
+    /* The 2px left border is reserved on every item (transparent at rest) so
+       marking the active tab cannot shift its own label sideways. It is a
+       hairline rule, not an inset box-shadow, to keep the flat surface. */
+    padding-inline: calc(var(--s-1) + 2px) var(--s-1);
+    border-top: 1px solid var(--rule);
+    border-left: 2px solid transparent;
+    text-decoration: none;
+    font-size: var(--t-sm);
+  }
+
+  .nav-links a[aria-current='page'] {
+    border-left-color: var(--brand-ink);
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  /* The toggle is inert without JS, so it must not appear at all. */
+  .no-js .nav-toggle {
+    display: none;
+  }
+
+  .hero {
+    /* Top and bottom both step to --s-5 here, the same mobile step .section
+       takes at this breakpoint. Without the top half the hero would be the
+       only block on the page still opening 64px below the navbar on a phone. */
+    padding-block: var(--s-5);
+    gap: var(--s-4);
+  }
+
+  .hero-lede {
+    /* Drop the clamp's 17px floor to the body step on narrow screens. */
+    font-size: var(--t-body);
+  }
+
+  .project + .project {
+    margin-top: var(--s-5);
   }
 
   .cs-block {
-    padding-top: 32px;
+    padding-top: var(--s-5);
+  }
+
+  .cs-split {
+    grid-template-columns: 1fr;
   }
 }
 
-/* PREFERS REDUCED MOTION */
+@media (max-width: 560px) {
+  .hero-figure {
+    max-width: 220px;
+  }
+
+  .stack-list > li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--s-1);
+  }
+
+  .fact-rows > li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .skill-row,
+  .edu-row,
+  .academic-list > li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .skill-inline,
+  .edu-meta,
+  .academic-side {
+    grid-column: 1;
+  }
+
+  .project-actions .btn {
+    flex: 1 1 auto;
+  }
+
+  /* The link variant draws a border-bottom, not a box. Growing it alongside its
+     siblings drew a full-width rule under a five-character label: measured 251px
+     of underline for a 49px "GitHub" at 360px, and it also pushed the three
+     buttons onto a second row. Hold it at its label width. */
+  .project-actions .btn--link {
+    flex: 0 0 auto;
+  }
+
+  /* Label above value so the full LinkedIn URL gets a whole line of width.
+     Two tracks, not one: an explicit grid-column: 3 would otherwise create an
+     implicit third track and strand the arrow. */
+  .contact-row {
+    grid-template-columns: minmax(0, 1fr) 2ch;
+  }
+
+  .contact-label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .contact-value {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .contact-arrow {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: center;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-2);
+  }
+}
+
+/* ---------- MOBILE TEXT WRAPPING ----------
+   Measured at 360/390: prose whose last line fell under a quarter of its own
+   column, stranding a word or two on a line of its own. The eyebrow broke after
+   two words (15% of the column); eleven prose blocks did the same between 9%
+   and 24%. `pretty` asks the browser to pull a word down rather than strand
+   one. `balance` is the right tool for the two-line eyebrow, where the goal is
+   two even lines instead of a short tail. Both are pure typesetting: no
+   element, colour, token, or desktop line break changes. */
+@media (max-width: 768px) {
+  /* Two-line labels, where the fault is uneven lines rather than a stranded
+     tail. The eyebrow breaks after two words; the stack line breaks after
+     "Web Accessibility", leaving "UI/UX" alone on a 13% line. */
+  .eyebrow,
+  .meta-line {
+    text-wrap: balance;
+  }
+
+  /* Only the blocks that still broke badly. `.about-desc`, `.project-lede` and
+     `.academic-desc` are absent on purpose: they already carry `pretty` at every
+     width, so repeating it here would be a second source of truth for nothing. */
+  .about-lead,
+  .section-note,
+  .edu-note,
+  .skill-row p,
+  .project-note,
+  .projects-note,
+  .project-meta dd,
+  .contact-outro {
+    text-wrap: pretty;
+  }
+}
+
+/* ---------- REDUCED MOTION ----------
+   The only motion left is colour and the two arrow/rule micro-transforms, all
+   under 180ms. This block stays as a hard floor. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2483,10 +1770,5 @@ a.contact-item:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
-  }
-
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
 }

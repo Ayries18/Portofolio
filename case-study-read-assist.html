@@ -17,23 +17,27 @@
   <meta property="og:description" content="Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.">
   <meta property="og:site_name" content="Portofolio Muhammad Almuwarisin">
   <meta property="og:locale" content="id_ID">
-  <meta property="og:image" content="https://ayries18.github.io/Portofolio/logo.png">
+  <meta property="og:image" content="https://ayries18.github.io/Portofolio/og-image.png">
   <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="Logo Portofolio Muhammad Almuwarisin">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Kartu portofolio Muhammad Almuwarisin: Web Developer, Laravel, PHP, JavaScript, dan Web Accessibility.">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Read-Assist Case Study | Muhammad Almuwarisin">
   <meta name="twitter:description" content="Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.">
-  <meta name="twitter:image" content="https://ayries18.github.io/Portofolio/logo.png">
-  <meta name="twitter:image:alt" content="Logo Portofolio Muhammad Almuwarisin">
+  <meta name="twitter:image" content="https://ayries18.github.io/Portofolio/og-image.png">
+  <meta name="twitter:image:alt" content="Kartu portofolio Muhammad Almuwarisin: Web Developer, Laravel, PHP, JavaScript, dan Web Accessibility.">
 
-  <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <script>
     (function() {
@@ -52,35 +56,35 @@
 
   <nav class="nav" role="navigation" aria-label="Navigasi utama">
     <div class="nav-container">
-      <div class="brand">
-        <img src="logo.webp" alt="" class="brand-logo" width="160" height="167" loading="eager" decoding="async">
+      <a class="brand" href="index.html#home">
+        <img src="logo.webp" alt="" class="brand-logo" width="336" height="196" loading="eager" decoding="async">
         <span class="nav-name"><span class="nav-first">Muhammad</span> <span class="nav-last">Almuwarisin</span></span>
-      </div>
+      </a>
 
       <div class="nav-right">
         <!-- Cross-page links. script.js only hijacks anchors whose href starts
              with "#", so these fall through to normal navigation. -->
-        <div class="nav-links">
-          <a href="index.html#home">Beranda</a>
-          <a href="index.html#about">Tentang</a>
-          <a href="index.html#skills">Keterampilan</a>
-          <a href="index.html#projects">Proyek</a>
-          <a href="index.html#contact">Kontak</a>
-        </div>
-        <img src="profile/profile.webp" alt="Profil Muhammad Almuwarisin" class="nav-avatar" width="40" height="40" loading="lazy" decoding="async">
-        <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span class="hamburger"></span>
-          <span class="hamburger"></span>
-          <span class="hamburger"></span>
-        </button>
-        <button class="theme-toggle" aria-label="Toggle tema gelap/terang">
-          <svg id="theme-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false">
+        <ul class="nav-links" id="nav-menu">
+          <li><a href="index.html#home">Beranda</a></li>
+          <li><a href="index.html#about">Tentang</a></li>
+          <li><a href="index.html#skills">Keterampilan</a></li>
+          <li><a href="index.html#projects">Proyek</a></li>
+          <li><a href="index.html#contact">Kontak</a></li>
+        </ul>
+
+        <button type="button" class="icon-btn theme-toggle" aria-label="Ganti tema gelap/terang">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"></path>
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M18.7 5.3l-1.4 1.4M6.7 17.3l-1.4 1.4"></path>
           </svg>
-          <svg id="theme-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" style="display:none">
-            <path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"></path>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M20.5 13.3A8.5 8.5 0 1 1 10.7 3.5a6.7 6.7 0 0 0 9.8 9.8z"></path>
           </svg>
+        </button>
+
+        <button type="button" class="icon-btn nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
         </button>
       </div>
     </div>
@@ -92,10 +96,11 @@
     <article>
       <!-- ---------- HEADER ----------
            Blocks use <div>, not <section>. The index page hides every section
-           with `section { display: none }` and script.js strips .active from
-           all of them, so <section> here would render as nothing at all. -->
+           with `.js section:not(.hero) { display: none }` and script.js strips
+           .active from all of them, so <section> here would render as nothing
+           at all. -->
       <header class="cs-header">
-        <p class="cs-eyebrow">Case Study</p>
+        <p class="eyebrow">Case Study</p>
         <h1>Read-Assist</h1>
         <p class="cs-lede">Aplikasi audiobook untuk penyandang disabilitas netra. Buku diunggah ke sistem, teksnya diubah menjadi suara secara otomatis, lalu didengarkan lewat pemindai QR Code yang ditempel pada buku fisik, tanpa perlu memasang aplikasi khusus di ponsel.</p>
         <ul class="cs-meta">
@@ -113,8 +118,8 @@
           </li>
         </ul>
         <div class="cs-nav">
-          <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="btn-primary">Live Demo</a>
-          <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn-secondary">Repository</a>
+          <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="btn btn--solid">Live Demo</a>
+          <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Repository</a>
         </div>
       </header>
 
@@ -194,7 +199,7 @@
       <!-- ---------- KEAMANAN ---------- -->
       <div class="cs-block">
         <h2>Keamanan</h2>
-        <p>Karena aplikasi menyimpan berkas buku dan membatasi siapa yang boleh acceder, beberapa hal ini diperhatikan sejak awal:</p>
+        <p>Karena aplikasi menyimpan berkas buku dan membatasi siapa yang boleh mengakses, beberapa hal ini diperhatikan sejak awal:</p>
         <ul class="cs-list">
           <li>Autentikasi berbasis session dengan pemisahan peran.</li>
           <li>Setiap buku dicek kepemilikannya, sehingga satu pengguna tidak dapat membuka buku milik pengguna lain hanya dengan menebak tautan.</li>
@@ -221,15 +226,22 @@
         </ul>
       </div>
 
-      <div class="cs-nav">
-        <a href="index.html#projects" class="btn-secondary">&larr; Kembali ke Proyek</a>
-        <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn-secondary">Repository Read-Assist</a>
+      <div class="cs-nav cs-next">
+        <a href="index.html#projects" class="btn btn--outline">&larr; Kembali ke Proyek</a>
+        <a href="https://github.com/Ayries18/Read-Assist" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Repository Read-Assist</a>
       </div>
     </article>
   </main>
 
   <footer class="footer" role="contentinfo">
-    <p>&copy; <span id="footer-year">2026</span> <span class="footer-name">Muhammad Almuwarisin</span></p>
+    <div class="footer-inner">
+      <p>&copy; <span id="footer-year">2026</span> <span class="footer-name">Muhammad Almuwarisin</span></p>
+      <ul class="footer-links">
+        <li><a href="mailto:muwarisin@gmail.com">Email</a></li>
+        <li><a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/muhammad-almuwarisin-934079376/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+    </div>
   </footer>
 
   <script src="javascript/script.js" defer></script>
