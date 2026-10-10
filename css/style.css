@@ -119,6 +119,14 @@ strong {
 
   --t: 180ms cubic-bezier(0.2, 0, 0, 1);
 
+  /* Single entrance token. 180ms is too fast to read as a sequence; one shared
+     600ms step with staggered delays keeps the whole hero under ~1.2s. */
+  --t-enter: 600ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* Scrim behind the open drawer: the page blurs while navigation has focus.
+     Theme-dependent wash, so it lives here rather than as a literal. */
+  --scrim: rgba(24, 24, 27, 0.32);
+
   /* Portrait framing. profile/profile.webp is upright 800x1200 with no EXIF
      Orientation tag, so no browser corrects it and no CSS rotate() can fix it
      either. Plain centring lands on the face. */
@@ -135,6 +143,7 @@ strong {
   --ink-3: #8a8a93;          /*  5.74:1 */
   --rule: #212129;
   --rule-2: #2f2f3a;
+  --scrim: rgba(0, 0, 0, 0.6);
 }
 
 /* ---------- BASE ---------- */
@@ -155,15 +164,12 @@ html[data-theme='dark'] {
 
 /* Metadata runs in the system mono stack. Inter only is still true — this
    costs no font request and gives the page a second, quieter voice. */
-.mono,
 .eyebrow,
 .hero-stack,
 .fact-label,
-.stack-group-name,
 .project-index,
 .project-meta dt,
 .edu-meta,
-.skill-inline li,
 .tech-inline li,
 .contact-label,
 .contact-value,
@@ -320,6 +326,7 @@ html[data-theme='dark'] {
   align-items: center;
   gap: var(--s-2);
   min-width: 0;
+  flex: 1 1 auto;
   text-decoration: none;
   color: var(--ink);
 }
@@ -435,8 +442,8 @@ html[data-theme='dark'] {
   display: none;
 }
 
-/* Two bars, not three, and no gradient. aria-expanded is the single source of
-   truth for the open state. */
+/* Three bars, not two, and no gradient. aria-expanded is the single source of
+truth for the open state. */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -448,15 +455,111 @@ html[data-theme='dark'] {
   width: 18px;
   height: 1.5px;
   background: currentColor;
-  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1),
+    opacity var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
 .nav-toggle[aria-expanded='true'] .bar:first-child {
-  transform: translateY(3.25px) rotate(45deg);
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] .bar:nth-child(2) {
+  opacity: 0;
 }
 
 .nav-toggle[aria-expanded='true'] .bar:last-child {
-  transform: translateY(-3.25px) rotate(-45deg);
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* The drawer is the primary navigation at every width — hamburger-first on
+   desktop and mobile alike — so it lives here, not in a breakpoint. A fixed
+   left panel under the sticky bar (z-index 40 vs 50: the hamburger stays
+   clickable, and the top padding only clears the bar visually, with no
+   hardcoded `top` for the layout to outgrow). Closed means translated away
+   AND visibility-hidden with a delayed visibility transition, so keyboard
+   users never tab into links they cannot see; verify by tabbing, not by
+   reading CSS. `aria-expanded` on `.nav-toggle` is the only open-state
+   signal. Everything drawer-shaped is `.js`-scoped: without script.js the
+   plain row below stands. */
+.js .nav-toggle {
+  display: inline-flex;
+}
+
+.js .nav-links {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 40;
+  width: min(300px, 84vw);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  margin: 0;
+  padding: 76px var(--s-3) var(--s-4);
+  overflow-y: auto;
+  background: var(--bg);
+  border-right: 1px solid var(--rule);
+  transform: translateX(-102%);
+  visibility: hidden;
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1),
+    visibility 0s var(--t);
+}
+
+.js .nav-links.open {
+  transform: none;
+  visibility: visible;
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.js .nav-links a {
+  min-height: 44px;
+  /* The 2px left border is reserved on every item (transparent at rest) so
+     marking the active tab cannot shift its own label sideways. It is a
+     hairline rule, not an inset box-shadow, to keep the flat surface. */
+  padding-inline: calc(var(--s-1) + 2px) var(--s-1);
+  border-top: 1px solid var(--rule);
+  border-left: 2px solid transparent;
+  text-decoration: none;
+  font-size: var(--t-sm);
+}
+
+.js .nav-links a[aria-current='page'] {
+  border-left-color: var(--brand-ink);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Blur scrim: a fixed wash over the page while the drawer is open, so focus
+   visibly moves to navigation. Driven by the body.nav-open flag setMenuOpen
+   already maintains — this is what gives that previously unused class its
+   job. Below bar and panel (z-index 30), aria-hidden, and a plain click on it
+   falls through to the existing outside-click handler, which closes the
+   drawer. Opacity fades at --t; reduced-motion makes it instant. */
+/* Inert by default (including no-JS, where it is an empty static div); only
+   the .js rules below give it paint. */
+.nav-scrim {
+  visibility: hidden;
+}
+
+.js .nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: var(--scrim);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t) cubic-bezier(0.2, 0, 0, 1),
+    visibility 0s var(--t);
+}
+
+.js body.nav-open .nav-scrim {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
 /* ---------- BUTTONS ---------- */
@@ -517,6 +620,20 @@ html[data-theme='dark'] {
   color: var(--ink);
 }
 
+/* External-link nudge, projects only: a small arrow that shifts on hover and
+   keyboard focus, echoing the contact-row arrow in the same --t language. */
+.project-actions .btn--link::after {
+  content: "\2197";
+  margin-left: var(--s-1);
+  font-size: var(--t-meta);
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.project-actions .btn--link:hover::after,
+.project-actions .btn--link:focus-visible::after {
+  transform: translate(2px, -2px);
+}
+
 /* Inline link inside prose. */
 .link {
   color: var(--brand-ink);
@@ -533,23 +650,12 @@ html[data-theme='dark'] {
 /* ---------- HERO ---------- */
 .hero {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 340px);
   gap: var(--s-6);
-  /* `start`, not `end`: the portrait is ~35px TALLER than the text column, so
-     bottom-aligning pushed the photo's top edge ABOVE the eyebrow and hung the
-     name below it — two competing entry points, and the headline stopped being
-     the first thing the eye lands on. Top-aligning gives both columns one
-     shared line, and the image's bottom edge then lands within a few px of the
-     CTA row, so the portrait reads as balanced rather than dominant. */
+  /* Top-aligning gives both columns one shared entry line so the eyebrow and
+     portrait frame start cleanly together. */
   align-items: start;
-  /* 64/64, matching .section's own desktop step. It was 96/64, which put the
-     first line of copy 131px below the navbar (96 of padding plus the 35 the
-     old alignment added) for no editorial reason — the hero already has the
-     full fold to itself. */
   padding-block: var(--s-6);
-  /* The hero carries its own padding but still needs the scroll offset, or a
-     deep link to #home parks it under the sticky navbar. It deliberately does
-     not also carry .section. */
   scroll-margin-top: 76px;
 }
 
@@ -564,60 +670,55 @@ html[data-theme='dark'] {
   display: grid;
 }
 
+.hero-intro {
+  max-width: 54ch;
+}
+
 .hero h1 {
-  margin-top: var(--s-3);
+  margin-top: var(--s-2);
   font-size: var(--t-display);
   font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  max-width: 16ch;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--ink);
   text-wrap: balance;
 }
 
-.hero-lede {
+.hero-desc {
   margin-top: var(--s-4);
-  max-width: 46ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.hero-lede {
   font-size: var(--t-lede);
-  line-height: 1.6;
-  color: var(--ink-2);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink);
   text-wrap: pretty;
 }
 
 .hero-stack {
   margin-top: var(--s-3);
   font-size: var(--t-mono);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--ink-3);
-}
-
-/* Availability, stated once and in words. Deliberately colourless: it is a
-   seventh place purple could go, and the six-place budget is spent. A hairline
-   chip carries it instead. */
-.hero-status {
-  margin-top: var(--s-4);
-  padding: var(--s-1) var(--s-3);
-  border: 1px solid var(--rule-2);
-  border-radius: var(--radius);
-  width: fit-content;
-  font-size: var(--t-sm);
-  font-weight: 500;
-  line-height: 1.5;
-  color: var(--ink-2);
 }
 
 .hero-actions {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  /* 16px, not 8px. Two 44px-tall buttons separated by 8px sat closer together
-     than any other pair of elements on the page and read as one control. 16px
-     is the smallest step already in the scale, so the pair now matches the
-     rhythm of the block above it instead of undercutting it. */
   gap: var(--s-3);
   margin-top: var(--s-5);
 }
 
 .hero-figure {
   margin: 0;
+  max-width: 340px;
+  width: 100%;
+  justify-self: end;
 }
 
 .hero-figure img {
@@ -626,6 +727,7 @@ html[data-theme='dark'] {
   object-fit: cover;
   object-position: var(--portrait-focus);
   border-radius: var(--radius);
+  border: 1px solid var(--rule);
 }
 
 .hero-figure figcaption {
@@ -635,34 +737,233 @@ html[data-theme='dark'] {
   color: var(--ink-3);
 }
 
-/* ---------- ABOUT ---------- */
-.about-grid {
+/* ---------- HERO: ENTRANCE ----------
+   One coordinated sequence, played once. JS adds .hero-anim (which stages the
+   hidden states) and then .is-in on a double rAF. If script.js never runs,
+   .hero-anim is never added and everything is visible — no stuck opacity: 0.
+   Hidden states are opacity + transform only, so staging never shifts layout.
+   Order: eyebrow, name line 1, name line 2, lede, stack, figure, actions,
+   status. The name gets a masked rise (two explicit lines, never typed). */
+.hero-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-line > span {
+  display: block;
+}
+
+.js .hero.hero-anim .eyebrow,
+.js .hero.hero-anim .hero-line > span,
+.js .hero.hero-anim .hero-lede,
+.js .hero.hero-anim .hero-stack,
+.js .hero.hero-anim .hero-actions,
+.js .hero.hero-anim .hero-figure {
+  transition: opacity var(--t-enter), transform var(--t-enter);
+}
+
+.js .hero.hero-anim:not(.is-in) .eyebrow,
+.js .hero.hero-anim:not(.is-in) .hero-lede,
+.js .hero.hero-anim:not(.is-in) .hero-stack,
+.js .hero.hero-anim:not(.is-in) .hero-actions {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.js .hero.hero-anim:not(.is-in) .hero-line > span {
+  transform: translateY(110%);
+}
+
+.js .hero.hero-anim:not(.is-in) .hero-figure {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.js .hero.hero-anim .eyebrow { transition-delay: 0ms; }
+.js .hero.hero-anim .hero-line:first-child > span { transition-delay: 90ms; }
+.js .hero.hero-anim .hero-line:last-child > span { transition-delay: 180ms; }
+.js .hero.hero-anim .hero-lede { transition-delay: 300ms; }
+.js .hero.hero-anim .hero-stack { transition-delay: 390ms; }
+.js .hero.hero-anim .hero-figure { transition-delay: 350ms; }
+.js .hero.hero-anim .hero-actions { transition-delay: 470ms; }
+
+
+/* ---------- ABOUT: TERMINAL ---------- */
+/* Core identity element of the page: a real <dl>, so every line is semantic
+   content first and an animation second. JS only adds .is-prep to type it in;
+   without JS, reduced motion, or an IntersectionObserver, the full text is
+   already in the DOM and visible. */
+.term {
+  max-width: 68ch;
+  margin-bottom: var(--s-6);
+  background: var(--bg-sunken);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+.term-dots {
+  display: inline-flex;
+  gap: 6px;
+}
+
+.term-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rule-2);
+}
+
+.term-path {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+}
+
+.term-body {
+  margin: 0;
+  padding: var(--s-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  line-height: 1.7;
+}
+
+.term-line {
+  margin: 0;
+}
+
+.term-line dt {
+  display: flex;
+  gap: var(--s-2);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.term-prompt {
+  color: var(--brand-ink);
+  user-select: none;
+}
+
+.term-line dd {
+  margin: 0 0 0 calc(var(--s-3) + 1ch);
+  color: var(--ink-2);
+}
+
+/* Typed state: lines are staged but present for screen readers (opacity, not
+   display or visibility). Removed the moment typing finishes. */
+.term.is-prep .term-line {
+  opacity: 0;
+}
+
+.term.is-prep .term-line.is-typed {
+  opacity: 1;
+  transition: opacity 100ms linear;
+}
+
+/* The output line stays hidden until its command has finished typing. */
+.term.is-prep .term-line.is-typed dd {
+  opacity: 0;
+}
+
+.term.is-prep .term-line.is-done dd {
+  opacity: 1;
+  transition: opacity 160ms linear;
+}
+
+.term-caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  margin-left: 2px;
+  background: var(--brand-ink);
+  vertical-align: text-bottom;
+  animation: term-blink 1.1s steps(1) infinite;
+}
+
+@keyframes term-blink {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-caret { animation: none; }
+}
+
+/* ---------- ABOUT: LAYOUT + SIDE FACTS ----------
+   Terminal left, quick facts right. Same minmax(0, ...) discipline as every
+   grid on this page: no track may let its content widen the document. The
+   facts repeat only claims the terminal already states (location from the
+   hero caption, the rest from terminal lines) — a second voice, not new
+   content. Static markup, so no-JS and reduced motion get it for free. */
+.about-layout {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   gap: var(--s-6);
   align-items: start;
 }
 
-.about-prose {
-  max-width: var(--col);
+.about-layout .term {
+  margin-bottom: 0;
 }
 
-.about-lead {
-  font-size: var(--t-lede);
+.side-facts > div {
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--rule);
+}
+
+.side-facts > div:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.side-facts dt {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.side-facts dd {
+  margin: 2px 0 0;
+  font-size: var(--t-sm);
   line-height: 1.6;
   color: var(--ink);
 }
 
-.about-desc {
-  margin-top: var(--s-3);
-  color: var(--ink-2);
-  text-wrap: pretty;
+/* Board rows enter staggered through the same shared observer as projects
+   and contact; same once-only contract, same reduced-motion guards. */
+.js .side-facts > div.is-prep:not(.is-in) {
+  opacity: 0;
+  transform: translateY(12px);
 }
 
-.about-facts > * + * {
-  margin-top: var(--s-5);
+.js .side-facts > div.is-prep {
+  transition: opacity var(--t-enter), transform var(--t-enter);
 }
 
+.js .side-facts > div:nth-child(2).is-prep { transition-delay: 70ms; }
+.js .side-facts > div:nth-child(3).is-prep { transition-delay: 140ms; }
+
+/* ---------- ABOUT ----------
+   The old prose/fact-row system is gone with the Irisan A rewrite (terminal +
+   status board); what survives is the shared fact label, still used by the
+   education tab. */
 .fact-label {
   font-size: var(--t-mono);
   letter-spacing: 0.14em;
@@ -671,162 +972,15 @@ html[data-theme='dark'] {
   margin-bottom: var(--s-3);
 }
 
-.meta-line {
-  font-size: var(--t-sm);
-  line-height: 1.7;
-  color: var(--ink-2);
-}
-
-/* Tech stack: static and grouped. The 10 official marks are still here (and
-   still verifiable against the repos); what is gone is the marquee, the 20
-   duplicated chips, and the pause control they required. */
-.stack-list > li {
-  display: grid;
-  grid-template-columns: 9ch minmax(0, 1fr);
-  gap: var(--s-3);
-  align-items: baseline;
-  padding-block: var(--s-3);
-  border-top: 1px solid var(--rule);
-}
-
-.stack-list > li:last-child {
-  border-bottom: 1px solid var(--rule);
-}
-
-.stack-group-name {
-  font-size: var(--t-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.stack-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-1) var(--s-3);
-}
-
-.stack-items > li {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s-1);
-  font-size: var(--t-sm);
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-
-.stack-logo {
-  width: 18px;
-  height: 18px;
-  flex: none;
-  fill: currentColor;
-  color: var(--mark);
-}
-
-/* Official brand colours. Third-party identity colours, so they are literal.
-   Three official values sit under 3:1 on white and two more under 3:1 on the
-   dark background; those five get a lifted or darkened value, the same
-   exception the dark theme already made for PHP, GitHub, and SQLite. */
-.stack-logo--laravel { --mark: #ff2d20; }
-.stack-logo--php { --mark: #777bb4; }
-.stack-logo--javascript { --mark: #8a6d00; }      /* official accessible yellow */
-.stack-logo--html5 { --mark: #e34f26; }
-.stack-logo--css3 { --mark: #1572b6; }
-.stack-logo--blade { --mark: var(--brand-ink); }   /* no official Blade mark exists */
-.stack-logo--tailwindcss { --mark: #0e7490; }      /* tailwind cyan-700 */
-.stack-logo--git { --mark: #f05032; }
-.stack-logo--github { --mark: #181717; }
-.stack-logo--sqlite { --mark: #003b57; }
-
-[data-theme='dark'] .stack-logo--javascript { --mark: #f7df1e; }
-[data-theme='dark'] .stack-logo--tailwindcss { --mark: #06b6d4; }
-[data-theme='dark'] .stack-logo--php { --mark: #a9adda; }
-[data-theme='dark'] .stack-logo--github { --mark: #f2f2f4; }
-[data-theme='dark'] .stack-logo--sqlite { --mark: #4fb6d6; }
-
-/* ---------- ABOUT: RELEVANT PROJECTS ---------- */
-.fact-rows > li {
-  display: grid;
-  grid-template-columns: 18ch minmax(0, 1fr);
-  gap: 2px var(--s-3);
-  padding-block: var(--s-3);
-  border-top: 1px solid var(--rule);
-}
-
-.fact-rows > li:last-child {
-  border-bottom: 1px solid var(--rule);
-}
-
-.fact-row-head {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.fact-row-title {
-  font-size: var(--t-sm);
-  font-weight: 600;
-  color: var(--ink);
-  text-decoration: none;
-}
-
-a.fact-row-title:hover {
-  color: var(--brand-ink);
-}
-
-.fact-row-role {
-  font-family: var(--mono);
-  font-size: var(--t-mono);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
-}
-
-.fact-row-desc {
-  font-size: var(--t-meta);
-  line-height: 1.55;
-  color: var(--ink-3);
-}
-
 /* ---------- SKILLS ----------
-   A definition list, not three identical cards. */
-.skill-row {
-  display: grid;
-  grid-template-columns: 14ch minmax(0, 1fr) auto;
-  gap: var(--s-2) var(--s-5);
-  align-items: baseline;
-  padding-block: var(--s-4);
-  border-top: 1px solid var(--rule);
-}
-
-.skill-row:last-child {
-  border-bottom: 1px solid var(--rule);
-}
-
-.skill-row h3 {
-  font-size: var(--t-h3);
-  font-weight: 600;
-}
-
-.skill-row p {
-  font-size: var(--t-sm);
-  line-height: 1.65;
-  color: var(--ink-2);
-  max-width: 52ch;
-}
-
-.skill-inline,
+   The static label/value rows are gone (replaced by the ticker below); the
+   inline tech list survives because education still uses it. */
 .tech-inline {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-1) var(--s-2);
 }
 
-.skill-inline {
-  justify-content: flex-end;
-}
-
-.skill-inline li,
 .tech-inline li {
   font-size: var(--t-mono);
   letter-spacing: 0.02em;
@@ -834,16 +988,116 @@ a.fact-row-title:hover {
   white-space: nowrap;
 }
 
-.skill-inline li + li::before,
 .tech-inline li + li::before {
   content: "\00b7";
   margin-right: var(--s-2);
   color: var(--rule-2);
 }
 
+/* ---------- SKILLS: TICKER ----------
+   Continuous loop, CSS-driven (no per-frame JS). The track holds six identical
+   sets and translates 0 → -50%, so the wrap point is invisible by
+   construction. Only the first set is exposed: screen readers meet each stack
+   item exactly once. Motion pauses on hover and keyboard focus; reduced motion
+   stops it entirely. There is no JS for this component. */
+.ticker {
+  overflow: hidden;
+  border-block: 1px solid var(--rule);
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+}
+
+/* Motion is a .js enhancement: without script.js the track stays a static
+   row (see the .no-js fallback below). Hover and keyboard focus pause the
+   loop while engaged; reduced motion stops it entirely. */
+.js .ticker-track {
+  animation: ticker-scroll 26s linear infinite;
+}
+
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker-group {
+  display: flex;
+  align-items: center;
+  flex: none;
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.ticker-sep {
+  color: var(--rule-2);
+  user-select: none;
+}
+
+/* Brand marks, 18px like the old contact icons: large enough to read, small
+   enough to stay metadata. Official Simple Icons colours (CC0), lifted where
+   the official value falls apart on a theme background; the SVG inherits its
+   fill from `color`, so no colour is ever hardcoded on the element itself.
+   Icons are decorative (aria-hidden): the adjacent word carries the meaning,
+   which is why icon contrast is exempt from the text-contrast budget. */
+.ticker-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.ticker-logo {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: currentColor;
+  color: var(--mark);
+}
+
+.ticker-logo--html { --mark: #e34f26; }
+.ticker-logo--css { --mark: #1572b6; }
+.ticker-logo--js { --mark: #8a6d00; }
+.ticker-logo--php { --mark: #777bb4; }
+.ticker-logo--laravel { --mark: #ff2d20; }
+.ticker-logo--blade { --mark: var(--brand-ink); }
+.ticker-logo--tailwind { --mark: #0e7490; }
+.ticker-logo--sqlite { --mark: #003b57; }
+
+[data-theme='dark'] .ticker-logo--js { --mark: #f7df1e; }
+[data-theme='dark'] .ticker-logo--tailwind { --mark: #06b6d4; }
+[data-theme='dark'] .ticker-logo--php { --mark: #a9adda; }
+[data-theme='dark'] .ticker-logo--sqlite { --mark: #4fb6d6; }
+
+@keyframes ticker-scroll {
+  to { transform: translateX(-50%); }
+}
+
+.no-js .ticker-track {
+  width: auto;
+  flex-wrap: wrap;
+}
+
+.no-js .ticker-group[aria-hidden='true'] {
+  display: none;
+}
+
 /* ---------- PROJECTS ----------
-   Editorial, not a dashboard. Read-Assist gets the wide internal split and the
-   larger title; the second project is a compact row. */
+   Editorial, not a dashboard. The flagship breaks the row pattern on purpose:
+   its figure takes the full text-column width on top while the copy stacks
+   beneath it. The second project stays a compact side row. One showcase, one
+   entry — never two identical rows, never a card grid. */
 .project {
   display: grid;
   grid-template-columns: 4ch minmax(0, 1.2fr) minmax(0, 1fr);
@@ -859,6 +1113,25 @@ a.fact-row-title:hover {
 
 .project--compact {
   grid-template-columns: 4ch minmax(0, 1fr) 240px;
+}
+
+.project--featured {
+  grid-template-columns: 4ch minmax(0, 1fr);
+}
+
+.project--featured .project-media {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.project--featured .project-main {
+  grid-column: 2;
+  grid-row: 2;
+  max-width: 68ch;
+}
+
+.project--featured .project-index {
+  grid-row: 1 / span 2;
 }
 
 .project-index {
@@ -922,10 +1195,23 @@ a.fact-row-title:hover {
 }
 
 .project-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--s-3) var(--s-5);
   margin-top: var(--s-4);
+}
+
+/* Ruled label/value rows in the site's fact-row language, replacing the old
+   wrapped cluster: each fact gets its own hairline, so Peran/Stack/Status
+   scan like the contact rows instead of pooling into a grey paragraph. */
+.project-meta > div {
+  display: grid;
+  grid-template-columns: 12ch minmax(0, 1fr);
+  gap: var(--s-3);
+  align-items: baseline;
+  padding-block: var(--s-2);
+  border-top: 1px solid var(--rule);
+}
+
+.project-meta > div:last-child {
+  border-bottom: 1px solid var(--rule);
 }
 
 .project-meta dt {
@@ -960,17 +1246,34 @@ a.fact-row-title:hover {
   border-top: 1px solid var(--rule);
 }
 
-/* A fixed 16:9 frame with contain, so a wider screenshot is letterboxed rather
-   than cropped. Nothing here is animated: the screenshot IS the affordance. */
+/* The frame plus its caption travel as one media block: the reveal stages
+   `.project-media`, the hover zoom stays on the image inside. */
+.project-media {
+  grid-column: 3;
+  margin: 0;
+  transition: opacity var(--t-enter), transform var(--t-enter);
+}
+
+.project-cap {
+  margin-top: var(--s-2);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
+/* Fixed 16:9 frame with contain, so a wider screenshot is letterboxed rather
+   than cropped. */
 .project-figure {
   display: block;
-  grid-column: 3;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--bg-sunken);
   border: 1px solid var(--rule);
   border-radius: var(--radius);
-  transition: border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
+  transition: border-color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    opacity var(--t-enter),
+    transform var(--t-enter);
 }
 
 .project-figure:hover {
@@ -981,6 +1284,29 @@ a.fact-row-title:hover {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.project-figure:hover img,
+.project-figure:focus-visible img {
+  transform: scale(1.03);
+}
+
+/* ---------- PROJECTS: REVEAL ----------
+   One-time entrance for the media block and its index number; the text column
+   is always readable immediately. JS adds .is-prep at init (only with JS, motion
+   allowed, and IntersectionObserver available) and .is-in on first intersect,
+   then unobserves — never replayed on scroll. Opacity + transform only, so
+   staging cannot shift layout; the fixed aspect-ratio frame holds the box. */
+.js .project-media.is-prep:not(.is-in),
+.js .project-index.is-prep:not(.is-in) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.js .project-index.is-prep {
+  transition: opacity var(--t-enter), transform var(--t-enter);
+  transition-delay: 80ms;
 }
 
 .projects-note {
@@ -1095,16 +1421,25 @@ a.fact-row-title:hover {
   border-bottom-color: var(--brand-ink);
 }
 
-/* ---------- CONTACT ---------- */
+/* ---------- CONTACT ----------
+   Numbered document rows: index + icon + label, a readable value, and an
+   arrow. Hover/focus answers with three quiet signals at once — wash, accent
+   rule, travelling arrow — all in the existing --t language. */
 .contact-row {
   position: relative;
   display: grid;
   grid-template-columns: 20ch minmax(0, 1fr) 2ch;
   gap: var(--s-3);
   align-items: center;
-  padding: var(--s-3) 0 var(--s-3) var(--s-3);
+  padding: var(--s-4) 0 var(--s-4) var(--s-3);
   border-top: 1px solid var(--rule);
   text-decoration: none;
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.contact-row:hover,
+.contact-row:focus-visible {
+  background: var(--bg-sunken);
 }
 
 .contact-list > li:last-child .contact-row {
@@ -1126,11 +1461,13 @@ a.fact-row-title:hover {
   transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.contact-row:hover::before {
+.contact-row:hover::before,
+.contact-row:focus-visible::before {
   transform: scaleY(1);
 }
 
-.contact-row:hover .contact-value {
+.contact-row:hover .contact-value,
+.contact-row:focus-visible .contact-value {
   color: var(--brand-ink);
 }
 
@@ -1142,19 +1479,47 @@ a.fact-row-title:hover {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
+/* 16px, not 14px: at 14px the GitHub and LinkedIn marks lost their internal
+   detail and started reading as generic blobs. */
 .contact-label svg {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
   flex: none;
   fill: currentColor;
 }
 
+/* Brand colours per icon: GitHub and LinkedIn carry their official marks; the
+   mail envelope is a generic glyph, so it stays currentColor and follows the
+   label. Decorative like the ticker marks — the word beside each icon carries
+   the meaning, which is why icon colour is exempt from the text budget. */
+.contact-icon--github {
+  color: #181717;
+}
+
+.contact-icon--linkedin {
+  color: #0a66c2;
+}
+
+[data-theme='dark'] .contact-icon--github {
+  color: #f2f2f4;
+}
+
+/* The label and its mark move together, so the icon never ends up one colour
+   behind the word beside it. This is the row's existing hover reaction, not a
+   second effect layered on top of it. */
+.contact-row:hover .contact-label,
+.contact-row:focus-visible .contact-label {
+  color: var(--brand-ink);
+}
+
 /* Full URL, never an ellipsis: a visitor should be able to read and retype it.
-   Long values wrap instead of overflowing. */
+   Long values wrap instead of overflowing. One scale step up from metadata so
+   the value reads as the row's voice, not its footnote. */
 .contact-value {
-  font-size: var(--t-mono);
+  font-size: var(--t-sm);
   letter-spacing: 0.01em;
   color: var(--ink);
   overflow-wrap: anywhere;
@@ -1172,9 +1537,30 @@ a.fact-row-title:hover {
     color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.contact-row:hover .contact-arrow {
+.contact-row:hover .contact-arrow,
+.contact-row:focus-visible .contact-arrow {
   color: var(--ink);
   transform: translate(2px, -2px);
+}
+
+/* One-time entrance, same contract as the projects reveal: JS stages
+   .is-prep, the shared observer releases .is-in per row with a short stagger,
+   then unobserves. Text is never hidden without JS to reveal it. */
+.js .contact-row.is-prep:not(.is-in) {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.js .contact-row.is-prep {
+  transition: opacity var(--t-enter), transform var(--t-enter);
+}
+
+.js .contact-list > li:nth-child(2) .contact-row.is-prep {
+  transition-delay: 90ms;
+}
+
+.js .contact-list > li:nth-child(3) .contact-row.is-prep {
+  transition-delay: 180ms;
 }
 
 .contact-outro {
@@ -1483,16 +1869,20 @@ a.fact-row-title:hover {
    Re-derived from the content, not scaled down from the desktop grid. */
 @media (max-width: 1024px) {
   .hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 280px);
     gap: var(--s-5);
   }
 
-  .hero-figure {
-    max-width: 300px;
+  .hero-intro {
+    max-width: 48ch;
   }
 
-  .about-grid {
-    grid-template-columns: 1fr;
+  .hero-figure {
+    max-width: 280px;
+  }
+
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--s-5);
   }
 }
@@ -1503,24 +1893,15 @@ a.fact-row-title:hover {
     grid-template-columns: 4ch minmax(0, 1fr);
   }
 
-  .project-figure {
+  .project-media {
     grid-column: 2;
     margin-top: var(--s-2);
   }
 
   /* The compact project keeps a smaller screenshot when it drops below the
      three-column layout, otherwise it becomes as tall as the featured one. */
-  .project--compact .project-figure {
+  .project--compact .project-media {
     max-width: 320px;
-  }
-
-  .skill-row {
-    grid-template-columns: 12ch minmax(0, 1fr);
-  }
-
-  .skill-inline {
-    grid-column: 2;
-    justify-content: flex-start;
   }
 
   .edu-row {
@@ -1572,45 +1953,41 @@ a.fact-row-title:hover {
     text-align: left;
   }
 
-  /* Drawer is a static row inside the bar, not an absolutely positioned panel
-     pinned to a hardcoded `top: 62px`. */
+  /* Narrow bar: tighter gutters, brand takes the remaining row. The drawer
+     itself is global now — only the bar compresses here. */
   .nav-container {
-    flex-wrap: wrap;
     padding-inline: var(--s-3);
-    row-gap: 0;
+    gap: var(--s-2);
   }
 
   .nav-right {
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    margin-left: auto;
   }
 
-  .nav-links {
-    order: -1;
-    flex: 0 0 100%;
-    display: none;
+  /* Without JS there is no toggle, so the links fall back to a static stacked
+     block under the bar. Dissolving .nav-right re-parents them into the
+     container flow: brand and theme share the first row, the links wrap below
+     at full width. Column link styling is repeated here on purpose — the
+     matching rules above are .js-scoped and must not leak into no-JS. */
+  .no-js .nav-container {
+    flex-wrap: wrap;
+  }
+
+  .no-js .nav-right {
+    display: contents;
+  }
+
+  .no-js .nav-links {
+    flex: 1 0 100%;
     flex-direction: column;
     align-items: stretch;
     gap: 0;
     margin: 0;
+    padding: var(--s-2) 0 var(--s-3);
   }
 
-  .nav-links.open {
-    display: flex;
-  }
-
-  /* Without JS there is no toggle to open the drawer, so it must not be
-     `display: none` — the links stay reachable as a stacked block, and the
-     hamburger (below) is hidden because clicking it would do nothing. */
-  .no-js .nav-links {
-    display: flex;
-  }
-
-  .nav-links a {
+  .no-js .nav-links a {
     min-height: 44px;
-    /* The 2px left border is reserved on every item (transparent at rest) so
-       marking the active tab cannot shift its own label sideways. It is a
-       hairline rule, not an inset box-shadow, to keep the flat surface. */
     padding-inline: calc(var(--s-1) + 2px) var(--s-1);
     border-top: 1px solid var(--rule);
     border-left: 2px solid transparent;
@@ -1618,32 +1995,21 @@ a.fact-row-title:hover {
     font-size: var(--t-sm);
   }
 
-  .nav-links a[aria-current='page'] {
-    border-left-color: var(--brand-ink);
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .nav-toggle {
-    display: inline-flex;
-  }
-
-  /* The toggle is inert without JS, so it must not appear at all. */
-  .no-js .nav-toggle {
-    display: none;
-  }
-
   .hero {
     /* Top and bottom both step to --s-5 here, the same mobile step .section
-       takes at this breakpoint. Without the top half the hero would be the
-       only block on the page still opening 64px below the navbar on a phone. */
+       takes at this breakpoint. */
+    grid-template-columns: 1fr;
     padding-block: var(--s-5);
-    gap: var(--s-4);
+    gap: var(--s-5);
   }
 
-  .hero-lede {
-    /* Drop the clamp's 17px floor to the body step on narrow screens. */
-    font-size: var(--t-body);
+  .hero-intro {
+    max-width: 100%;
+  }
+
+  .hero-figure {
+    max-width: 260px;
+    justify-self: start;
   }
 
   .project + .project {
@@ -1661,25 +2027,14 @@ a.fact-row-title:hover {
 
 @media (max-width: 560px) {
   .hero-figure {
-    max-width: 220px;
+    max-width: 200px;
   }
 
-  .stack-list > li {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-1);
-  }
-
-  .fact-rows > li {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .skill-row,
   .edu-row,
   .academic-list > li {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .skill-inline,
   .edu-meta,
   .academic-side {
     grid-column: 1;
@@ -1737,20 +2092,16 @@ a.fact-row-title:hover {
    element, colour, token, or desktop line break changes. */
 @media (max-width: 768px) {
   /* Two-line labels, where the fault is uneven lines rather than a stranded
-     tail. The eyebrow breaks after two words; the stack line breaks after
-     "Web Accessibility", leaving "UI/UX" alone on a 13% line. */
-  .eyebrow,
-  .meta-line {
+     tail. The eyebrow breaks after two words; balance evens the pair. */
+  .eyebrow {
     text-wrap: balance;
   }
 
-  /* Only the blocks that still broke badly. `.about-desc`, `.project-lede` and
+  /* Only the blocks that still broke badly. `.project-lede` and
      `.academic-desc` are absent on purpose: they already carry `pretty` at every
      width, so repeating it here would be a second source of truth for nothing. */
-  .about-lead,
   .section-note,
   .edu-note,
-  .skill-row p,
   .project-note,
   .projects-note,
   .project-meta dd,
@@ -1760,8 +2111,8 @@ a.fact-row-title:hover {
 }
 
 /* ---------- REDUCED MOTION ----------
-   The only motion left is colour and the two arrow/rule micro-transforms, all
-   under 180ms. This block stays as a hard floor. */
+   Colour transitions and the focus ring stay; positional staging and hover
+   nudges go. This block stays as a hard floor. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -1770,5 +2121,50 @@ a.fact-row-title:hover {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Entrance and ticker guards: nothing may rest at opacity 0, and nothing
+     decorative may move. The ticker falls back to a wrapped static row with
+     the duplicate sets removed, so all eight skills stay readable. */
+  .js .hero.hero-anim:not(.is-in) .eyebrow,
+  .js .hero.hero-anim:not(.is-in) .hero-lede,
+  .js .hero.hero-anim:not(.is-in) .hero-stack,
+  .js .hero.hero-anim:not(.is-in) .hero-actions,
+  .js .hero.hero-anim:not(.is-in) .hero-figure {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js .hero.hero-anim:not(.is-in) .hero-line > span {
+    transform: none;
+  }
+
+  .js .ticker-track {
+    animation: none;
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  .ticker-group[aria-hidden='true'] {
+    display: none;
+  }
+
+  /* Projects reveal never stages, and hover stops moving images and arrows.
+     Colour and border feedback plus the focus ring are untouched. */
+  .js .project-media.is-prep:not(.is-in),
+  .js .project-index.is-prep:not(.is-in),
+  .js .contact-row.is-prep:not(.is-in),
+  .js .side-facts > div.is-prep:not(.is-in) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .project-figure:hover img,
+  .project-figure:focus-visible img,
+  .project-actions .btn--link:hover::after,
+  .project-actions .btn--link:focus-visible::after,
+  .contact-row:hover .contact-arrow,
+  .contact-row:focus-visible .contact-arrow {
+    transform: none;
   }
 }

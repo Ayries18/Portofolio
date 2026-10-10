@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,6 +40,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="css/style.css">
   <script>
+    /* Same no-JS switch as index.html: .js gates every rule that hides
+       content, so a failed script.js degrades to static content, never a
+       blank or unreachable page. */
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+  <script>
     (function() {
       try {
         var saved = localStorage.getItem('theme');
@@ -56,6 +63,12 @@
 
   <nav class="nav" role="navigation" aria-label="Navigasi utama">
     <div class="nav-container">
+      <button type="button" class="icon-btn nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav-menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
       <a class="brand" href="index.html#home">
         <img src="logo.webp" alt="" class="brand-logo" width="336" height="196" loading="eager" decoding="async">
         <span class="nav-name"><span class="nav-first">Muhammad</span> <span class="nav-last">Almuwarisin</span></span>
@@ -81,14 +94,11 @@
             <path d="M20.5 13.3A8.5 8.5 0 1 1 10.7 3.5a6.7 6.7 0 0 0 9.8 9.8z"></path>
           </svg>
         </button>
-
-        <button type="button" class="icon-btn nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav-menu">
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
       </div>
     </div>
   </nav>
+
+  <div class="nav-scrim" aria-hidden="true"></div>
 
   <main id="main-content" class="container">
     <a class="cs-back" href="index.html#projects">&larr; Kembali ke Proyek</a>

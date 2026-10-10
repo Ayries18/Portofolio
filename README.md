@@ -76,8 +76,8 @@ karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
 - Tetap terbaca tanpa JavaScript: semua section ditampilkan berurutan
 - Layout responsif dengan titik henti di 1024px, 900px, 768px, dan 560px
 - Skip link, `focus-visible` global, dan dukungan `prefers-reduced-motion`
-- Ikon SVG inline, tanpa library ikon eksternal
-- `robots.txt`, `sitemap.xml`, dan data terstruktur JSON-LD (`schema.org/Person`)
+ - Ikon SVG inline, tanpa library ikon eksternal
+ - Data terstruktur JSON-LD (`schema.org/Person`)
 - Kartu pratinjau sosial `og-image.png` berukuran 1200×630
 - Hanya satu dependensi eksternal: Google Fonts (Inter)
 
@@ -87,7 +87,11 @@ Semua token warna, tipografi, dan spasi berada di `css/style.css`:
 
 - **Warna** — palet hitam dan ungu. Ungu dipakai hemat: nama di navbar, underline
   tab aktif, satu tombol aksi, link inline, nomor project, dan satu garis aksen
-  per judul section.
+  per judul section. Markah brand pihak ketiga (ikon ticker dan ikon kontak)
+  memakai warna resminya sebagai identitas dekoratif, selalu bersanding kata.
+- **Gerak** — entrance sekali jalan (hero, terminal, reveal), satu loop
+  terkendali (ticker skills, jeda saat hover/fokus), dan semuanya statis
+  saat `prefers-reduced-motion` atau tanpa JavaScript.
 - **Tipografi** — Inter (`400`/`500`/`600`) untuk teks, system monospace untuk
   metadata dan label. Satu skala dengan sembilan ukuran, semuanya bernama token.
 - **Spasi** — kelipatan 4px (`--s-1` sampai `--s-7`), dari `4px` sampai `96px`.
@@ -96,14 +100,16 @@ Semua token warna, tipografi, dan spasi berada di `css/style.css`:
 
 ## Struktur Halaman
 
-- `index.html` — satu halaman, enam section sebagai tab: Beranda, Tentang,
-  Pendidikan, Keterampilan, Proyek, dan Kontak. Pendidikan tidak punya link
-  navbar; ia bisa dicapai dari catatan di tab Proyek.
+- `index.html` — satu halaman, enam section sebagai tab: Beranda (nama
+  dua baris dengan Character Assembly), Tentang (transkrip terminal +
+  papan fakta), Pendidikan, Keterampilan (ticker berjalan), Proyek, dan
+  Kontak. Pendidikan tidak punya link navbar; ia bisa dicapai dari catatan
+  di tab Proyek dan punya tombol kembali ke Proyek.
 - `case-study-read-assist.html` — studi kasus Read-Assist, halaman terpisah.
 
 Halaman ini tetap terbaca tanpa JavaScript: seluruh section ditampilkan
 berurutan dan link navbar bekerja sebagai anchor biasa. Yang berubah tanpa JS
-hanya navigasi tab, drawer mobile, dan toggle tema.
+hanya navigasi tab, drawer, dan toggle tema.
 
 ---
 
@@ -134,19 +140,20 @@ berfungsi.
 ├── favicon-16x16.png               # ikon raster eksplisit
 ├── favicon-32x32.png               # ikon raster eksplisit
 ├── apple-touch-icon.png            # ikon iOS 180x180
-├── og-image.png                    # kartu pratinjau sosial 1200x630
-├── robots.txt                      # allow all + pointer ke sitemap
-├── sitemap.xml                     # dua halaman: index dan case study
-├── logo.webp                       # logo navbar yang dirender di halaman
+ ├── og-image.png                    # kartu pratinjau sosial 1200x630
+ ├── logo.webp                       # logo navbar yang dirender di halaman
 └── profile/                        # foto profil + screenshot 2 proyek solo
     ├── profile.webp                # potret 800x1200 (dipakai hero & README)
     ├── read-assist-preview.webp    # screenshot Read-Assist 1440x810
     └── portofolio-preview.webp     # screenshot Portofolio 1200x590
 ```
 
-Tidak ada aset lain di repository ini: setiap gambar yang dilacak dipakai
-minimal satu halaman. Aset yang tidak lagi dirender dihapus, bukan disimpan
-sebagai cadangan.
+Selain file di atas, repository masih melacak 5 aset orphan yang tidak
+dirender halaman mana pun (penghapusan adalah keputusan owner):
+`logo.png`, `profile/lokapreneur-preview.png` + `.webp`, dan
+`profile/portalberita-preview.png` + `.webp` (253.242 byte).
+Dua duplikat format (`profile/profile.jpg`, `profile/portofolio-preview.png`)
+sudah dihapus; hanya varian `.webp` yang dipakai.
 
 ---
 

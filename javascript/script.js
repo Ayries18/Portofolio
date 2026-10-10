@@ -26,10 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* The mobile drawer is opened from four different places (the button, a nav
-     click, an outside click, Escape, and a resize back to desktop). aria-
-     expanded is the only piece of state; the CSS icon swap and the .open class
-     are both read off it, so nothing else can drift. */
+  /* The drawer is opened from three places (the button, a nav click closing
+     it, an outside click, Escape). aria-expanded is the only piece of state;
+     the CSS icon swap and the .open class are both read off it, so nothing
+     else can drift. No resize handler: the drawer is valid at every width, so
+     there is no stuck state to clean up. */
   function setMenuOpen(open) {
     if (!navLinks || !navToggle) return;
     navLinks.classList.toggle('open', open);
@@ -61,7 +62,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setActiveNav(href);
 
     if (scrollToTop !== false) {
-      targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      /* Smooth scroll is motion: honour the reduced-motion preference instead
+         of animating every tab change for users who asked for none. */
+      const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      targetSection.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
     }
 
     /* Hand focus to the panel that just opened. Without this, a keyboard or
@@ -104,11 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
       closeMenu();
       if (navToggle) navToggle.focus();
     }
-  });
-
-  /* Close the mobile menu on resize/orientation change to avoid stuck states */
-  window.addEventListener('resize', () => {
-    if (!isMobile()) closeMenu();
   });
 
   /* Set the first section as active on load */
@@ -169,6 +168,175 @@ document.addEventListener("DOMContentLoaded", () => {
         applyTheme(e.matches ? 'dark' : 'light');
       }
     });
+  }
+
+
+  /* ========== ABOUT: TERMINAL TYPING ==========
+     The full transcript ships in the HTML as a real <dl>. This only hides it,
+     types the command half of each line, then reveals the output. No JS, no
+     IntersectionObserver, or prefers-reduced-motion -> the static text stands.
+     Runs once; never loops; never steals focus. */
+  const term = document.querySelector('.term');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (term && !reduceMotion && 'IntersectionObserver' in window) {
+    const lines = [...term.querySelectorAll('.term-line')];
+    const commands = lines.map(line => line.querySelector('.term-cmd'));
+
+    const typeLine = (i) => {
+      if (i >= lines.length) {
+        /* Typing done: leave one live caret parked at the end of the last
+           output so the terminal feels running, not printed. Decorative
+           (aria-hidden) and blink-guarded by the existing reduced-motion rule.
+           This branch only runs when the typing animation ran, so no-JS and
+           reduced-motion readers never see it. */
+        const tail = lines[lines.length - 1].querySelector('dd');
+        const end = document.createElement('span');
+        end.className = 'term-caret';
+        end.setAttribute('aria-hidden', 'true');
+        tail.appendChild(end);
+        term.classList.remove('is-prep');
+        return;
+      }
+      const line = lines[i];
+      const cmd = commands[i];
+      const text = cmd.textContent;
+      let c = 0;
+      cmd.textContent = '';
+      line.classList.add('is-typed');
+
+      const caret = document.createElement('span');
+      caret.className = 'term-caret';
+      caret.setAttribute('aria-hidden', 'true');
+      line.querySelector('dt').appendChild(caret);
+
+      const tick = () => {
+        cmd.textContent = text.slice(0, ++c);
+        if (c < text.length) {
+          setTimeout(tick, 34);
+        } else {
+          line.classList.add('is-done');
+          caret.remove();
+          setTimeout(() => typeLine(i + 1), 180);
+        }
+      };
+      setTimeout(tick, 120);
+    };
+
+    const start = () => {
+      term.classList.add('is-prep');
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) {
+          io.disconnect();
+          typeLine(0);
+        }
+      }, { threshold: 0.4 });
+      io.observe(term);
+    };
+    start();
+  }
+
+  /* ========== HERO: CHARACTER ASSEMBLY (once per load) ==========
+     Each name line briefly cycles glyphs, then resolves left to right into the
+     exact text already in the DOM. Runs once, fast (~800ms for both lines),
+     never loops, no blur/glow. Screen readers are unaffected: the animated
+     lines are aria-hidden, the h1 carries the full name as its accessible
+     name, and nothing here is a live region. Reduced motion or no JS -> the
+     true text simply stands. A watchdog restores the originals, so a failure
+     mid-cycle can never leave a wrong string behind. */
+  const ASM_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let assembled = false;
+
+  function assembleLine(el, text, perChar) {
+    return new Promise((resolve) => {
+      const t0 = performance.now();
+      const total = 60 + text.length * perChar + 90;
+      const iv = setInterval(() => {
+        const t = performance.now() - t0;
+        let out = '';
+        for (let i = 0; i < text.length; i++) {
+          out += t >= 60 + i * perChar
+            ? text[i]
+            : ASM_GLYPHS[(Math.random() * ASM_GLYPHS.length) | 0];
+        }
+        el.textContent = out;
+        if (t >= total) {
+          clearInterval(iv);
+          el.textContent = text;
+          resolve();
+        }
+      }, 30);
+    });
+  }
+
+  function assembleName() {
+    if (assembled || reduceMotion || !hero) return;
+    assembled = true;
+    const lines = [...hero.querySelectorAll('.hero-line > span')];
+    if (!lines.length) return;
+    const originals = lines.map(el => el.textContent);
+    setTimeout(() => lines.forEach((el, i) => { el.textContent = originals[i]; }), 3000);
+    (async () => {
+      for (const [i, el] of lines.entries()) {
+        await assembleLine(el, originals[i], i === 0 ? 26 : 24);
+      }
+    })();
+  }
+
+  /* ========== HERO: ENTRANCE (once) ==========
+     .hero-anim stages the hidden states, .is-in releases them on a double rAF
+     so the transition runs from the staged state. Played at most once: if the
+     hero is not active on load (deep link), a MutationObserver catches the
+     moment it becomes active. Reduced motion or no JS -> classes never added,
+     content simply stands. Navigation and tab logic untouched. */
+  const hero = document.querySelector('.hero');
+  let heroPlayed = false;
+
+  function playHero() {
+    if (!hero || heroPlayed || reduceMotion) return;
+    heroPlayed = true;
+    hero.classList.add('hero-anim');
+    /* rAF is the fast path; the timeout is a backstop (a starved rAF in a
+       background tab must never trap content in its staged state). releaseHero
+       is idempotent, so whichever fires first wins and the second is a no-op. */
+    requestAnimationFrame(() => requestAnimationFrame(releaseHero));
+    setTimeout(releaseHero, 400);
+  }
+
+  function releaseHero() {
+    if (!hero || hero.classList.contains('is-in')) return;
+    hero.classList.add('is-in');
+    assembleName();
+  }
+
+  if (hero) {
+    if (hero.classList.contains('active')) playHero();
+    new MutationObserver(() => {
+      if (hero.classList.contains('active')) playHero();
+    }).observe(hero, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  /* ========== PROJECTS + CONTACT + ABOUT BOARD: REVEAL (once) ==========
+     One shared observer for every figure, index number, contact row, and
+     status-board row.
+     .is-prep stages the hidden state at init — only with JS, motion allowed,
+     and IntersectionObserver available — and .is-in releases it on first
+     intersect, after which the target is unobserved so scrolling never
+     replays it. Targets inside a hidden tab simply wait until the tab opens.
+     Text columns stay readable from the start. */
+  const revealTargets = [...document.querySelectorAll('.project-media, .project-index, .contact-row, .side-facts > div')];
+
+  if (revealTargets.length && !reduceMotion && 'IntersectionObserver' in window) {
+    revealTargets.forEach(el => el.classList.add('is-prep'));
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-in');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+    revealTargets.forEach(el => revealObserver.observe(el));
   }
 
   /* ========== FOOTER: YEAR ========== */
