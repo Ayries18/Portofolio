@@ -79,7 +79,9 @@ karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
  - Ikon SVG inline, tanpa library ikon eksternal
  - Data terstruktur JSON-LD (`schema.org/Person`)
 - Kartu pratinjau sosial `og-image.png` berukuran 1200×630
-- Hanya satu dependensi eksternal: Google Fonts (Inter)
+ - Tiga dependensi eksternal: Google Fonts (Inter), Tailwind Play CDN
+   (dikonfigurasi mengikuti token desain, preflight mati), dan Open Props
+   (kumpulan variabel CSS saja, belum dipakai komponen mana pun)
 
 ## Sistem Desain
 
@@ -148,12 +150,10 @@ berfungsi.
     └── portofolio-preview.webp     # screenshot Portofolio 1200x590
 ```
 
-Selain file di atas, repository masih melacak 5 aset orphan yang tidak
-dirender halaman mana pun (penghapusan adalah keputusan owner):
-`logo.png`, `profile/lokapreneur-preview.png` + `.webp`, dan
-`profile/portalberita-preview.png` + `.webp` (253.242 byte).
-Dua duplikat format (`profile/profile.jpg`, `profile/portofolio-preview.png`)
-sudah dihapus; hanya varian `.webp` yang dipakai.
+Setiap gambar yang dilacak dipakai minimal satu halaman. Aset yang kehilangan
+referensi terakhirnya (`logo.png`, pratinjau `lokapreneur-*` /
+`portalberita-*`, duplikat `profile.jpg` dan `portofolio-preview.png`) sudah
+dihapus setelah pindaian referensi — tidak disimpan sebagai cadangan.
 
 ---
 

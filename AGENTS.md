@@ -2,7 +2,7 @@
 
 ## Project
 
-Static personal portfolio website (no build step, no framework, no runtime dependencies beyond one Google Fonts stylesheet). Site content is in Indonesian (`lang="id"`).
+Static personal portfolio website (no build step, no framework, three runtime dependencies: one Google Fonts stylesheet, the Tailwind Play CDN (token-mapped, preflight off), and Open Props (bare custom properties, referenced by nothing). Site content is in Indonesian (`lang="id"`).
 Deployed to GitHub Pages from `main` branch root → https://ayries18.github.io/Portofolio/
 
 - `index.html` — all page content (single page architecture, six tab sections in one file)
@@ -18,12 +18,11 @@ Deployed to GitHub Pages from `main` branch root → https://ayries18.github.io/
 - `profile/read-assist-preview.webp`, `profile/portofolio-preview.webp` — the two project screenshots
 
 **Every asset a page paints is tracked, and nothing else should be.** Do not
-add an unreferenced asset as a spare. Outstanding orphans are still tracked and
-are **not** painted by any page: `logo.png` and the `lokapreneur-*` /
-`portalberita-*` previews (`.png` + `.webp` each) — 253,242 B in total.
-`profile/profile.jpg` and `portofolio-preview.png` were already pruned (only
-their `.webp` siblings are used). Pruning the rest is the owner's call, so
-verify with a reference scan before removing anything.
+add an unreferenced asset as a spare. The last orphans (`logo.png` and the
+`lokapreneur-*` / `portalberita-*` previews, 253,242 B) were pruned after a
+reference scan proved zero page paints; `profile/profile.jpg` and
+`portofolio-preview.png` went earlier for the same reason. If an asset loses
+its last reference, prune it the same way instead of keeping it as a spare.
 
 ## Sections
 
@@ -53,6 +52,7 @@ Editorial minimalism. Three rules govern everything: one radius, hairline rules 
 - **`.section` is load-bearing for spacing, not just for hiding**: it carries `padding-block` and `scroll-margin-top`. The hero overrides the padding with its own and declares `scroll-margin-top` separately, so it must **not** also carry `.section`. An earlier revision dropped `class="section"` from every tab; nothing looked broken, but all five sections silently lost their vertical padding. JS matches sections with `element.matches('section')`, never with a class check, for exactly this reason.
 - **Navigation state lives in one function**: `setActiveNav(href)` in `javascript/script.js` is the only place that writes both the `.active` class on `.nav-links a` and `aria-current="page"`. Every call site routes through it — `switchSection`, the deep-link bootstrap, and the no-hash default. The class alone tells assistive technology nothing, and the two signals drifting apart is the failure mode this prevents. `#education` has no nav item, so `setActiveNav` clears `aria-current` from every link for that hash. Do not reintroduce hand-rolled `classList.remove('active')` loops.
 - **In-page anchors activate their tab, cross-page links navigate**: the generic `a[href^="#"]` handler calls `switchSection` only when the target is a `<section>`; anything else falls through to the browser. That is why the case study's `index.html#projects` links work — `script.js` never hijacks an href that does not start with `#`.
+- **Tailwind generates utilities for any class in the DOM**: the Play CDN saw `main.container` and applied its own `container` width (1280px at xl), silently beating `--measure`. That is why `container: false` sits next to `preflight: false` in the config. Before adding any Tailwind plugin or utility class, grep the markup for name collisions first — `container` already bit once.
 - **The case study page must use `<div>`, never `<section>`**: `.js section:not(.hero) { display: none }` plus the "first section is active" bootstrap would blank every block.
 - **Section focus handoff**: `switchSection` sets `tabindex="-1"` on the target and focuses it, so keyboard and screen-reader users actually follow a tab change instead of staying on the nav link. `[tabindex='-1']:focus { outline: none }` suppresses the ring on that programmatic focus only. Escape in the mobile drawer returns focus to `.nav-toggle`.
 - **The drawer is a fixed left panel at every width, and closed means unfocusable**: `.nav-links` is `position: fixed` under the sticky bar (`z-index: 40` vs the bar's 50, so the hamburger stays clickable), translated `-102%` with `visibility: hidden` and a delayed visibility transition when closed. `display: none` would also hide it, but visibility keeps the slide transition while still removing hidden links from the tab order — verify by tabbing, not by reading CSS. `aria-expanded` on `.nav-toggle` is the only open-state signal; the class is derived from it. Under `.no-js` the wrapper dissolves (`display: contents`) and the links fall back to a static full-width block nobody needs to open.
@@ -60,7 +60,7 @@ Editorial minimalism. Three rules govern everything: one radius, hairline rules 
 - **`.container` and `.footer-inner` carry separate gutters** and each needs its own mobile step. `.footer-inner`'s `flex-direction: column` lives in the `≤560px` block, but its `padding-inline: var(--s-3)` must live in the `≤768px` block alongside `.container`, or footer text sits 8px right of every section from 561–768px. Verify with content-box left edges at 1440/1280/1024/768/390/360px — border-box left edges lie by exactly the gutter and make correct layouts look broken.
 - **`img` needs `height: auto`**: the global reset sets `max-width: 100%; height: auto`. Omitting it lets `max-width` shrink the width while the height stays pinned, silently defeating `aspect-ratio`.
 - **Project screenshots are letterboxed, not cropped**: `.project-figure` is a fixed `aspect-ratio: 16 / 9` frame with `object-fit: contain` on `--bg-sunken`. `read-assist-preview.webp` is 1440×810 (exactly 16:9, fills the frame); `portofolio-preview.webp` is 1200×590 (2.03:1, genuinely letterboxed). The "shown uncropped" caption therefore belongs to Portofolio Personal only — do not move it without re-measuring.
-- **Project layout is one grid, not cards**: `.project` is `4ch minmax(0,1.2fr) minmax(0,1fr)` (index / text / figure) with `align-items: start`, and `.project--compact` narrows the figure to a fixed 240px. The featured entry is distinguished by `.project--featured` giving a wider figure plus a larger title (`--t-project-lg`), not by a grid span. A shorter figure column next to taller text is correct for `align-items: start`, not dead space.
+- **Project layout is editorial rows, not cards**: the compact row is `4ch minmax(0,1fr) 320px` (index / text / figure) with `align-items: start`; a shorter figure column next to taller text is correct for `align-items: start`, not dead space. The featured entry breaks the row on purpose: `.project--featured` stacks a full-width media block (figure + dimension caption) above its copy with a larger title (`--t-project-lg`), so the flagship never reads as a second identical row.
 - **Long contact URLs wrap, never clip**: `.contact-value` is `--t-sm` with `overflow-wrap: anywhere`, so the full LinkedIn URL stays readable and retypeable on narrow screens instead of ellipsising.
 - **Icons are inline SVG only** (no icon library); colours come from tokens, never hardcoded per icon.
 - **One mark, three sizes, and it inverts between themes**: `logo.webp` (336×196, 4.1 KB) is the mark painted in the navbar at 26×15px and is the source for every icon in the repository. It carries three colours — purple, a light-grey fill, and black outlines — so **purple is the only part legible on both backgrounds**: measured loss is ~16–18% of pixels on a white nav and ~3–6% on `#0b0b0f`. Its `alt` is empty on purpose (`.nav-name` already names the person). Never recolour it and never give it a container to "fix" the inversion — that is the one thing that would reintroduce a chip. 26px is measured-optimal: it is where the purple share peaks (43.8%) and it makes the mark exactly the same height as the 15px `.nav-name`, so the mark can never out-weigh the name. `favicon-16x16.png` / `favicon-32x32.png` are extracted from the verified `favicon.ico` frames so the PNGs and the ICO cannot disagree; `apple-touch-icon.png` is the one icon that must be opaque, so it sits on `#0b0b0f` (the dark token) with an 8% inset, because iOS masks the tile and full-bleed would clip the outer glyphs.
@@ -102,7 +102,7 @@ python -m http.server 8123          # from the repo root
 Playwright checks that must pass before calling a change done:
 
 - No horizontal overflow at **1440/1280/1024/900/768/430/390/360px**, in both themes
-- Navbar ≤60px; `.brand` on the same content edge as `main` and the footer (desktop; on mobile the left hamburger takes the edge)
+- Navbar ≤60px; the hamburger takes the content edge (it sits first in the bar), with `.brand`, `main`, and the footer on the same edge behind it
 - Exactly one `h1`; every leaf text node ≥4.5:1 (≥3:1 for ≥24px)
 - No visible `border-radius >= 100px`, no `box-shadow`, no gradient background
 - All six tabs activate, take focus, and leave exactly one `aria-current` (`#education` has no nav item: deep-linking it must clear every link instead)

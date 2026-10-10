@@ -300,14 +300,16 @@ html[data-theme='dark'] {
 }
 
 /* ---------- NAVBAR ----------
-   Flat sticky bar: no blur, no radius, no shadow, no scrolled state. It shares
-   --measure with the content so the brand lines up with the first column. */
+   Floating bar, not full-bleed: the sticky wrapper stays transparent while
+   .nav-container carries the background, the all-around hairline, and the
+   single radius. It sticks 8px below the viewport top, so content slides
+   beneath through the gap. Flat by construction — no pill, no shadow, no
+   blur on the bar itself. */
 .nav {
   position: sticky;
-  top: 0;
+  top: var(--s-2);
   z-index: 50;
-  background: var(--bg);
-  border-bottom: 1px solid var(--rule);
+  padding: var(--s-2) var(--s-4) 0;
 }
 
 .nav-container {
@@ -319,6 +321,9 @@ html[data-theme='dark'] {
   align-items: center;
   justify-content: space-between;
   gap: var(--s-4);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
 }
 
 .brand {
@@ -457,6 +462,20 @@ truth for the open state. */
   background: currentColor;
   transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1),
     opacity var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Spin-to-X, adapted from Hamburgers by Jonathan Suh (MIT): the box spins a
+   half turn while the outer bars collapse into diagonals and the middle bar
+   fades. The end state is a symmetric X, so the journey carries the motion
+   and the rest state stays calm. Signature jonsuh easings and timings kept
+   verbatim (220ms); the reduced-motion floor still zeroes them. */
+.nav-toggle {
+  transition: transform 220ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
+}
+
+.nav-toggle[aria-expanded='true'] {
+  transform: rotate(180deg);
+  transition: transform 220ms cubic-bezier(0.215, 0.61, 0.355, 1) 120ms;
 }
 
 .nav-toggle[aria-expanded='true'] .bar:first-child {
@@ -1112,7 +1131,7 @@ truth for the open state. */
 }
 
 .project--compact {
-  grid-template-columns: 4ch minmax(0, 1fr) 240px;
+  grid-template-columns: 4ch minmax(0, 1fr) 320px;
 }
 
 .project--featured {
@@ -1122,6 +1141,10 @@ truth for the open state. */
 .project--featured .project-media {
   grid-column: 2;
   grid-row: 1;
+  /* Showcase presence without the stretch: full-width framing past ~720px
+     reads empty rather than grand, so the flagship caps here while the copy
+     below keeps its measure. */
+  max-width: 720px;
 }
 
 .project--featured .project-main {
@@ -1160,14 +1183,6 @@ truth for the open state. */
   line-height: 1.7;
   color: var(--ink-2);
   text-wrap: pretty;
-}
-
-.project-note {
-  margin-top: var(--s-3);
-  max-width: 54ch;
-  font-size: var(--t-meta);
-  line-height: 1.6;
-  color: var(--ink-3);
 }
 
 .project-capabilities {
@@ -1252,14 +1267,6 @@ truth for the open state. */
   grid-column: 3;
   margin: 0;
   transition: opacity var(--t-enter), transform var(--t-enter);
-}
-
-.project-cap {
-  margin-top: var(--s-2);
-  font-family: var(--mono);
-  font-size: var(--t-mono);
-  letter-spacing: 0.02em;
-  color: var(--ink-3);
 }
 
 /* Fixed 16:9 frame with contain, so a wider screenshot is letterboxed rather
@@ -1955,6 +1962,10 @@ truth for the open state. */
 
   /* Narrow bar: tighter gutters, brand takes the remaining row. The drawer
      itself is global now — only the bar compresses here. */
+  .nav {
+    padding: var(--s-2) var(--s-3) 0;
+  }
+
   .nav-container {
     padding-inline: var(--s-3);
     gap: var(--s-2);
@@ -2102,7 +2113,6 @@ truth for the open state. */
      width, so repeating it here would be a second source of truth for nothing. */
   .section-note,
   .edu-note,
-  .project-note,
   .projects-note,
   .project-meta dd,
   .contact-outro {

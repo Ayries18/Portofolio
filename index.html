@@ -67,7 +67,53 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 
+  <!-- Tailwind Play CDN, token-mapped to this repo's design system (colours,
+       spacing, radius, fonts) and dark-mode via [data-theme]. Preflight is
+       OFF: its reset would silently regress measured contrast, spacing, and
+       type. No component is rewritten in utilities — the hand-built
+       stylesheet stays the single source of truth; utilities exist for
+       future components only. If this script is blocked, nothing changes:
+       every painted rule still comes from css/style.css. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (window.tailwind) tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+      /* Preflight would reset measured type/spacing; the container plugin
+         would hijack main.container (Tailwind's xl width beats --measure).
+         Both stay off — utilities only, never opinions. */
+      corePlugins: { preflight: false, container: false },
+      theme: {
+        extend: {
+          colors: {
+            brand: '#7c3aed',
+            'brand-hover': '#6d28d9',
+            'brand-ink': '#6d28d9',
+            bg: '#ffffff',
+            'bg-sunken': '#fafafa',
+            ink: '#18181b',
+            'ink-2': '#52525b',
+            'ink-3': '#71717a',
+            rule: '#e4e4e7',
+            'rule-2': '#d4d4d8'
+          },
+          spacing: { 1: '4px', 2: '8px', 3: '16px', 4: '24px', 5: '40px', 6: '64px', 7: '96px' },
+          borderRadius: { DEFAULT: '4px' },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', '"Liberation Mono"', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Open Props: token library (custom properties only — no reset, no
+       components, no theme). Defines extra variables for future use; nothing
+       references them yet, so rendering is byte-identical with or without
+       this file. If blocked, the page is unaffected. -->
+  <link rel="stylesheet" href="https://unpkg.com/open-props">
   <script>
     /* Flip .no-js to .js before first paint. The stylesheet only hides the tab
        sections under `.js`, so this attribute is the whole switch between
@@ -372,7 +418,6 @@
           <a href="https://readassist.web-id.id/" target="_blank" rel="noopener noreferrer" class="project-figure" aria-label="Buka situs Read-Assist">
             <img src="profile/read-assist-preview.webp" alt="Tampilan halaman utama situs Read-Assist" width="1440" height="810" loading="lazy" decoding="async">
           </a>
-          <p class="project-cap">Tangkapan layar · 1440 × 810</p>
         </div>
       </article>
 
@@ -383,7 +428,6 @@
         <div class="project-main">
           <h3 class="project-title">Portofolio Personal</h3>
           <p class="project-lede">Website portofolio pribadi tanpa framework: navigasi berbasis tab, dark mode, dan focus ring global. Dibangun untuk membuktikan fundamental HTML, CSS, dan JavaScript tanpa dependensi.</p>
-          <p class="project-note">Screenshot ditampilkan tanpa dipotong, supaya proporsi antarmuka aslinya tetap terlihat.</p>
 
           <dl class="project-meta">
             <div>
@@ -406,7 +450,6 @@
           <a href="https://ayries18.github.io/Portofolio/" target="_blank" rel="noopener noreferrer" class="project-figure" aria-label="Buka situs Portofolio Personal">
             <img src="profile/portofolio-preview.webp" alt="Tampilan situs Portofolio Personal" width="1200" height="590" loading="lazy" decoding="async">
           </a>
-          <p class="project-cap">Tangkapan layar · 1200 × 590</p>
         </div>
       </article>
 
