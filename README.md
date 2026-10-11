@@ -143,6 +143,7 @@ berfungsi.
 ├── favicon-32x32.png               # ikon raster eksplisit
 ├── apple-touch-icon.png            # ikon iOS 180x180
  ├── og-image.png                    # kartu pratinjau sosial 1200x630
+ ├── 404.html                        # halaman error bergaya situs (tanpa JS)
  ├── logo.webp                       # logo navbar yang dirender di halaman
 └── profile/                        # foto profil + screenshot 2 proyek solo
     ├── profile.webp                # potret 800x1200 (dipakai hero & README)

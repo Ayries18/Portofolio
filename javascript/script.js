@@ -3,7 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========== TAB NAVIGATION ========== */
   const navToggle = document.querySelector('.nav-toggle');
   const navLinks = document.querySelector('.nav-links');
-  const navItems = document.querySelectorAll('.nav-links a');
+  /* Both twins (drawer list + desktop inline row) carry the same five hrefs.
+     State is written to both; CSS exposes exactly one twin per breakpoint, so
+     assistive technology never meets a link twice. */
+  const navItems = document.querySelectorAll('.nav-links a, .nav-inline a');
   const sections = document.querySelectorAll('section');
 
   const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
@@ -26,14 +29,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* The drawer is opened from three places (the button, a nav click closing
-     it, an outside click, Escape). aria-expanded is the only piece of state;
-     the CSS icon swap and the .open class are both read off it, so nothing
-     else can drift. No resize handler: the drawer is valid at every width, so
-     there is no stuck state to clean up. */
+  /* The drawer is global again, so closing it on resize back to desktop is
+     unnecessary — but an open drawer must never strand keyboard users when
+     the breakpoint flips under it. inert on the drawer list (managed here,
+     never in markup, so no-JS keeps every link) removes the closed panel
+     from tab order and the accessibility tree everywhere CSS hides it.
+     aria-expanded is the only other piece of state. */
+  if (navLinks) navLinks.inert = true;
+
   function setMenuOpen(open) {
     if (!navLinks || !navToggle) return;
     navLinks.classList.toggle('open', open);
+    navLinks.inert = !open;
     navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     document.body.classList.toggle('nav-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
@@ -346,9 +353,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========== IN-PAGE ANCHOR LINKS (CTA buttons, skip link) ========== */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-      /* Nav links have their own handler; the skip link targets
+      /* Both nav twins have their own handler; the skip link targets
          #main-content, not a section. */
-      if (anchor.closest('.nav-links')) return;
+      if (anchor.closest('.nav-links, .nav-inline')) return;
       if (this.getAttribute('href') === '#main-content') return;
 
       const targetId = this.getAttribute('href');

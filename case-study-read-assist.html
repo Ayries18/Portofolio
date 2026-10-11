@@ -35,6 +35,30 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
+  <!-- Structured data, same discipline as index.html: only what the page
+       states, no invented metrics or endorsements. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Read-Assist Case Study",
+    "description": "Studi kasus Read-Assist: aplikasi audiobook untuk penyandang disabilitas netra yang dibangun sendiri dengan Laravel, PHP, dan JavaScript.",
+    "url": "https://ayries18.github.io/Portofolio/case-study-read-assist.html",
+    "inLanguage": "id",
+    "author": {
+      "@type": "Person",
+      "name": "Muhammad Almuwarisin",
+      "url": "https://ayries18.github.io/Portofolio/"
+    },
+    "about": [
+      "Laravel",
+      "PHP",
+      "JavaScript",
+      "Web Accessibility"
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
@@ -125,6 +149,18 @@
         <!-- Cross-page links. script.js only hijacks anchors whose href starts
              with "#", so these fall through to normal navigation. -->
         <ul class="nav-links" id="nav-menu">
+          <li><a href="index.html#home">Beranda</a></li>
+          <li><a href="index.html#about">Tentang</a></li>
+          <li><a href="index.html#skills">Keterampilan</a></li>
+          <li><a href="index.html#projects">Proyek</a></li>
+          <li><a href="index.html#contact">Kontak</a></li>
+        </ul>
+
+        <!-- Visible twin of the drawer list for the desktop bar. Same hrefs,
+             no id. CSS shows exactly one twin per breakpoint (display:none
+             removes the hidden one from tab order and the a11y tree); JS keeps
+             aria-current in sync on both. -->
+        <ul class="nav-inline">
           <li><a href="index.html#home">Beranda</a></li>
           <li><a href="index.html#about">Tentang</a></li>
           <li><a href="index.html#skills">Keterampilan</a></li>

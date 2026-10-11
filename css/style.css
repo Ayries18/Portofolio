@@ -367,14 +367,22 @@ html[data-theme='dark'] {
   gap: var(--s-1);
 }
 
-.nav-links {
+.nav-links,
+.js .nav-inline {
   display: flex;
   align-items: center;
   gap: var(--s-4);
   margin-right: var(--s-2);
 }
 
-.nav-links a {
+/* The twin row exists only with JS (it is the visible nav on desktop); without
+   script.js the plain .nav-links row above stands, so this stays hidden. */
+.nav-inline {
+  display: none;
+}
+
+.nav-links a,
+.js .nav-inline a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -389,12 +397,14 @@ html[data-theme='dark'] {
     text-decoration-color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.js .nav-inline a:hover {
   color: var(--ink);
   text-decoration-color: var(--brand-ink);
 }
 
-.nav-links a[aria-current='page'] {
+.nav-links a[aria-current='page'],
+.js .nav-inline a[aria-current='page'] {
   color: var(--ink);
   font-weight: 600;
   text-decoration-color: var(--brand-ink);
@@ -490,16 +500,15 @@ truth for the open state. */
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
-/* The drawer is the primary navigation at every width — hamburger-first on
-   desktop and mobile alike — so it lives here, not in a breakpoint. A fixed
-   left panel under the sticky bar (z-index 40 vs 50: the hamburger stays
-   clickable, and the top padding only clears the bar visually, with no
-   hardcoded `top` for the layout to outgrow). Closed means translated away
-   AND visibility-hidden with a delayed visibility transition, so keyboard
-   users never tab into links they cannot see; verify by tabbing, not by
-   reading CSS. `aria-expanded` on `.nav-toggle` is the only open-state
-   signal. Everything drawer-shaped is `.js`-scoped: without script.js the
-   plain row below stands. */
+/* Global drawer (desktop included): the hamburger is always visible, and the
+   inline twin row beside it is the desktop face of the same five links. A
+   fixed left panel under the sticky bar (z-index 40 vs 50: the hamburger
+   stays clickable, top padding only clears the bar visually, no hardcoded
+   `top`). Closed means translated away AND visibility-hidden with a delayed
+   visibility transition, so keyboard users never tab into links they cannot
+   see; verify by tabbing. `aria-expanded` is the only open-state signal, and
+   JS keeps aria-current in sync on both twins. Everything drawer-shaped is
+   `.js`-scoped: without script.js the plain row stands. */
 .js .nav-toggle {
   display: inline-flex;
 }
@@ -549,6 +558,11 @@ truth for the open state. */
   color: var(--ink);
   font-weight: 600;
 }
+
+/* The drawer is mobile-only: on desktop the links stand in the bar as a
+   plain row (below), and the hamburger stays hidden. Everything
+   drawer-shaped is `.js`-scoped: without script.js the row and the 768px
+   static fallback stand. */
 
 /* Blur scrim: a fixed wash over the page while the drawer is open, so focus
    visibly moves to navigation. Driven by the body.nav-open flag setMenuOpen
@@ -1626,6 +1640,39 @@ truth for the open state. */
   border-bottom-color: var(--ink-3);
 }
 
+/* ---------- 404 ----------
+   Standalone error page (GitHub Pages serves 404.html for unknown paths).
+   Centered, static, no script.js: everything visible with or without JS. */
+.notfound {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding-block: var(--s-7);
+  text-align: center;
+}
+
+.notfound h1 {
+  margin-top: var(--s-2);
+  font-size: var(--t-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.notfound-lede {
+  margin: var(--s-4) auto 0;
+  max-width: 52ch;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+
 /* ============================================================
    CASE STUDY (standalone page, not the tabbed index)
    ------------------------------------------------------------
@@ -1973,6 +2020,21 @@ truth for the open state. */
 
   .nav-right {
     margin-left: auto;
+  }
+
+  /* Mobile drawer: the fixed left panel. It paints below the sticky bar
+     (z-index 40 vs the bar's 50, so the hamburger stays clickable), and
+     closed means translated away AND visibility-hidden with a delayed
+     visibility transition, so keyboard users never tab into links they cannot
+     see — verify by tabbing, not by reading CSS. `aria-expanded` on
+     `.nav-toggle` is the only open-state signal; the class is derived from
+     it. Under `.no-js` the wrapper dissolves and the links fall back to a
+     static block (below). */
+  /* One twin per breakpoint: the inline row hides on mobile, where only the
+     drawer may be live. display:none removes it from tab order and the
+     accessibility tree, no JS bookkeeping needed. */
+  .js .nav-inline {
+    display: none;
   }
 
   /* Without JS there is no toggle, so the links fall back to a static stacked

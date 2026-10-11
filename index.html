@@ -159,6 +159,18 @@
           <li><a href="#contact">Kontak</a></li>
         </ul>
 
+        <!-- Visible twin of the drawer list for the desktop bar. Same hrefs,
+             no id. CSS shows exactly one twin per breakpoint (display:none
+             removes the hidden one from tab order and the a11y tree); JS keeps
+             aria-current in sync on both. -->
+        <ul class="nav-inline">
+          <li><a href="#home">Beranda</a></li>
+          <li><a href="#about">Tentang</a></li>
+          <li><a href="#skills">Keterampilan</a></li>
+          <li><a href="#projects">Proyek</a></li>
+          <li><a href="#contact">Kontak</a></li>
+        </ul>
+
         <button type="button" class="icon-btn theme-toggle" aria-label="Ganti tema gelap/terang">
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
             <circle cx="12" cy="12" r="4"></circle>

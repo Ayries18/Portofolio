@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Halaman tidak ditemukan | Muhammad Almuwarisin</title>
+  <meta name="description" content="Halaman yang dicari tidak ada di portofolio Muhammad Almuwarisin.">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="favicon.ico" sizes="any">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    document.documentElement.classList.remove('no-js');
+    document.documentElement.classList.add('js');
+  </script>
+  <script>
+    /* Theme only; this page needs nothing else from script.js. Paths below
+       are relative, so a nested missing URL (multi-level deep) resolves
+       assets against the wrong directory — single-level typos, the 99% case,
+       work everywhere including file:// preview. */
+    (function() {
+      try {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.body.setAttribute('data-theme', 'dark');
+        }
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
+
+  <main id="main-content" class="container">
+    <div class="notfound">
+      <p class="eyebrow">404</p>
+      <h1>Halaman tidak ditemukan</h1>
+      <p class="notfound-lede">Alamat yang kamu tuju tidak ada di situs ini. Mungkin salah ketik, atau halamannya sudah dipindahkan.</p>
+      <div class="notfound-actions">
+        <a href="index.html" class="btn btn--solid">Kembali ke Beranda</a>
+        <a href="index.html#projects" class="btn btn--outline">Lihat Proyek</a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
