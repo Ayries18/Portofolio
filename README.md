@@ -102,10 +102,10 @@ Semua token warna, tipografi, dan spasi berada di `css/style.css`:
 
 ## Struktur Halaman
 
-- `index.html` — satu halaman, enam section sebagai tab: Beranda (nama
+- `index.html` — satu halaman, tujuh section sebagai tab: Beranda (nama
   dua baris dengan Character Assembly), Tentang (transkrip terminal +
-  papan fakta), Pendidikan, Keterampilan (ticker berjalan), Proyek, dan
-  Kontak. Pendidikan tidak punya link navbar; ia bisa dicapai dari catatan
+  papan fakta), Pendidikan, Keterampilan (ticker berjalan), Proyek, Artikel
+  (satu publikasi jurnal terverifikasi), dan Kontak. Pendidikan tidak punya link navbar; ia bisa dicapai dari catatan
   di tab Proyek dan punya tombol kembali ke Proyek.
 - `case-study-read-assist.html` — studi kasus Read-Assist, halaman terpisah.
 

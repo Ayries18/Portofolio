@@ -791,6 +791,13 @@ truth for the open state. */
   display: block;
 }
 
+/* First name in brand-ink: echoes the purple surname in the navbar and gives
+   the two-line assembly its own rhythm (purple settles first, ink follows).
+   AA-safe at this size in both themes (7.10:1 light, 7.44:1 dark). */
+.hero-line:first-child > span {
+  color: var(--brand-ink);
+}
+
 .js .hero.hero-anim .eyebrow,
 .js .hero.hero-anim .hero-line > span,
 .js .hero.hero-anim .hero-lede,
@@ -867,6 +874,20 @@ truth for the open state. */
   letter-spacing: 0.02em;
 }
 
+/* Bottom status bar mirroring the top chrome: branch, encoding, locale — all
+   three true of this repository (main branch, BOM-less UTF-8, lang="id").
+   Decorative window dressing, hidden from assistive technology. */
+.term-foot {
+  display: flex;
+  gap: var(--s-4);
+  padding: var(--s-2) var(--s-4);
+  border-top: 1px solid var(--rule);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  color: var(--ink-3);
+}
+
 .term-body {
   margin: 0;
   padding: var(--s-4);
@@ -876,6 +897,9 @@ truth for the open state. */
   font-family: var(--mono);
   font-size: var(--t-sm);
   line-height: 1.7;
+  /* Line numbers 01–09 in the project-index voice: generated, so the typing
+     script (which rewrites .term-cmd text) can never disturb them. */
+  counter-reset: term;
 }
 
 .term-line {
@@ -887,6 +911,23 @@ truth for the open state. */
   gap: var(--s-2);
   color: var(--ink);
   font-weight: 500;
+}
+
+.term-line dt::before {
+  counter-increment: term;
+  content: counter(term, decimal-leading-zero);
+  color: var(--ink-3);
+  user-select: none;
+}
+
+/* Scanning aid: the command under the pointer lights up in the same purple
+   the prompt already wears — no new accent, just feedback. */
+.term-line:hover .term-cmd {
+  color: var(--brand-ink);
+}
+
+.term-cmd {
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
 .term-prompt {
@@ -1340,6 +1381,66 @@ truth for the open state. */
   color: var(--ink-3);
 }
 
+/* ---------- ARTICLES ----------
+   One verified publication. Title first at full width (unlike the short
+   academic names, a 100-character title cannot live in a 20ch column), then
+   a description/side split reusing the academic rows. Nothing here is
+   invented: no abstract, no DOI, no metrics — only venue facts. */
+.article-list > li {
+  padding-block: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.article-list > li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.article-title {
+  margin-top: var(--s-2);
+  font-size: var(--t-project-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  max-width: 62ch;
+  text-wrap: balance;
+}
+
+.article-venue {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.article-authors {
+  margin-top: var(--s-3);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.article-authors strong {
+  color: var(--ink);
+}
+
+.article-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-4);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--rule);
+}
+
+.article-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--s-2) var(--s-4);
+  align-items: baseline;
+  margin-top: var(--s-3);
+}
+
 /* ---------- EDUCATION ---------- */
 .edu-row {
   display: grid;
@@ -1604,9 +1705,10 @@ truth for the open state. */
   margin: 0 auto;
   padding: 0 var(--s-4);
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--s-3);
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--s-2);
   font-size: var(--t-meta);
   color: var(--ink-3);
 }
@@ -1619,6 +1721,7 @@ truth for the open state. */
 .footer-links {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--s-3);
 }
 
@@ -2104,7 +2207,8 @@ truth for the open state. */
   }
 
   .edu-row,
-  .academic-list > li {
+  .academic-list > li,
+  .article-body {
     grid-template-columns: minmax(0, 1fr);
   }
 

@@ -5,7 +5,7 @@
 Static personal portfolio website (no build step, no framework, three runtime dependencies: one Google Fonts stylesheet, the Tailwind Play CDN (token-mapped, preflight off), and Open Props (bare custom properties, referenced by nothing). Site content is in Indonesian (`lang="id"`).
 Deployed to GitHub Pages from `main` branch root → https://ayries18.github.io/Portofolio/
 
-- `index.html` — all page content (single page architecture, six tab sections in one file)
+- `index.html` — all page content (single page architecture, seven tab sections in one file)
 - `case-study-read-assist.html` — standalone Read-Assist case study page (not a tab section)
 - `css/style.css` — design tokens, every component, and both themes
 - `javascript/script.js` — navigation tabs, mobile menu, theme toggle, section focus handoff, and the footer year
@@ -32,7 +32,8 @@ its last reference, prune it the same way instead of keeping it as a spare.
 3. **education** — UIN Ar-Raniry plus a "Proyek Akademik" list (Portal Berita, LokaPreneur). **No nav link**; reached from the note inside Projects, with a `← Kembali ke Proyek` back link at the top.
 4. **skills** — continuous ticker of the 8 solo-built stacks (HTML → SQLite) with coloured brand icons; seamless `-50%` loop, hover/focus pause, no buttons
 5. **projects** — **only solo work**: Read-Assist (featured), Portofolio Personal; one-time figure/index reveal, hover zoom, arrow-nudge GitHub links
-6. **contact** — three rows (Email, GitHub, LinkedIn) with label / value / arrow, brand-coloured GitHub/LinkedIn icons, one-time staggered reveal
+6. **artikel** — one verified journal paper (first of three authors, ZONAsi Vol. 8 No. 3, 2026) with an outbound journal link; no abstract or full text is mirrored, only venue facts
+7. **contact** — three rows (Email, GitHub, LinkedIn) with label / value / arrow, brand-coloured GitHub/LinkedIn icons, one-time staggered reveal
 
 ## Design System
 
@@ -58,7 +59,7 @@ Editorial minimalism. Three rules govern everything: one radius, hairline rules 
 - **Section focus handoff**: `switchSection` sets `tabindex="-1"` on the target and focuses it, so keyboard and screen-reader users actually follow a tab change instead of staying on the nav link. `[tabindex='-1']:focus { outline: none }` suppresses the ring on that programmatic focus only. Escape in the mobile drawer returns focus to `.nav-toggle`.
 - **The drawer is global; the bar shows its twin**: `.nav-links` is a fixed left panel at every width (closed = translated away, `visibility`-hidden, and `inert`, so hidden links leave the tab order and the tree — verify by tabbing). `.nav-inline` duplicates the same five hrefs as a visible desktop row and hides on mobile; `display:none` does its own hiding there. `setActiveNav` writes class + `aria-current` to both twins, and `inert` is only ever set from JS, never in markup, so no-JS keeps every link. `aria-expanded` on `.nav-toggle` is the only open-state signal.
 - **The drawer's active marker is a border, not a box-shadow**: `.nav-links a` reserves `border-left: 2px solid transparent` at rest so marking the active tab cannot shift its own label sideways. It used to be `box-shadow: inset 2px 0 0` — the last shadow on the site, and against the flat direction.
-- **`.container` and `.footer-inner` carry separate gutters** and each needs its own mobile step. `.footer-inner`'s `flex-direction: column` lives in the `≤560px` block, but its `padding-inline: var(--s-3)` must live in the `≤768px` block alongside `.container`, or footer text sits 8px right of every section from 561–768px. Verify with content-box left edges at 1440/1280/1024/768/390/360px — border-box left edges lie by exactly the gutter and make correct layouts look broken.
+- **`.container` and `.footer-inner` carry separate gutters** and each needs its own mobile step: `.footer-inner`'s `padding-inline: var(--s-3)` must live in the `≤768px` block alongside `.container`, or footer text sits 8px right of every section from 561–768px. The footer stacks centered at every width (copyright above, links below). Verify with content-box edges at 1440/1280/1024/768/390/360px — border-box left edges lie by exactly the gutter and make correct layouts look broken.
 - **`img` needs `height: auto`**: the global reset sets `max-width: 100%; height: auto`. Omitting it lets `max-width` shrink the width while the height stays pinned, silently defeating `aspect-ratio`.
 - **Project screenshots are letterboxed, not cropped**: `.project-figure` is a fixed `aspect-ratio: 16 / 9` frame with `object-fit: contain` on `--bg-sunken`. `read-assist-preview.webp` is 1440×810 (exactly 16:9, fills the frame); `portofolio-preview.webp` is 1200×590 (2.03:1, genuinely letterboxed). The "shown uncropped" caption therefore belongs to Portofolio Personal only — do not move it without re-measuring.
 - **Project layout is editorial rows, not cards**: the compact row is `4ch minmax(0,1fr) 320px` (index / text / figure) with `align-items: start`; a shorter figure column next to taller text is correct for `align-items: start`, not dead space. The featured entry breaks the row on purpose: `.project--featured` stacks a full-width media block (figure + dimension caption) above its copy with a larger title (`--t-project-lg`), so the flagship never reads as a second identical row.
@@ -106,7 +107,7 @@ Playwright checks that must pass before calling a change done:
 - Navbar ≤60px; the hamburger takes the content edge (it sits first in the bar), with `.brand`, `main`, and the footer on the same edge behind it
 - Exactly one `h1`; every leaf text node ≥4.5:1 (≥3:1 for ≥24px)
 - No visible `border-radius >= 100px`, no `box-shadow`, no gradient background
-- All six tabs activate, take focus, and leave exactly one `aria-current` (`#education` has no nav item: deep-linking it must clear every link instead)
+- All seven tabs activate, take focus, and leave exactly one `aria-current` (`#education` has no nav item: deep-linking it must clear every link instead)
 - Drawer opens with Enter, closes with Escape, and returns focus (valid at every width; the desktop twin row is the same links inline)
 - Theme survives reload, and light-on-dark-OS survives reload
 - No console errors, page errors, or failed requests on either page
