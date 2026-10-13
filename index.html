@@ -232,15 +232,16 @@
     <!-- ============ BERANDA ============ -->
     <section id="home" class="hero">
       <div class="hero-intro">
-        <p class="eyebrow">Web Developer · Information Technology Student</p>
+        <p class="eyebrow">Mahasiswa TI · Membangun Read-Assist, audiobook QR untuk tunanetra</p>
         <h1 class="hero-name" aria-label="Muhammad Almuwarisin">
           <span class="hero-line" aria-hidden="true"><span>Muhammad</span></span>
           <span class="hero-line" aria-hidden="true"><span>Almuwarisin</span></span>
         </h1>
         <div class="hero-desc">
-          <p class="hero-lede">Saya membangun aplikasi web dengan fokus pada pengalaman pengguna dan aksesibilitas — dari antarmuka yang responsif dan dapat dinavigasi keyboard hingga mode kontras tinggi dan ukuran teks yang dapat diperbesar, seperti yang saya terapkan pada Read-Assist.</p>
+          <p class="hero-lede">Saya membangun Read-Assist, audiobook berbasis QR untuk penyandang disabilitas netra. Ia punya navigasi keyboard penuh, mode kontras tinggi, dan ukuran teks yang bisa diperbesar tanpa memperbesar seluruh halaman.</p>
         </div>
         <p class="hero-stack">Laravel · PHP · JavaScript</p>
+        <p class="hero-now"><span class="hero-now-label">Sekarang:</span> merapikan antrean audio + QR cetak Read-Assist</p>
         <div class="hero-actions">
           <a href="#projects" class="btn btn--solid">Lihat Proyek</a>
           <a href="https://github.com/Ayries18" target="_blank" rel="noopener noreferrer" class="btn btn--outline">GitHub</a>
@@ -250,7 +251,7 @@
 
       <figure class="hero-figure">
         <img src="profile/profile.webp" alt="Foto Muhammad Almuwarisin" width="800" height="1200" loading="eager" fetchpriority="high" decoding="async">
-        <figcaption>Banda Aceh, Indonesia</figcaption>
+        <figcaption>Banda Aceh — tempat Read-Assist dibangun</figcaption>
       </figure>
     </section>
 
@@ -438,6 +439,8 @@
         <div class="project-main">
           <h3 class="project-title">Read-Assist</h3>
           <p class="project-lede">Platform audiobook untuk penyandang disabilitas netra. Buku PDF/EPUB diunggah, teksnya diekstrak lalu di-speech-kan otomatis di latar belakang, lalu diakses dengan memindai QR Code yang ditempel pada buku fisik, tanpa aplikasi khusus.</p>
+          <p class="project-decision">Keputusan terberat: antrean, bukan request langsung — halaman unggah selesai cepat, audio dibangun di latar belakang.</p>
+          <p class="project-flow">Unggah <span aria-hidden="true">&rarr;</span> Ekstrak <span aria-hidden="true">&rarr;</span> Antrean <span aria-hidden="true">&rarr;</span> MP3 <span aria-hidden="true">&rarr;</span> QR</p>
 
           <ul class="project-capabilities">
             <li>Ekstraksi teks dari PDF dan EPUB, lalu dibersihkan dan dipecah per kalimat</li>
@@ -481,7 +484,7 @@
 
         <div class="project-main">
           <h3 class="project-title">Portofolio Personal</h3>
-          <p class="project-lede">Website portofolio pribadi tanpa framework: navigasi berbasis tab, dark mode, dan focus ring global. Dibangun untuk membuktikan fundamental HTML, CSS, dan JavaScript tanpa dependensi.</p>
+          <p class="project-lede">Website portofolio pribadi tanpa framework dan tanpa build step: navigasi berbasis tab, dark mode, dan focus ring global. Dibangun untuk membuktikan fundamental HTML, CSS, dan JavaScript.</p>
 
           <dl class="project-meta">
             <div>
@@ -538,6 +541,7 @@
           </div>
           <div class="article-actions">
             <a href="https://journal.unilak.ac.id/index.php/zn/article/view/35537" target="_blank" rel="noopener noreferrer" class="btn btn--outline">Baca di Jurnal</a>
+            <button type="button" class="btn btn--outline" id="cite-btn" aria-live="polite" data-citation="Almuwarisin, M., Khairan AR, & Ilahi, R. (2026). READ-ASSIST: SISTEM BERBASIS WEB DENGAN QR-AUDIO DAN KATALOG AUDIO BUKU BAGI PENYANDANG DISABILITAS NETRA. ZONAsi: Jurnal Sistem Informasi, 8(3). https://journal.unilak.ac.id/index.php/zn/article/view/35537">Salin sitasi</button>
             <a href="case-study-read-assist.html" class="btn btn--link">Studi Kasus</a>
           </div>
         </li>
@@ -584,7 +588,7 @@
         </li>
       </ul>
 
-      <p class="contact-outro">Saya terbuka untuk magang dan internship. Untuk diskusi tentang Laravel, PHP, atau aksesibilitas web, hubungi saya lewat email atau LinkedIn.</p>
+      <p class="contact-outro">Saya di Banda Aceh (WIB, UTC+7) dan terbuka untuk magang dan internship. Untuk diskusi tentang Laravel, PHP, atau aksesibilitas web, hubungi saya lewat email atau LinkedIn.</p>
     </section>
 
   </main>

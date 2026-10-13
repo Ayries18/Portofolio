@@ -243,6 +243,89 @@ document.addEventListener("DOMContentLoaded", () => {
     start();
   }
 
+  /* ========== ABOUT: LIVE PROMPT ==========
+     Rendered here, never in markup: without JS it would be a dead input.
+     Answers are parsed from the transcript <dl> itself, so prompt and
+     transcript cannot drift apart. textContent only, so typed input can never
+     inject markup. Lives outside .term-body with its own classes, so the
+     typing animation above (which rewrites .term-line/.term-cmd) never
+     touches it. Runs synchronously at load, before any typing tick. */
+  if (term) {
+    const entries = [...term.querySelectorAll('.term-line')].map(line => {
+      const cmd = line.querySelector('.term-cmd');
+      const dd = line.querySelector('dd');
+      return cmd && dd ? [cmd.textContent.trim().toLowerCase(), dd.textContent.trim()] : null;
+    }).filter(Boolean);
+
+    if (entries.length) {
+      const live = document.createElement('div');
+      live.className = 'term-live';
+      const row = document.createElement('div');
+      row.className = 'term-live-row';
+      const mark = document.createElement('span');
+      mark.className = 'term-live-prompt';
+      mark.textContent = '\u276F';
+      mark.setAttribute('aria-hidden', 'true');
+      const field = document.createElement('input');
+      field.className = 'term-live-input';
+      field.setAttribute('type', 'text');
+      field.setAttribute('aria-label', 'Ketik perintah terminal, misalnya whoami');
+      field.setAttribute('placeholder', 'ketik perintah\u2026 (coba: whoami)');
+      field.setAttribute('autocomplete', 'off');
+      field.setAttribute('spellcheck', 'false');
+      const out = document.createElement('p');
+      out.className = 'term-live-out';
+      out.setAttribute('aria-live', 'polite');
+      row.append(mark, field);
+      live.append(row, out);
+      term.querySelector('.term-body').after(live);
+
+      const history = [];
+      field.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (!history.length) return;
+          let i = history.indexOf(field.value);
+          i = e.key === 'ArrowUp'
+            ? (i < 0 ? 0 : Math.min(i + 1, history.length - 1))
+            : (i < 0 ? -1 : i - 1);
+          field.value = i < 0 ? '' : history[history.length - 1 - i];
+          return;
+        }
+        if (e.key !== 'Enter') return;
+        const raw = field.value.trim().toLowerCase();
+        if (!raw) return;
+        history.push(raw);
+        field.value = '';
+        if (raw === 'clear') {
+          out.textContent = '';
+        } else if (raw === 'help') {
+          out.textContent = 'Perintah: ' + entries.map(entry => entry[0]).join(', ') + ', help, clear';
+        } else {
+          const hit = entries.find(entry => entry[0] === raw);
+          out.textContent = hit ? hit[1] : 'Perintah tidak dikenal: ' + raw + ' \u2014 coba: help';
+        }
+      });
+    }
+  }
+
+  /* ========== SHORTCUTS: 1-6 SWITCH TABS ==========
+     Number keys jump to the six nav tabs in order. Ignored inside editable
+     fields and with modifiers held. On pages without sections (case study)
+     switchSection finds no target and returns — a safe no-op. */
+  const tabOrder = ['#home', '#about', '#skills', '#projects', '#artikel', '#contact'];
+  document.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const target = e.target;
+    if (target && (target.matches('input, textarea, select') || target.isContentEditable)) return;
+    const n = Number(e.key);
+    if (n >= 1 && n <= tabOrder.length) {
+      e.preventDefault();
+      switchSection(tabOrder[n - 1], true);
+      closeMenu();
+    }
+  });
+
   /* ========== HERO: CHARACTER ASSEMBLY (once per load) ==========
      Each name line briefly cycles glyphs, then resolves left to right into the
      exact text already in the DOM. Runs once, fast (~800ms for both lines),
@@ -349,6 +432,33 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========== FOOTER: YEAR ========== */
   const footerYear = document.getElementById('footer-year');
   if (footerYear) footerYear.textContent = new Date().getFullYear();
+
+  /* ========== ARTICLE: COPY CITATION ==========
+     One button, clipboard API with a textarea fallback. Label flips to
+     confirm, then flips back; aria-live on the button announces it. */
+  const citeBtn = document.getElementById('cite-btn');
+  if (citeBtn) {
+    const citeOriginal = citeBtn.textContent;
+    citeBtn.addEventListener('click', async () => {
+      const text = citeBtn.getAttribute('data-citation') || '';
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        citeBtn.textContent = 'Tersalin!';
+      } catch (e) {
+        citeBtn.textContent = 'Gagal menyalin';
+      }
+      setTimeout(() => { citeBtn.textContent = citeOriginal; }, 1600);
+    });
+  }
 
   /* ========== IN-PAGE ANCHOR LINKS (CTA buttons, skip link) ========== */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {

@@ -21,7 +21,7 @@ Web Developer &middot; Mahasiswa Teknologi Informasi, UIN Ar-Raniry Banda Aceh
 ## Tentang
 
 Portofolio pribadi berbasis HTML, CSS, dan JavaScript murni, tanpa framework dan
-tanpa dependensi runtime. Dibangun untuk menunjukkan penguasaan fundamental
+tanpa build step. Dibangun untuk menunjukkan penguasaan fundamental
 web: navigasi berbasis tab, dark mode, dan aksesibilitas keyboard.
 
 Selain developing web, saya mengerjakan **Read-Assist**, aplikasi audiobook untuk

@@ -166,6 +166,7 @@ html[data-theme='dark'] {
    costs no font request and gives the page a second, quieter voice. */
 .eyebrow,
 .hero-stack,
+.hero-now,
 .fact-label,
 .project-index,
 .project-meta dt,
@@ -253,6 +254,26 @@ html[data-theme='dark'] {
   display: block;
 }
 
+/* ---------- TAB ENTRANCE ----------
+   One soft rise each time a tab opens. Keyframes restart whenever display
+   flips none→block, so revisiting a tab replays it — deliberately, in the
+   same 600ms voice as the hero entrance, never a loop. Scoped to .js, so
+   no-JS readers just get the stacked document. */
+@keyframes section-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.js section:not(.hero).active {
+  animation: section-in var(--t-enter);
+}
+
 .section {
   padding-block: var(--s-6);
   scroll-margin-top: 76px;
@@ -280,7 +301,8 @@ html[data-theme='dark'] {
 }
 
 /* The single accent mark per section: a 16x2 rule, not the 4px gradient bar
-   that used to sit beside all five h2s. */
+   that used to sit beside all five h2s. Under .js it draws itself (scaleX)
+   each time its tab opens; without JS it simply stands. */
 .section-title::before {
   content: "";
   position: absolute;
@@ -289,6 +311,16 @@ html[data-theme='dark'] {
   width: 16px;
   height: 2px;
   background: var(--brand-ink);
+}
+
+.js .section-title::before {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--t-enter) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.js section.active .section-title::before {
+  transform: scaleX(1);
 }
 
 .section-note {
@@ -519,7 +551,7 @@ truth for the open state. */
   left: 0;
   bottom: 0;
   z-index: 40;
-  width: min(300px, 84vw);
+  width: min(240px, 84vw);
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -558,6 +590,31 @@ truth for the open state. */
   color: var(--ink);
   font-weight: 600;
 }
+
+/* Drawer cascade: links arrive one after another when the panel opens.
+   Staged on the li (the moving box, not the bordered link), delays only on
+   .open so closing stays snappy. Same --t voice as every micro-feedback. */
+.js .nav-links li {
+  transition: opacity var(--t) cubic-bezier(0.2, 0, 0, 1),
+    transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.js .nav-links:not(.open) li {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.js .nav-links.open li {
+  opacity: 1;
+  transform: none;
+}
+
+.js .nav-links.open li:nth-child(1) { transition-delay: 30ms; }
+.js .nav-links.open li:nth-child(2) { transition-delay: 60ms; }
+.js .nav-links.open li:nth-child(3) { transition-delay: 90ms; }
+.js .nav-links.open li:nth-child(4) { transition-delay: 120ms; }
+.js .nav-links.open li:nth-child(5) { transition-delay: 150ms; }
+.js .nav-links.open li:nth-child(6) { transition-delay: 180ms; }
 
 /* The drawer is mobile-only: on desktop the links stand in the bar as a
    plain row (below), and the hamburger stays hidden. Everything
@@ -739,6 +796,23 @@ truth for the open state. */
   color: var(--ink-3);
 }
 
+/* Current focus line: same mono voice as the stack, one step below the lede.
+   Ink-2 value on ink-3 label — no new accent, no availability claim (that
+   lives in About/Contact only). */
+.hero-now {
+  margin-top: var(--s-2);
+  font-size: var(--t-mono);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.hero-now-label {
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .hero-actions {
   display: flex;
   align-items: center;
@@ -761,6 +835,13 @@ truth for the open state. */
   object-position: var(--portrait-focus);
   border-radius: var(--radius);
   border: 1px solid var(--rule);
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* Same hover zoom as the project figures (1.02, quieter than their 1.03:
+   a portrait is identity, not a screenshot). */
+.hero-figure:hover img {
+  transform: scale(1.02);
 }
 
 .hero-figure figcaption {
@@ -802,6 +883,7 @@ truth for the open state. */
 .js .hero.hero-anim .hero-line > span,
 .js .hero.hero-anim .hero-lede,
 .js .hero.hero-anim .hero-stack,
+.js .hero.hero-anim .hero-now,
 .js .hero.hero-anim .hero-actions,
 .js .hero.hero-anim .hero-figure {
   transition: opacity var(--t-enter), transform var(--t-enter);
@@ -810,6 +892,7 @@ truth for the open state. */
 .js .hero.hero-anim:not(.is-in) .eyebrow,
 .js .hero.hero-anim:not(.is-in) .hero-lede,
 .js .hero.hero-anim:not(.is-in) .hero-stack,
+.js .hero.hero-anim:not(.is-in) .hero-now,
 .js .hero.hero-anim:not(.is-in) .hero-actions {
   opacity: 0;
   transform: translateY(14px);
@@ -821,7 +904,7 @@ truth for the open state. */
 
 .js .hero.hero-anim:not(.is-in) .hero-figure {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(28px) scale(1.04);
 }
 
 .js .hero.hero-anim .eyebrow { transition-delay: 0ms; }
@@ -829,6 +912,7 @@ truth for the open state. */
 .js .hero.hero-anim .hero-line:last-child > span { transition-delay: 180ms; }
 .js .hero.hero-anim .hero-lede { transition-delay: 300ms; }
 .js .hero.hero-anim .hero-stack { transition-delay: 390ms; }
+.js .hero.hero-anim .hero-now { transition-delay: 420ms; }
 .js .hero.hero-anim .hero-figure { transition-delay: 350ms; }
 .js .hero.hero-anim .hero-actions { transition-delay: 470ms; }
 
@@ -977,6 +1061,54 @@ truth for the open state. */
 
 @media (prefers-reduced-motion: reduce) {
   .term-caret { animation: none; }
+}
+
+/* ---------- ABOUT: LIVE PROMPT ----------
+   A real prompt row rendered by script.js (never in markup, so no-JS readers
+   never meet a dead input). The answer map is parsed from the <dl> itself, so
+   prompt and transcript cannot drift apart. Output is a polite live region;
+   no animation, so reduced motion needs no guard here. */
+.term-live {
+  border-top: 1px solid var(--rule);
+  padding: var(--s-3) var(--s-4);
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+}
+
+.term-live-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
+.term-live-prompt {
+  color: var(--brand-ink);
+  user-select: none;
+}
+
+.term-live-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+}
+
+.term-live-input::placeholder {
+  color: var(--ink-3);
+  opacity: 1;
+}
+
+.term-live-out {
+  margin: var(--s-2) 0 0 calc(var(--s-3) + 1ch);
+  line-height: 1.7;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+.term-live-out:empty {
+  display: none;
 }
 
 /* ---------- ABOUT: LAYOUT + SIDE FACTS ----------
@@ -1238,6 +1370,26 @@ truth for the open state. */
   line-height: 1.7;
   color: var(--ink-2);
   text-wrap: pretty;
+}
+
+/* Decision + flow: the two lines that keep the index from reading like a
+   feature list. Decision is a stance in body voice; flow is metadata in mono.
+   No accent on either — the index number keeps the only purple here. */
+.project-decision {
+  margin-top: var(--s-3);
+  max-width: 54ch;
+  font-size: var(--t-sm);
+  line-height: 1.65;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.project-flow {
+  margin-top: var(--s-2);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
 }
 
 .project-capabilities {
@@ -2305,6 +2457,7 @@ truth for the open state. */
   .js .hero.hero-anim:not(.is-in) .eyebrow,
   .js .hero.hero-anim:not(.is-in) .hero-lede,
   .js .hero.hero-anim:not(.is-in) .hero-stack,
+  .js .hero.hero-anim:not(.is-in) .hero-now,
   .js .hero.hero-anim:not(.is-in) .hero-actions,
   .js .hero.hero-anim:not(.is-in) .hero-figure {
     opacity: 1;
@@ -2337,10 +2490,78 @@ truth for the open state. */
 
   .project-figure:hover img,
   .project-figure:focus-visible img,
+  .hero-figure:hover img,
   .project-actions .btn--link:hover::after,
   .project-actions .btn--link:focus-visible::after,
   .contact-row:hover .contact-arrow,
   .contact-row:focus-visible .contact-arrow {
     transform: none;
+  }
+}
+
+/* ---------- PRINT ----------
+   A printed page is the whole document, not one tab: every section expands,
+   navigation and buttons hide, ink goes black. Later in the file than the
+   `.js` hiding rules at equal specificity, so expansion wins. The ticker
+   hides in print (decoration with no substance on paper). */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-sunken: #ffffff;
+    --ink: #000000;
+    --ink-2: #222222;
+    --ink-3: #444444;
+    --rule: #999999;
+    --rule-2: #666666;
+    --brand-ink: #000000;
+  }
+
+  .js section:not(.hero),
+  .js .hero {
+    display: block;
+  }
+
+  /* Printers snapshot keyframes unpredictably (often the opacity:0 first
+     frame), so no entrance may run on paper. The screen animation is
+     untouched — this only kills it in print. Same for the drawing accent:
+     only the open tab carries .active, the rest would print without it. */
+  .js section:not(.hero).active {
+    animation: none;
+  }
+
+  .js .section-title::before {
+    transform: none;
+  }
+
+  .nav,
+  .nav-scrim,
+  .skip-link,
+  .hero-actions,
+  .project-actions,
+  .article-actions,
+  .term-live,
+  .term-caret,
+  .ticker,
+  .cs-nav,
+  .cs-back {
+    display: none;
+  }
+
+  .contact-label svg {
+    fill: #000000;
+    color: #000000;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-block: var(--s-4);
+  }
+
+  .hero-figure {
+    max-width: 220px;
+  }
+
+  .section {
+    padding-block: var(--s-4);
   }
 }
