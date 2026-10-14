@@ -406,15 +406,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }).observe(hero, { attributes: true, attributeFilter: ['class'] });
   }
 
-  /* ========== PROJECTS + CONTACT + ABOUT BOARD: REVEAL (once) ==========
-     One shared observer for every figure, index number, contact row, and
-     status-board row.
+  /* ========== PROJECTS + CONTACT + ABOUT BOARD + EDUCATION + ARTICLES + CASE STUDY: REVEAL (once) ==========
+     One shared observer for every figure, index number, contact row,
+     status-board row, education row, academic/article row, and case-study
+     block. Same once-only contract, same reduced-motion guards.
      .is-prep stages the hidden state at init — only with JS, motion allowed,
      and IntersectionObserver available — and .is-in releases it on first
      intersect, after which the target is unobserved so scrolling never
      replays it. Targets inside a hidden tab simply wait until the tab opens.
      Text columns stay readable from the start. */
-  const revealTargets = [...document.querySelectorAll('.project-media, .project-index, .contact-row, .side-facts > div')];
+  const revealTargets = [...document.querySelectorAll('.project-media, .project-index, .contact-row, .side-facts > div, .edu-row, .academic-list > li, .article-list > li, .cs-block, .cs-flow > li, .cs-split > div, .cs-note')];
 
   if (revealTargets.length && !reduceMotion && 'IntersectionObserver' in window) {
     revealTargets.forEach(el => el.classList.add('is-prep'));
@@ -460,13 +461,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* ========== IN-PAGE ANCHOR LINKS (CTA buttons, skip link) ========== */
+  /* ========== IN-PAGE ANCHOR LINKS (CTA buttons) ========== */
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
-      /* Both nav twins have their own handler; the skip link targets
-         #main-content, not a section. */
+      /* Both nav twins have their own handler. */
       if (anchor.closest('.nav-links, .nav-inline')) return;
-      if (this.getAttribute('href') === '#main-content') return;
 
       const targetId = this.getAttribute('href');
       if (targetId === '#') return;

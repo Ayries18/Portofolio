@@ -75,7 +75,7 @@ karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
 - Navigasi berbasis tab tanpa reload halaman
 - Tetap terbaca tanpa JavaScript: semua section ditampilkan berurutan
 - Layout responsif dengan titik henti di 1024px, 900px, 768px, dan 560px
-- Skip link, `focus-visible` global, dan dukungan `prefers-reduced-motion`
+- `focus-visible` global dan dukungan `prefers-reduced-motion`
  - Ikon SVG inline, tanpa library ikon eksternal
  - Data terstruktur JSON-LD (`schema.org/Person`)
 - Kartu pratinjau sosial `og-image.png` berukuran 1200×630

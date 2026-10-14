@@ -130,8 +130,6 @@
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Lewati ke konten utama</a>
-
   <nav class="nav" role="navigation" aria-label="Navigasi utama">
     <div class="nav-container">
       <button type="button" class="icon-btn nav-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="nav-menu">
@@ -218,8 +216,22 @@
         </div>
       </header>
 
+      <!-- In-page TOC: plain anchors to the <div> blocks below. script.js only
+           hijacks hrefs starting with "#" whose target matches 'section', so
+           these fall through to normal browser jumps. -->
+      <nav class="cs-toc" aria-label="Daftar isi">
+        <ol>
+          <li><a href="#masalah">Masalah</a></li>
+          <li><a href="#cara-kerja">Cara kerja</a></li>
+          <li><a href="#teknis">Teknis</a></li>
+          <li><a href="#aksesibilitas">Aksesibilitas</a></li>
+          <li><a href="#keamanan">Keamanan</a></li>
+          <li><a href="#pengujian">Pengujian</a></li>
+        </ol>
+      </nav>
+
       <!-- ---------- MASALAH ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="masalah">
         <h2>Masalah yang ingin diselesaikan</h2>
         <p>Buku cetak yang tersedia di tangan, buku sekolah, novel, atau dokumen, praktis tidak bisa diakses oleh penyandang disabilitas netra. Membaca halaman demi halaman dengan buku cetak atau screen reader bawaan adalah proses yang lambat, melelahkan, dan bergantung pada orang lain.</p>
         <p>Sebagian besar solusi audiobook yang tersedia bekerja dengan cara yang sama: pengguna harus mencari dan mengunduh berkas MP3. Untuk buku yang dicetak sendiri, atau buku yang hanya ada dalam bentuk cetak, tidak ada berkas apa pun untuk diunduh. Aplikasi pasar seperti itu juga sering mewajibkan registrasi berbulan-bulan sebelum satu buku bisa diakses.</p>
@@ -227,7 +239,7 @@
       </div>
 
       <!-- ---------- SOLUSI ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="cara-kerja">
         <h2>Bagaimana cara kerjanya</h2>
         <p>Alurnya sengaja dibuat sesedikit mungkin: peminjam memindai satu QR Code, lalu halaman audiobook langsung terbuka. Semua proses berat, dari ekstraksi teks sampai pembuatan audio, terjadi di belakang layar sebelum kode itu dicetak.</p>
         <ol class="cs-flow">
@@ -255,7 +267,7 @@
       </div>
 
       <!-- ---------- TEKNOLOGI ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="teknis">
         <h2>Pilihan teknis</h2>
         <div class="cs-split">
           <div>
@@ -278,7 +290,7 @@
       </div>
 
       <!-- ---------- AKSESIBILITAS ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="aksesibilitas">
         <h2>Fitur aksesibilitas</h2>
         <p>Aplikasi ini ditujukan untuk kelompok pengguna yang justru paling sering tersinggung oleh setelan bawaan peramban, jadi beberapa opsi dibuat dapat dinyalakan sendiri oleh pengguna.</p>
         <ul class="cs-list">
@@ -292,7 +304,7 @@
       </div>
 
       <!-- ---------- KEAMANAN ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="keamanan">
         <h2>Keamanan</h2>
         <p>Karena aplikasi menyimpan berkas buku dan membatasi siapa yang boleh mengakses, beberapa hal ini diperhatikan sejak awal:</p>
         <ul class="cs-list">
@@ -304,7 +316,7 @@
       </div>
 
       <!-- ---------- PENGUJIAN ---------- -->
-      <div class="cs-block">
+      <div class="cs-block" id="pengujian">
         <h2>Pengujian</h2>
         <p>Aplikasi ini punya feature test otomatis yang menyalin alur penggunaan utama, dari unggah dokumen sampai pemutarannya. Berkas <code>tests/Feature/AudioBukuTest.php</code> berisi <strong>27 feature test method</strong> yang menutup alur utama, kegagalan ekstraksi, pemeriksaan kepemilikan, dan autentikasi. Satu test lagi di <code>ExampleTest.php</code> hanya bawaan Laravel dan tidak dihitung di sini.</p>
         <p>Angka itu dihitung dari isi berkas test di repository. Saya tidak mengklaim aplikasi ini sudah lolos audit WCAG atau pernah diuji bersama pengguna disabilitas netra, karena pengujian seperti itu memang belum saya lakukan.</p>

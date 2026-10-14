@@ -165,8 +165,6 @@ html[data-theme='dark'] {
 /* Metadata runs in the system mono stack. Inter only is still true — this
    costs no font request and gives the page a second, quieter voice. */
 .eyebrow,
-.hero-stack,
-.hero-now,
 .fact-label,
 .project-index,
 .project-meta dt,
@@ -202,30 +200,6 @@ html[data-theme='dark'] {
    and therefore outranks :focus-visible above. */
 [tabindex='-1']:focus {
   outline: none;
-}
-
-/* ---------- SKIP LINK ---------- */
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.skip-link:focus {
-  position: fixed;
-  left: var(--s-4);
-  top: var(--s-3);
-  width: auto;
-  height: auto;
-  padding: var(--s-2) var(--s-3);
-  background: var(--bg);
-  color: var(--brand-ink);
-  border: 1px solid var(--brand-ink);
-  border-radius: var(--radius);
-  z-index: 100;
 }
 
 /* ---------- LAYOUT ---------- */
@@ -294,10 +268,25 @@ html[data-theme='dark'] {
 
 .section-title {
   position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
   font-size: var(--t-h2);
   font-weight: 600;
   line-height: 1.3;
   letter-spacing: -0.015em;
+}
+
+/* Editorial index (01–05, nav order; education carries none — it is an
+   appendix with no nav link). Muted ink-3, never brand-ink: the six-place
+   purple budget stays intact. Aria-hidden in markup so the heading still
+   reads as its bare name. */
+.section-index {
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
 }
 
 /* The single accent mark per section: a 16x2 rule, not the 4px gradient bar
@@ -454,7 +443,8 @@ html[data-theme='dark'] {
   border-radius: var(--radius);
   color: var(--ink-2);
   transition: background var(--t) cubic-bezier(0.2, 0, 0, 1),
-    color var(--t) cubic-bezier(0.2, 0, 0, 1);
+    color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    transform var(--t) cubic-bezier(0.2, 0, 0, 1);
 }
 
 .icon-btn:hover {
@@ -468,9 +458,15 @@ html[data-theme='dark'] {
 }
 
 /* Icon swap is pure CSS on the theme attribute, so script.js never has to
-   touch the two SVGs. Light is the absence of [data-theme]. */
+   touch the two SVGs. Light is the absence of [data-theme]. The swap itself
+   is instant; the 90° rotation gives the change its --t voice (transform
+   never affects layout, and reduced motion zeroes it). */
 .theme-toggle .icon-sun {
   display: none;
+}
+
+[data-theme='dark'] .theme-toggle {
+  transform: rotate(90deg);
 }
 
 [data-theme='dark'] .theme-toggle .icon-sun {
@@ -789,30 +785,6 @@ truth for the open state. */
   text-wrap: pretty;
 }
 
-.hero-stack {
-  margin-top: var(--s-3);
-  font-size: var(--t-mono);
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-}
-
-/* Current focus line: same mono voice as the stack, one step below the lede.
-   Ink-2 value on ink-3 label — no new accent, no availability claim (that
-   lives in About/Contact only). */
-.hero-now {
-  margin-top: var(--s-2);
-  font-size: var(--t-mono);
-  letter-spacing: 0.02em;
-  line-height: 1.6;
-  color: var(--ink-2);
-}
-
-.hero-now-label {
-  color: var(--ink-3);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .hero-actions {
   display: flex;
   align-items: center;
@@ -856,8 +828,7 @@ truth for the open state. */
    hidden states) and then .is-in on a double rAF. If script.js never runs,
    .hero-anim is never added and everything is visible — no stuck opacity: 0.
    Hidden states are opacity + transform only, so staging never shifts layout.
-   Order: eyebrow, name line 1, name line 2, lede, stack, figure, actions,
-   status. The name gets a masked rise (two explicit lines, never typed). */
+   Order: eyebrow, name line 1, name line 2, lede, figure, actions. The name gets a masked rise (two explicit lines, never typed). */
 .hero-name {
   display: flex;
   flex-direction: column;
@@ -882,8 +853,6 @@ truth for the open state. */
 .js .hero.hero-anim .eyebrow,
 .js .hero.hero-anim .hero-line > span,
 .js .hero.hero-anim .hero-lede,
-.js .hero.hero-anim .hero-stack,
-.js .hero.hero-anim .hero-now,
 .js .hero.hero-anim .hero-actions,
 .js .hero.hero-anim .hero-figure {
   transition: opacity var(--t-enter), transform var(--t-enter);
@@ -891,8 +860,6 @@ truth for the open state. */
 
 .js .hero.hero-anim:not(.is-in) .eyebrow,
 .js .hero.hero-anim:not(.is-in) .hero-lede,
-.js .hero.hero-anim:not(.is-in) .hero-stack,
-.js .hero.hero-anim:not(.is-in) .hero-now,
 .js .hero.hero-anim:not(.is-in) .hero-actions {
   opacity: 0;
   transform: translateY(14px);
@@ -911,8 +878,6 @@ truth for the open state. */
 .js .hero.hero-anim .hero-line:first-child > span { transition-delay: 90ms; }
 .js .hero.hero-anim .hero-line:last-child > span { transition-delay: 180ms; }
 .js .hero.hero-anim .hero-lede { transition-delay: 300ms; }
-.js .hero.hero-anim .hero-stack { transition-delay: 390ms; }
-.js .hero.hero-anim .hero-now { transition-delay: 420ms; }
 .js .hero.hero-anim .hero-figure { transition-delay: 350ms; }
 .js .hero.hero-anim .hero-actions { transition-delay: 470ms; }
 
@@ -1518,6 +1483,36 @@ truth for the open state. */
   transform: translateY(16px);
 }
 
+/* Education rows, article rows, and case-study blocks share the same
+   once-only contract through the same observer: staged opacity + transform,
+   released with .is-in, never replayed. Rows rise 12px (quieter than the
+   16px media reveal); text is never hidden without JS to reveal it. */
+.js .edu-row.is-prep:not(.is-in),
+.js .academic-list > li.is-prep:not(.is-in),
+.js .article-list > li.is-prep:not(.is-in),
+.js .cs-block.is-prep:not(.is-in),
+.js .cs-flow > li.is-prep:not(.is-in),
+.js .cs-split > div.is-prep:not(.is-in),
+.js .cs-note.is-prep:not(.is-in) {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.js .edu-row.is-prep,
+.js .academic-list > li.is-prep,
+.js .article-list > li.is-prep,
+.js .cs-block.is-prep,
+.js .cs-flow > li.is-prep,
+.js .cs-split > div.is-prep,
+.js .cs-note.is-prep {
+  transition: opacity var(--t-enter), transform var(--t-enter);
+}
+
+.js .academic-list > li:nth-child(2).is-prep,
+.js .article-list > li:nth-child(2).is-prep {
+  transition-delay: 90ms;
+}
+
 .js .project-index.is-prep {
   transition: opacity var(--t-enter), transform var(--t-enter);
   transition-delay: 80ms;
@@ -1541,6 +1536,11 @@ truth for the open state. */
 .article-list > li {
   padding-block: var(--s-4);
   border-top: 1px solid var(--rule);
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.article-list > li:hover {
+  background: var(--bg-sunken);
 }
 
 .article-list > li:last-child {
@@ -1601,6 +1601,11 @@ truth for the open state. */
   align-items: baseline;
   padding-block: var(--s-4);
   border-top: 1px solid var(--rule);
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.edu-row:hover {
+  background: var(--bg-sunken);
 }
 
 .edu-row h3 {
@@ -1644,6 +1649,11 @@ truth for the open state. */
   align-items: baseline;
   padding-block: var(--s-4);
   border-top: 1px solid var(--rule);
+  transition: background var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.academic-list > li:hover {
+  background: var(--bg-sunken);
 }
 
 .academic-list > li:last-child {
@@ -2009,8 +2019,57 @@ truth for the open state. */
   margin-top: var(--s-5);
 }
 
+/* In-page TOC: one ruled strip of mono anchors so the long page reads
+   structured before the first scroll. Same inline-link purple on hover,
+   no new accent. */
+.cs-toc {
+  margin-top: var(--s-5);
+  padding-block: var(--s-3);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.cs-toc ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-4);
+  counter-reset: cs-toc;
+}
+
+.cs-toc li {
+  counter-increment: cs-toc;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-1);
+}
+
+.cs-toc li::before {
+  content: counter(cs-toc, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--t-mono);
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+
+.cs-toc a {
+  font-family: var(--mono);
+  font-size: var(--t-meta);
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-2);
+  transition: color var(--t) cubic-bezier(0.2, 0, 0, 1),
+    border-color var(--t) cubic-bezier(0.2, 0, 0, 1);
+}
+
+.cs-toc a:hover {
+  color: var(--brand-ink);
+  border-bottom-color: var(--brand-ink);
+}
+
 .cs-block {
   padding-top: var(--s-6);
+  scroll-margin-top: 76px;
 }
 
 .cs-block h2 {
@@ -2456,8 +2515,6 @@ truth for the open state. */
      the duplicate sets removed, so all eight skills stay readable. */
   .js .hero.hero-anim:not(.is-in) .eyebrow,
   .js .hero.hero-anim:not(.is-in) .hero-lede,
-  .js .hero.hero-anim:not(.is-in) .hero-stack,
-  .js .hero.hero-anim:not(.is-in) .hero-now,
   .js .hero.hero-anim:not(.is-in) .hero-actions,
   .js .hero.hero-anim:not(.is-in) .hero-figure {
     opacity: 1;
@@ -2483,7 +2540,14 @@ truth for the open state. */
   .js .project-media.is-prep:not(.is-in),
   .js .project-index.is-prep:not(.is-in),
   .js .contact-row.is-prep:not(.is-in),
-  .js .side-facts > div.is-prep:not(.is-in) {
+  .js .side-facts > div.is-prep:not(.is-in),
+  .js .edu-row.is-prep:not(.is-in),
+  .js .academic-list > li.is-prep:not(.is-in),
+  .js .article-list > li.is-prep:not(.is-in),
+  .js .cs-block.is-prep:not(.is-in),
+  .js .cs-flow > li.is-prep:not(.is-in),
+  .js .cs-split > div.is-prep:not(.is-in),
+  .js .cs-note.is-prep:not(.is-in) {
     opacity: 1;
     transform: none;
   }
@@ -2529,13 +2593,30 @@ truth for the open state. */
     animation: none;
   }
 
+  /* Staged reveals must never print at opacity 0: targets inside tabs the
+     observer never reached would otherwise vanish on paper. Same selectors
+     as the staging rules, later in the file, so expansion wins. */
+  .js .project-media.is-prep:not(.is-in),
+  .js .project-index.is-prep:not(.is-in),
+  .js .contact-row.is-prep:not(.is-in),
+  .js .side-facts > div.is-prep:not(.is-in),
+  .js .edu-row.is-prep:not(.is-in),
+  .js .academic-list > li.is-prep:not(.is-in),
+  .js .article-list > li.is-prep:not(.is-in),
+  .js .cs-block.is-prep:not(.is-in),
+  .js .cs-flow > li.is-prep:not(.is-in),
+  .js .cs-split > div.is-prep:not(.is-in),
+  .js .cs-note.is-prep:not(.is-in) {
+    opacity: 1;
+    transform: none;
+  }
+
   .js .section-title::before {
     transform: none;
   }
 
   .nav,
   .nav-scrim,
-  .skip-link,
   .hero-actions,
   .project-actions,
   .article-actions,
