@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener('keydown', (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     const target = e.target;
-    if (target && (target.matches('input, textarea, select') || target.isContentEditable)) return;
+    if (target && target.matches && (target.matches('input, textarea, select') || target.isContentEditable)) return;
     const n = Number(e.key);
     if (n >= 1 && n <= tabOrder.length) {
       e.preventDefault();
@@ -428,6 +428,48 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }, { threshold: 0.25 });
     revealTargets.forEach(el => revealObserver.observe(el));
+  }
+
+  /* ========== CASE STUDY: READING PROGRESS + TOC SCROLLSPY ==========
+     Both are absent on index.html (no .cs-progress / .cs-toc there), so each
+     block guards on its own elements and is a safe no-op elsewhere. The bar
+     is scroll position only — no transition, so reduced motion needs no
+     guard. Scrollspy marks same-page anchors, hence aria-current="true". */
+  const csProgress = document.querySelector('.cs-progress');
+  if (csProgress) {
+    const setProgress = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const t = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      csProgress.style.transform = 'scaleX(' + t + ')';
+    };
+    let csTick = false;
+    window.addEventListener('scroll', () => {
+      if (!csTick) {
+        csTick = true;
+        requestAnimationFrame(() => { setProgress(); csTick = false; });
+      }
+    }, { passive: true });
+    setProgress();
+  }
+
+  const tocLinks = [...document.querySelectorAll('.cs-toc a')];
+  const csTargets = tocLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(el => el && el.id);
+  if (tocLinks.length && csTargets.length && 'IntersectionObserver' in window) {
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        tocLinks.forEach(a => {
+          if (a.getAttribute('href') === '#' + entry.target.id) {
+            a.setAttribute('aria-current', 'true');
+          } else {
+            a.removeAttribute('aria-current');
+          }
+        });
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    csTargets.forEach(el => spy.observe(el));
   }
 
   /* ========== FOOTER: YEAR ========== */

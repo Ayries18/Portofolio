@@ -3,13 +3,13 @@
    Editorial minimalism: one accent, one radius, hairline rules.
    ------------------------------------------------------------
    Every colour lives here. Never hardcode one in a component.
-   Brand purple is rationed to six places (see AGENTS.md):
-     1. surname in the navbar
-     2. active nav link underline
-     3. ONE solid CTA (hero only)
-     4. inline links + focus ring
-     5. project index (01 / 02)
-     6. one 16x2 accent rule per section head
+   Brand purple is rationed (see AGENTS.md). Resting accents: the
+   surname in the navbar, the active nav marker, ONE solid CTA fill
+   (hero only), inline links + focus ring, project index numbers,
+   one 16x2 accent rule per section head, the terminal prompt +
+   caret, and the case-study flow numbers + note rule. Hover/focus
+   states may borrow it only if they resolve back to ink.
+   No new decorative purple.
    ============================================================ */
 
 /* ---------- RESET ----------
@@ -193,6 +193,13 @@ html[data-theme='dark'] {
   outline: 2px solid var(--brand-ink);
   outline-offset: 3px;
   border-radius: var(--radius);
+}
+
+/* Selection wears the CTA fill: white text on --brand is 5.70:1,
+   the same pair the solid button already ships. */
+::selection {
+  background: var(--brand);
+  color: #ffffff;
 }
 
 /* Sections get tabindex="-1" as a focus target after a tab switch. That ring
@@ -807,7 +814,8 @@ truth for the open state. */
   object-position: var(--portrait-focus);
   border-radius: var(--radius);
   border: 1px solid var(--rule);
-  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1);
+  transition: transform var(--t) cubic-bezier(0.2, 0, 0, 1),
+    filter var(--t-enter);
 }
 
 /* Same hover zoom as the project figures (1.02, quieter than their 1.03:
@@ -872,6 +880,13 @@ truth for the open state. */
 .js .hero.hero-anim:not(.is-in) .hero-figure {
   opacity: 0;
   transform: translateY(28px) scale(1.04);
+}
+
+/* The portrait settles from 0.85 saturation alongside the scale above:
+   colour arrives with position, in the same --t-enter voice. Filter lives
+   on the img (the moving box is the figure), so this is its own rule. */
+.js .hero.hero-anim:not(.is-in) .hero-figure img {
+  filter: saturate(0.85);
 }
 
 .js .hero.hero-anim .eyebrow { transition-delay: 0ms; }
@@ -1058,6 +1073,7 @@ truth for the open state. */
   color: var(--ink);
   background: transparent;
   border: 0;
+  caret-color: var(--brand-ink);
 }
 
 .term-live-input::placeholder {
@@ -2019,6 +2035,22 @@ truth for the open state. */
   margin-top: var(--s-5);
 }
 
+/* Reading progress: the section-head accent rule stretched across the
+   viewport top. Scroll-driven with no transition of its own, so it moves
+   only when the reader moves — reduced motion needs no guard here. Without
+   JS it rests at scaleX(0) and paints nothing; hidden in print. */
+.cs-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 60;
+  background: var(--brand-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
 /* In-page TOC: one ruled strip of mono anchors so the long page reads
    structured before the first scroll. Same inline-link purple on hover,
    no new accent. */
@@ -2063,6 +2095,14 @@ truth for the open state. */
 }
 
 .cs-toc a:hover {
+  color: var(--brand-ink);
+  border-bottom-color: var(--brand-ink);
+}
+
+/* Scrollspy state, written by script.js: the link for the block in view
+   wears the same purple as hover. aria-current="true" (same-page anchors,
+   not "page"). No motion, so no reduced-motion guard needed. */
+.cs-toc a[aria-current='true'] {
   color: var(--brand-ink);
   border-bottom-color: var(--brand-ink);
 }
@@ -2131,6 +2171,32 @@ truth for the open state. */
   padding-block: var(--s-4);
   border-top: 1px solid var(--rule);
   counter-increment: cs-step;
+  position: relative;
+}
+
+/* Timeline thread: a 2px hairline down the number column joining the five
+   steps. Draws top-down in --t-enter voice as each item's shared-observer
+   reveal releases .is-in — no new JS, the observer already targets these
+   items. rule-2, not purple: the numbers keep the only accent here. Staged
+   state is .js-scoped, so no-JS readers simply get no thread (decoration,
+   content unaffected). */
+.js .cs-flow > li::after {
+  content: "";
+  position: absolute;
+  /* Starts below the step number (padding + one number row) so the thread
+     joins the steps instead of striking through the numerals. */
+  top: calc(var(--s-4) + 26px);
+  bottom: 0;
+  left: calc(1ch - 1px);
+  width: 2px;
+  background: var(--rule-2);
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition: transform var(--t-enter);
+}
+
+.js .cs-flow > li.is-in::after {
+  transform: scaleY(1);
 }
 
 .cs-flow > li:last-child {
@@ -2148,9 +2214,11 @@ truth for the open state. */
 
 .cs-flow > li > h3 {
   margin-bottom: 2px;
+  grid-column: 2;
 }
 
 .cs-flow p {
+  grid-column: 2;
   max-width: 64ch;
   font-size: var(--t-sm);
   line-height: 1.6;
@@ -2525,6 +2593,10 @@ truth for the open state. */
     transform: none;
   }
 
+  .js .hero.hero-anim:not(.is-in) .hero-figure img {
+    filter: none;
+  }
+
   .js .ticker-track {
     animation: none;
     width: auto;
@@ -2558,7 +2630,8 @@ truth for the open state. */
   .project-actions .btn--link:hover::after,
   .project-actions .btn--link:focus-visible::after,
   .contact-row:hover .contact-arrow,
-  .contact-row:focus-visible .contact-arrow {
+  .contact-row:focus-visible .contact-arrow,
+  .js .cs-flow > li::after {
     transform: none;
   }
 }
@@ -2615,8 +2688,13 @@ truth for the open state. */
     transform: none;
   }
 
+  .js .cs-flow > li::after {
+    transform: none;
+  }
+
   .nav,
   .nav-scrim,
+  .cs-progress,
   .hero-actions,
   .project-actions,
   .article-actions,
