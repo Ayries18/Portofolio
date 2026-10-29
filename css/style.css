@@ -3,13 +3,14 @@
    Editorial minimalism: one accent, one radius, hairline rules.
    ------------------------------------------------------------
    Every colour lives here. Never hardcode one in a component.
-   Brand purple is rationed (see AGENTS.md). Resting accents: the
+   Brand yellow is rationed (see AGENTS.md). Resting accents: the
    surname in the navbar, the active nav marker, ONE solid CTA fill
    (hero only), inline links + focus ring, project index numbers,
-   one 16x2 accent rule per section head, the terminal prompt +
-   caret, and the case-study flow numbers + note rule. Hover/focus
+   one 16x2 accent rule per section head, the terminal prompt,
+   and the case-study flow numbers + note rule. Hover/focus
    states may borrow it only if they resolve back to ink.
-   No new decorative purple.
+   Yellow fill always carries --on-brand text (near-black): white
+   on yellow is 1.6:1 and fails AA outright.
    ============================================================ */
 
 /* ---------- RESET ----------
@@ -65,9 +66,15 @@ strong {
 /* ---------- TOKENS ---------- */
 :root {
   /* brand */
-  --brand: #7c3aed;          /* solid CTA fill; white text = 5.70:1 */
-  --brand-hover: #6d28d9;
-  --brand-ink: #6d28d9;      /* brand as TEXT on --bg (7.10:1) */
+  --brand: #facc15;          /* solid CTA fill; --on-brand text = 11.5:1 */
+  --brand-hover: #eab308;
+  --brand-ink: #a16207;      /* brand as TEXT on --bg (4.93:1) */
+  --on-brand: #18181b;       /* text on any --brand fill, both themes */
+
+  /* Page crown: a short black→white fade in the gutter above the hero text
+     (nav ends ~90px, hero text starts ~139px; the gradient ends at 120px so
+     no copy ever sits on the dark edge). Light: dark edge. Dark: light edge. */
+  --grad-edge: #0b0b0f;
 
   /* surfaces */
   --bg: #ffffff;
@@ -134,9 +141,10 @@ strong {
 }
 
 [data-theme='dark'] {
-  --brand-ink: #c084fc;      /* 7.44:1 on #0B0B0F */
+  --brand-ink: #fde047;      /* 16.3:1 on #0B0B0F */
 
   --bg: #0b0b0f;
+  --grad-edge: #f4f4f5;      /* mirrored: white→black crown */
   --bg-sunken: #15151c;
   --ink: #f4f4f5;            /* 17.87:1 */
   --ink-2: #a1a1aa;          /*  7.67:1 */
@@ -151,11 +159,15 @@ body {
   font-family: var(--font);
   font-size: var(--t-body);
   line-height: 1.65;
-  background: var(--bg);
+  /* Background is two layers: the flat theme colour, with a short
+     black→white crown painted above it that ends before any text starts. */
+  background-color: var(--bg);
+  background-image: linear-gradient(180deg, var(--grad-edge) 0%, var(--bg) 120px);
+  background-repeat: no-repeat;
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 200ms ease, color 200ms ease;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 html[data-theme='dark'] {
@@ -195,11 +207,11 @@ html[data-theme='dark'] {
   border-radius: var(--radius);
 }
 
-/* Selection wears the CTA fill: white text on --brand is 5.70:1,
+/* Selection wears the CTA fill: --on-brand on --brand is 11.5:1,
    the same pair the solid button already ships. */
 ::selection {
   background: var(--brand);
-  color: #ffffff;
+  color: var(--on-brand);
 }
 
 /* Sections get tabindex="-1" as a focus target after a tab switch. That ring
@@ -286,7 +298,7 @@ html[data-theme='dark'] {
 
 /* Editorial index (01–05, nav order; education carries none — it is an
    appendix with no nav link). Muted ink-3, never brand-ink: the six-place
-   purple budget stays intact. Aria-hidden in markup so the heading still
+   yellow budget stays intact. Aria-hidden in markup so the heading still
    reads as its bare name. */
 .section-index {
   font-family: var(--mono);
@@ -677,7 +689,7 @@ truth for the open state. */
 .btn--solid {
   background: var(--brand);
   border-color: var(--brand);
-  color: #ffffff;
+  color: var(--on-brand);
 }
 
 .btn--solid:hover {
@@ -836,7 +848,7 @@ truth for the open state. */
    hidden states) and then .is-in on a double rAF. If script.js never runs,
    .hero-anim is never added and everything is visible — no stuck opacity: 0.
    Hidden states are opacity + transform only, so staging never shifts layout.
-   Order: eyebrow, name line 1, name line 2, lede, figure, actions. The name gets a masked rise (two explicit lines, never typed). */
+   Order: eyebrow, name line 1, name line 2, lede, figure, actions. The name gets a masked rise across two explicit lines. */
 .hero-name {
   display: flex;
   flex-direction: column;
@@ -851,9 +863,9 @@ truth for the open state. */
   display: block;
 }
 
-/* First name in brand-ink: echoes the purple surname in the navbar and gives
-   the two-line assembly its own rhythm (purple settles first, ink follows).
-   AA-safe at this size in both themes (7.10:1 light, 7.44:1 dark). */
+/* First name in brand-ink: echoes the yellow surname in the navbar and gives
+   the two-line assembly its own rhythm (brand settles first, ink follows).
+   AA-safe at this size in both themes (4.93:1 light, 16.3:1 dark). */
 .hero-line:first-child > span {
   color: var(--brand-ink);
 }
@@ -899,9 +911,8 @@ truth for the open state. */
 
 /* ---------- ABOUT: TERMINAL ---------- */
 /* Core identity element of the page: a real <dl>, so every line is semantic
-   content first and an animation second. JS only adds .is-prep to type it in;
-   without JS, reduced motion, or an IntersectionObserver, the full text is
-   already in the DOM and visible. */
+   content and fully static — the complete text is already in the DOM and
+   visible. */
 .term {
   max-width: 68ch;
   margin-bottom: var(--s-6);
@@ -961,8 +972,8 @@ truth for the open state. */
   font-family: var(--mono);
   font-size: var(--t-sm);
   line-height: 1.7;
-  /* Line numbers 01–09 in the project-index voice: generated, so the typing
-     script (which rewrites .term-cmd text) can never disturb them. */
+  /* Line numbers 01–11 in the project-index voice: generated via CSS
+     counters, so no markup churn. */
   counter-reset: term;
 }
 
@@ -984,7 +995,7 @@ truth for the open state. */
   user-select: none;
 }
 
-/* Scanning aid: the command under the pointer lights up in the same purple
+/* Scanning aid: the command under the pointer lights up in the same yellow
    the prompt already wears — no new accent, just feedback. */
 .term-line:hover .term-cmd {
   color: var(--brand-ink);
@@ -1002,45 +1013,6 @@ truth for the open state. */
 .term-line dd {
   margin: 0 0 0 calc(var(--s-3) + 1ch);
   color: var(--ink-2);
-}
-
-/* Typed state: lines are staged but present for screen readers (opacity, not
-   display or visibility). Removed the moment typing finishes. */
-.term.is-prep .term-line {
-  opacity: 0;
-}
-
-.term.is-prep .term-line.is-typed {
-  opacity: 1;
-  transition: opacity 100ms linear;
-}
-
-/* The output line stays hidden until its command has finished typing. */
-.term.is-prep .term-line.is-typed dd {
-  opacity: 0;
-}
-
-.term.is-prep .term-line.is-done dd {
-  opacity: 1;
-  transition: opacity 160ms linear;
-}
-
-.term-caret {
-  display: inline-block;
-  width: 0.6ch;
-  height: 1.1em;
-  margin-left: 2px;
-  background: var(--brand-ink);
-  vertical-align: text-bottom;
-  animation: term-blink 1.1s steps(1) infinite;
-}
-
-@keyframes term-blink {
-  50% { opacity: 0; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .term-caret { animation: none; }
 }
 
 /* ---------- ABOUT: LIVE PROMPT ----------
@@ -1355,7 +1327,7 @@ truth for the open state. */
 
 /* Decision + flow: the two lines that keep the index from reading like a
    feature list. Decision is a stance in body voice; flow is metadata in mono.
-   No accent on either — the index number keeps the only purple here. */
+   No accent on either — the index number keeps the only yellow here. */
 .project-decision {
   margin-top: var(--s-3);
   max-width: 54ch;
@@ -1433,7 +1405,7 @@ truth for the open state. */
 }
 
 /* "Solo project" carries the claim in ink weight, not in brand colour, so the
-   six-place purple budget stays intact. */
+   six-place yellow budget stays intact. */
 .project-meta dd.claim {
   color: var(--ink);
   font-weight: 600;
@@ -2052,7 +2024,7 @@ truth for the open state. */
 }
 
 /* In-page TOC: one ruled strip of mono anchors so the long page reads
-   structured before the first scroll. Same inline-link purple on hover,
+   structured before the first scroll. Same inline-link yellow on hover,
    no new accent. */
 .cs-toc {
   margin-top: var(--s-5);
@@ -2100,7 +2072,7 @@ truth for the open state. */
 }
 
 /* Scrollspy state, written by script.js: the link for the block in view
-   wears the same purple as hover. aria-current="true" (same-page anchors,
+   wears the same yellow as hover. aria-current="true" (same-page anchors,
    not "page"). No motion, so no reduced-motion guard needed. */
 .cs-toc a[aria-current='true'] {
   color: var(--brand-ink);
@@ -2177,7 +2149,7 @@ truth for the open state. */
 /* Timeline thread: a 2px hairline down the number column joining the five
    steps. Draws top-down in --t-enter voice as each item's shared-observer
    reveal releases .is-in — no new JS, the observer already targets these
-   items. rule-2, not purple: the numbers keep the only accent here. Staged
+   items. rule-2, not brand: the numbers keep the only accent here. Staged
    state is .js-scoped, so no-JS readers simply get no thread (decoration,
    content unaffected). */
 .js .cs-flow > li::after {
@@ -2653,6 +2625,12 @@ truth for the open state. */
     --brand-ink: #000000;
   }
 
+  /* No gradient crown on paper: printers render background images
+     unpredictably and it would waste ink at the top of every sheet. */
+  body {
+    background-image: none;
+  }
+
   .js section:not(.hero),
   .js .hero {
     display: block;
@@ -2699,7 +2677,6 @@ truth for the open state. */
   .project-actions,
   .article-actions,
   .term-live,
-  .term-caret,
   .ticker,
   .cs-nav,
   .cs-back {

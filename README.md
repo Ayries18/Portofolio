@@ -87,11 +87,11 @@ karena saya memakainya sebagai bahan belajar, bukan sebagai hasil build saya.
 
 Semua token warna, tipografi, dan spasi berada di `css/style.css`:
 
-- **Warna** — palet hitam dan ungu. Ungu dipakai hemat: nama di navbar, underline
+- **Warna** — palet putih, hitam, dan kuning. Kuning dipakai hemat: nama di navbar, underline
   tab aktif, satu tombol aksi, link inline, nomor project, dan satu garis aksen
   per judul section. Markah brand pihak ketiga (ikon ticker dan ikon kontak)
   memakai warna resminya sebagai identitas dekoratif, selalu bersanding kata.
-- **Gerak** — entrance sekali jalan (hero, terminal, reveal), satu loop
+- **Gerak** — entrance sekali jalan (hero, reveal), satu loop
   terkendali (ticker skills, jeda saat hover/fokus), dan semuanya statis
   saat `prefers-reduced-motion` atau tanpa JavaScript.
 - **Tipografi** — Inter (`400`/`500`/`600`) untuk teks, system monospace untuk
@@ -142,9 +142,9 @@ berfungsi.
 ├── favicon-16x16.png               # ikon raster eksplisit
 ├── favicon-32x32.png               # ikon raster eksplisit
 ├── apple-touch-icon.png            # ikon iOS 180x180
- ├── og-image.png                    # kartu pratinjau sosial 1200x630
- ├── 404.html                        # halaman error bergaya situs (tanpa JS)
- ├── logo.webp                       # logo navbar yang dirender di halaman
+├── og-image.png                    # kartu pratinjau sosial 1200x630
+├── 404.html                        # halaman error bergaya situs (tanpa JS)
+├── logo.webp                       # logo navbar yang dirender di halaman
 └── profile/                        # foto profil + screenshot 2 proyek solo
     ├── profile.webp                # potret 800x1200 (dipakai hero & README)
     ├── read-assist-preview.webp    # screenshot Read-Assist 1440x810
@@ -163,11 +163,3 @@ dihapus setelah pindaian referensi — tidak disimpan sebagai cadangan.
 - Email: [muwarisin@gmail.com](mailto:muwarisin@gmail.com)
 - GitHub: [github.com/Ayries18](https://github.com/Ayries18)
 - LinkedIn: [linkedin.com/in/muhammad-almuwarisin-934079376](https://www.linkedin.com/in/muhammad-almuwarisin-934079376/)
-
----
-
-## Catatan
-
-Halaman ini tidak mengklaim jumlah pengguna, dampak bisnis, atau hasil audit
-aksesibilitas resmi. Fitur aksesibilitas pada Read-Assist disusun mengikuti
-praktik web yang baik, belum diuji bersama pengguna disabilitas netra.

@@ -178,78 +178,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  /* ========== ABOUT: TERMINAL TYPING ==========
-     The full transcript ships in the HTML as a real <dl>. This only hides it,
-     types the command half of each line, then reveals the output. No JS, no
-     IntersectionObserver, or prefers-reduced-motion -> the static text stands.
-     Runs once; never loops; never steals focus. */
+  /* ========== ABOUT: TERMINAL ==========
+     The full transcript ships in the HTML as a real <dl> and is static: no
+     typing animation, no staged opacity. */
   const term = document.querySelector('.term');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (term && !reduceMotion && 'IntersectionObserver' in window) {
-    const lines = [...term.querySelectorAll('.term-line')];
-    const commands = lines.map(line => line.querySelector('.term-cmd'));
-
-    const typeLine = (i) => {
-      if (i >= lines.length) {
-        /* Typing done: leave one live caret parked at the end of the last
-           output so the terminal feels running, not printed. Decorative
-           (aria-hidden) and blink-guarded by the existing reduced-motion rule.
-           This branch only runs when the typing animation ran, so no-JS and
-           reduced-motion readers never see it. */
-        const tail = lines[lines.length - 1].querySelector('dd');
-        const end = document.createElement('span');
-        end.className = 'term-caret';
-        end.setAttribute('aria-hidden', 'true');
-        tail.appendChild(end);
-        term.classList.remove('is-prep');
-        return;
-      }
-      const line = lines[i];
-      const cmd = commands[i];
-      const text = cmd.textContent;
-      let c = 0;
-      cmd.textContent = '';
-      line.classList.add('is-typed');
-
-      const caret = document.createElement('span');
-      caret.className = 'term-caret';
-      caret.setAttribute('aria-hidden', 'true');
-      line.querySelector('dt').appendChild(caret);
-
-      const tick = () => {
-        cmd.textContent = text.slice(0, ++c);
-        if (c < text.length) {
-          setTimeout(tick, 34);
-        } else {
-          line.classList.add('is-done');
-          caret.remove();
-          setTimeout(() => typeLine(i + 1), 180);
-        }
-      };
-      setTimeout(tick, 120);
-    };
-
-    const start = () => {
-      term.classList.add('is-prep');
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some(e => e.isIntersecting)) {
-          io.disconnect();
-          typeLine(0);
-        }
-      }, { threshold: 0.4 });
-      io.observe(term);
-    };
-    start();
-  }
 
   /* ========== ABOUT: LIVE PROMPT ==========
      Rendered here, never in markup: without JS it would be a dead input.
      Answers are parsed from the transcript <dl> itself, so prompt and
      transcript cannot drift apart. textContent only, so typed input can never
-     inject markup. Lives outside .term-body with its own classes, so the
-     typing animation above (which rewrites .term-line/.term-cmd) never
-     touches it. Runs synchronously at load, before any typing tick. */
+     inject markup. Lives outside .term-body with its own classes. */
   if (term) {
     const entries = [...term.querySelectorAll('.term-line')].map(line => {
       const cmd = line.querySelector('.term-cmd');
