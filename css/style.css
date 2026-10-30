@@ -28,8 +28,12 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Flex column so main can grow on short tabs (see the main rule in LAYOUT)
+   and the footer sits at the viewport bottom instead of mid-air. */
 body {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 ul,
@@ -226,6 +230,16 @@ html[data-theme='dark'] {
   max-width: var(--measure);
   margin: 0 auto;
   padding: 0 var(--s-4);
+}
+
+/* body is a flex column (RESET): main grows to absorb the slack on short
+   tabs so the footer pins to the viewport bottom; on tall pages its
+   content height wins and nothing changes. width:100% is load-bearing —
+   .container's auto margins would otherwise disable stretch and shrink
+   main to fit-content (a tab's rules would no longer span the measure). */
+main {
+  flex: 1 0 auto;
+  width: 100%;
 }
 
 /* Tabbed sections: hidden by default, one at a time.
@@ -2197,11 +2211,13 @@ truth for the open state. */
   color: var(--ink-2);
 }
 
-/* Technical choices: two-column definition rows. */
+/* Technical choices: two-column definition rows. The 300px floor is the
+   smallest min that keeps 4 items a 2x2 at the measure: three tracks would
+   need 3x300+2x64 > 992, two need only 664 <= any container above 768px. */
 .cs-split {
   margin-top: var(--s-5);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 0 var(--s-6);
 }
 
